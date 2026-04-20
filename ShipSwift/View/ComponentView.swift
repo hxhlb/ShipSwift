@@ -40,6 +40,7 @@ struct ComponentView: View {
     // Input section state
     @State private var selectedInputTab = 0
     @State private var stepperValue = 1
+    @State private var searchBarText = ""
 
     // Display section state
     @State private var showAddSheet = false
@@ -1456,6 +1457,31 @@ struct ComponentView: View {
                     title: "SWAddSheet",
                     icon: "plus.rectangle.on.rectangle",
                     description: "Bottom sheet with text input, cancel and confirm buttons. Presented as medium detent for collecting user input."
+                )
+            }
+
+            // Search bar — capsule-shaped with magnifying glass, clear button, ultra-thin material
+            NavigationLink {
+                VStack(spacing: 24) {
+                    SWSearchBar(text: $searchBarText)
+                        .padding(.horizontal)
+
+                    SWSearchBar(text: $searchBarText, placeholder: "Search contacts")
+                        .padding(.horizontal)
+
+                    Text(searchBarText.isEmpty ? "Start typing to see the bound value..." : "Query: \(searchBarText)")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+
+                    Spacer()
+                }
+                .padding(.top)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } label: {
+                ListItem(
+                    title: "SWSearchBar",
+                    icon: "magnifyingglass",
+                    description: "Capsule-shaped search bar with magnifying glass, clear button and ultra-thin material background. Binds to a text string."
                 )
             }
         } header: {

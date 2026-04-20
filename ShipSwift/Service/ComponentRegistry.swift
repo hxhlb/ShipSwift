@@ -1158,7 +1158,7 @@ struct ComponentRegistry {
             presentation: .push
         )
 
-        // -- Input (3) --
+        // -- Input (4) --
 
         reg["tab-button"] = ComponentEntry(
             title: "SWTabButton",
@@ -1210,6 +1210,15 @@ struct ComponentRegistry {
                 )
             },
             fullView: { AnyView(AddSheetFullDemo()) },
+            presentation: .push
+        )
+
+        reg["search-bar"] = ComponentEntry(
+            title: "SWSearchBar",
+            icon: "magnifyingglass",
+            description: "Capsule search bar with clear button and frosted background",
+            preview: { AnyView(SearchBarPreviewWrapper()) },
+            fullView: { AnyView(SearchBarFullDemo()) },
             presentation: .push
         )
 
@@ -1675,6 +1684,36 @@ private struct AddSheetFullDemo: View {
         .sheet(isPresented: $showSheet) {
             SWAddSheet(isPresented: $showSheet) { _ in }
         }
+    }
+}
+
+private struct SearchBarPreviewWrapper: View {
+    @State private var text = ""
+    var body: some View {
+        SWSearchBar(text: $text)
+            .padding()
+            .frame(maxWidth: .infinity)
+    }
+}
+
+private struct SearchBarFullDemo: View {
+    @State private var text = ""
+    var body: some View {
+        VStack(spacing: 24) {
+            SWSearchBar(text: $text)
+                .padding(.horizontal)
+
+            SWSearchBar(text: $text, placeholder: "Search contacts")
+                .padding(.horizontal)
+
+            Text(text.isEmpty ? "Start typing to see the bound value..." : "Query: \(text)")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+
+            Spacer()
+        }
+        .padding(.top)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
