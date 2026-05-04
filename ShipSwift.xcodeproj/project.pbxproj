@@ -323,6 +323,7 @@
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ShipSwift/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ShipSwift;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				INFOPLIST_KEY_NSCameraUsageDescription = "ShipSwift uses the camera to let you try the Camera module demo. For example, you can take a photo to see how the camera component captures and displays images.";
@@ -379,6 +380,7 @@
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ShipSwift/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ShipSwift;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				INFOPLIST_KEY_NSCameraUsageDescription = "ShipSwift uses the camera to let you try the Camera module demo. For example, you can take a photo to see how the camera component captures and displays images.";
