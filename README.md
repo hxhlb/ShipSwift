@@ -14,7 +14,7 @@
 [![Skills](https://img.shields.io/badge/Skills-Powered-8A2BE2.svg)](https://github.com/signerlabs/shipswift-skills)
 [![ShipSwift MCP server](https://glama.ai/mcp/servers/signerlabs/ShipSwift/badges/score.svg)](https://glama.ai/mcp/servers/signerlabs/ShipSwift)
 
-[Quick Start](#quick-start) · [Components](#components) · [Directory Structure](#directory-structure) · [Recipes](#recipes) · [Contributing](#contributing)
+[Quick Start](#quick-start) · [Components](#components) · [Showcase Demos](#showcase-demos) · [Directory Structure](#directory-structure) · [Recipes](#recipes) · [Contributing](#contributing)
 
 </div>
 
@@ -117,6 +117,20 @@ LineChart · BarChart · AreaChart · DonutChart · RingChart · RadarChart · S
 ### SWUtil — Shared Utilities
 
 DebugLog · String/Date/View extensions · LocationManager
+
+---
+
+## Showcase Demos
+
+Real, runnable iOS apps built entirely with ShipSwift recipes. Each one is open-source under MIT — clone, open in Xcode, hit `Cmd+R`. No API keys, no accounts, no backend setup required.
+
+| Demo | What it is | Recipes used |
+|---|---|---|
+| 🧋 [**BobaLoyalty**](https://github.com/signerlabs/bobaloyalty-ios) | Dual-side bubble tea shop loyalty app — customer ordering + owner revenue dashboard with Swift Charts | 14 |
+| 🎓 [**TutorTrack**](https://github.com/signerlabs/tutortrack-ios) | Student tracker for tutors / coaches — roster, attendance, deterministic mock AI-style weekly report PDF | 17 |
+| 🐾 [**Truvet**](https://github.com/signerlabs/Truvet) | Pet-owner social platform scaffold — map + community feed + chat + profile | early scaffold |
+
+Each demo's README lists the exact recipes it pulled in via the ShipSwift MCP server. Use them as reference architectures when building your own apps.
 
 ---
 
