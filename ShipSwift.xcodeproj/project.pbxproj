@@ -25,6 +25,7 @@
 				Info.plist,
 			);
 			platformFiltersByRelativePath = {
+				"SWPackage/SWAnimation/SWFullScreenButton+iOS.swift" = (ios, );
 				"SWPackage/SWComponent/Display/SWScrollingFAQ+iOS.swift" = (ios, );
 				"SWPackage/SWComponent/Display/SWVideoPlayer+iOS.swift" = (ios, );
 				"SWPackage/SWModule/SWAuth/SWAuthView+iOS.swift" = (ios, );

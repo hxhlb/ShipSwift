@@ -509,6 +509,45 @@ struct ComponentView: View {
                     description: "SpriteKit-powered concentric rings of colored dots with icons on the outermost ring. Custom center view via SwiftUI."
                 )
             }
+
+            // Full-Screen Button — tappable card that expands from a compact 300x300 to fullscreen
+            NavigationLink {
+                ScrollView {
+                    VStack(spacing: 30) {
+                        // Default — reproduces the original showcase look
+                        SWFullScreenButton()
+
+                        Divider()
+
+                        // Custom copy and palette — pink / purple gradient
+                        SWFullScreenButton(
+                            title: "SmileMax",
+                            subtitle: "Daily smile analytics",
+                            footer: "Open",
+                            gradientColors: [.pink, .purple]
+                        )
+
+                        Divider()
+
+                        // Warm gradient + tighter corner radius
+                        SWFullScreenButton(
+                            title: "FullPack",
+                            subtitle: "Pack smart, travel light",
+                            footer: "Launch",
+                            gradientColors: [.orange, .yellow],
+                            cornerRadius: 24
+                        )
+                    }
+                    .padding(.vertical, 40)
+                    .frame(maxWidth: .infinity)
+                }
+            } label: {
+                ListItem(
+                    title: "Full-Screen Button",
+                    icon: "rectangle.expand.vertical",
+                    description: "Tappable card with App Store / Photos style zoom transition — the card geometry-matches into a true full-screen view via iOS 18 `.navigationTransition(.zoom)`. Configurable title, subtitle, footer, gradient, and corner radius."
+                )
+            }
         } header: {
             #if os(iOS)
             Text("Animation")

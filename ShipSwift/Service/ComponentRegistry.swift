@@ -598,6 +598,22 @@ struct ComponentRegistry {
             presentation: .push
         )
 
+        reg["full-screen-button"] = ComponentEntry(
+            title: "Full-Screen Button",
+            icon: "rectangle.expand.vertical",
+            description: "Tappable card that uses Apple's native zoom transition (App Store / Photos style) to expand from a compact 300x300 card to a true full-screen view",
+            preview: {
+                AnyView(
+                    SWFullScreenButton()
+                        .scaleEffect(0.6, anchor: .center)
+                        .frame(height: 200)
+                        .frame(maxWidth: .infinity)
+                )
+            },
+            fullView: { AnyView(FullScreenButtonFullDemo()) },
+            presentation: .fullScreenCover
+        )
+
         // -- Chart (8) --
 
         reg["line-chart"] = ComponentEntry(
@@ -1938,6 +1954,33 @@ private struct OrderDemoWrapper: View {
                     .foregroundStyle(.white)
                     .padding()
             }
+        }
+    }
+}
+
+/// Hosts SWFullScreenButton inside its own NavigationStack so the component's
+/// `NavigationLink` + `.navigationTransition(.zoom)` can push the expanded view.
+/// The top-leading xmark dismisses the demo cover; the zoom-back gesture
+/// (edge swipe) inside the demo dismisses the expanded card.
+private struct FullScreenButtonFullDemo: View {
+    @Environment(\.dismiss) private var dismiss
+    var body: some View {
+        NavigationStack {
+            ZStack(alignment: .topLeading) {
+                SWFullScreenButton()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .font(.title)
+                        .symbolRenderingMode(.hierarchical)
+                        .foregroundStyle(.secondary)
+                        .padding()
+                }
+            }
+            .toolbar(.hidden, for: .navigationBar)
         }
     }
 }
