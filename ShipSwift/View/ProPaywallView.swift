@@ -16,16 +16,20 @@ struct ProPaywallView: View {
     @Environment(SWStoreManager.self) private var storeManager
     @Environment(SWUserManager.self) private var userManager
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.openURL) private var openURL
 
     @State private var isPurchasing = false
     @State private var showAuth = false
     @State private var isSyncing = false
 
-    private let features: [(icon: String, text: String)] = [
-        ("cpu.fill", "AI-optimized recipes for all llm"),
-        ("checkmark.seal.fill", "Full-stack iOS + AWS backend"),
-        ("terminal.fill", "One MCP command — instant access"),
-        ("arrow.triangle.branch", "Lifetime updates"),
+    /// Recipient address for Founder Services custom development inquiries.
+    private let founderEmail = "wei@signerlabs.com"
+
+    private let features: [(icon: String, key: LocalizedStringKey)] = [
+        ("cpu.fill", "paywall.feature.ai"),
+        ("checkmark.seal.fill", "paywall.feature.fullstack"),
+        ("terminal.fill", "paywall.feature.mcp"),
+        ("arrow.triangle.branch", "paywall.feature.lifetime"),
     ]
 
     var body: some View {
@@ -87,11 +91,11 @@ struct ProPaywallView: View {
             )
             .padding(.vertical)
 
-            Text("ShipSwift Pro")
+            Text("paywall.title")
                 .font(.largeTitle)
                 .fontWeight(.bold)
 
-            Text("Ship your iOS app 10x faster")
+            Text("paywall.tagline")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
         }
@@ -108,7 +112,7 @@ struct ProPaywallView: View {
                         .foregroundStyle(.accent)
                         .imageScale(.small)
                         .frame(width: 20)
-                    Text(feature.text)
+                    Text(feature.key)
                         .font(.subheadline)
                 }
             }
@@ -133,8 +137,17 @@ struct ProPaywallView: View {
                             ProgressView()
                                 .tint(.white)
                         }
-                        Text(isPurchasing ? "Processing..." : "Buy Now — \(product.displayPrice)")
+                        if isPurchasing {
+                            Text("paywall.buy.processing")
+                                .font(.headline)
+                        } else {
+                            // Compose "<localized prefix> <price>" — price stays a verbatim runtime value.
+                            HStack(spacing: 6) {
+                                Text("paywall.buy.prefix")
+                                Text(verbatim: product.displayPrice)
+                            }
                             .font(.headline)
+                        }
                     }
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 14)
@@ -143,19 +156,19 @@ struct ProPaywallView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 14))
                 .disabled(isPurchasing)
 
-                Text("One-time purchase. No subscription.")
+                Text("paywall.buy.footnote")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             } else {
                 // Loading product
-                ProgressView("Loading...")
+                ProgressView("paywall.loading")
             }
         }
     }
 
     private var proStatusSection: some View {
         VStack(spacing: 12) {
-            Label("Pro Unlocked", systemImage: "checkmark.seal.fill")
+            Label("paywall.unlocked", systemImage: "checkmark.seal.fill")
                 .font(.headline)
                 .foregroundStyle(.green)
 
@@ -163,7 +176,7 @@ struct ProPaywallView: View {
                 Button {
                     showAuth = true
                 } label: {
-                    Text("Sign in to get your API Key")
+                    Text("paywall.sign_in_for_key")
                         .font(.headline)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 14)
@@ -171,10 +184,10 @@ struct ProPaywallView: View {
                 .buttonStyle(.borderedProminent)
                 .clipShape(RoundedRectangle(cornerRadius: 14))
             } else if isSyncing {
-                ProgressView("Syncing purchase...")
+                ProgressView("paywall.syncing")
             } else {
                 Button { dismiss() } label: {
-                    Text("Done")
+                    Text("paywall.done")
                         .font(.headline)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 14)
@@ -189,19 +202,52 @@ struct ProPaywallView: View {
 
     private var footerLinks: some View {
         VStack(spacing: 12) {
-            Button("Restore Purchases") {
+            Button("paywall.restore") {
                 Task { await restorePurchases() }
             }
             .font(.subheadline)
 
+            // Secondary entry point to Founder Services (custom development).
+            // Users who don't want a DIY recipe-based path can request a turnkey MVP.
+            HStack(spacing: 6) {
+                Text("paywall.founder.line")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                Button {
+                    contactFounderServices()
+                } label: {
+                    Text("paywall.founder.cta")
+                        .font(.caption.bold())
+                        .foregroundStyle(.accent)
+                }
+            }
+            .padding(.top, 4)
+
             HStack(spacing: 16) {
-                Link("Terms of Service", destination: URL(string: "https://shipswift.app/terms")!)
-                Link("Privacy Policy", destination: URL(string: "https://shipswift.app/privacy")!)
+                Link("paywall.legal.terms", destination: URL(string: "https://shipswift.app/terms")!)
+                Link("paywall.legal.privacy", destination: URL(string: "https://shipswift.app/privacy")!)
             }
             .font(.caption)
             .foregroundStyle(.secondary)
         }
         .padding(.top, 8)
+    }
+
+    // MARK: - Founder Services
+
+    /// Open the user's default mail client with a localized inquiry template
+    /// pre-addressed to Founder Services.
+    private func contactFounderServices() {
+        let subject = String(localized: "founder.email.subject")
+        let body = String(localized: "founder.email.body")
+
+        guard
+            let encodedSubject = subject.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+            let encodedBody = body.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+            let url = URL(string: "mailto:\(founderEmail)?subject=\(encodedSubject)&body=\(encodedBody)")
+        else { return }
+
+        openURL(url)
     }
 
     // MARK: - Actions
@@ -231,14 +277,15 @@ struct ProPaywallView: View {
                     // Otherwise, UI will show "Sign in to get your API Key"
                 }
             case .pending:
-                SWAlertManager.shared.show(.info, message: "Purchase pending approval")
+                SWAlertManager.shared.show(.info, message: String(localized: "paywall.alert.pending"))
             case .userCancelled:
                 break
             @unknown default:
                 break
             }
         } catch {
-            SWAlertManager.shared.show(.error, message: "Purchase failed: \(error.localizedDescription)")
+            let prefix = String(localized: "paywall.alert.failed")
+            SWAlertManager.shared.show(.error, message: "\(prefix): \(error.localizedDescription)")
         }
     }
 
@@ -249,7 +296,7 @@ struct ProPaywallView: View {
         guard let idToken = await userManager.getFreshIdToken() else { return }
         let apiKey = await storeManager.syncPurchaseToServer(idToken: idToken)
         if apiKey != nil {
-            SWAlertManager.shared.show(.success, message: "API Key generated!")
+            SWAlertManager.shared.show(.success, message: String(localized: "paywall.alert.api_key_generated"))
         }
         dismiss()
     }
@@ -259,12 +306,13 @@ struct ProPaywallView: View {
             try await AppStore.sync()
             await storeManager.updatePurchaseStatus()
             if storeManager.isPro {
-                SWAlertManager.shared.show(.success, message: "Purchases restored!")
+                SWAlertManager.shared.show(.success, message: String(localized: "settings.alert.restored"))
             } else {
-                SWAlertManager.shared.show(.info, message: "No previous purchases found")
+                SWAlertManager.shared.show(.info, message: String(localized: "settings.alert.no_purchases"))
             }
         } catch {
-            SWAlertManager.shared.show(.error, message: "Restore failed: \(error.localizedDescription)")
+            let prefix = String(localized: "settings.alert.restore_failed")
+            SWAlertManager.shared.show(.error, message: "\(prefix): \(error.localizedDescription)")
         }
     }
 }

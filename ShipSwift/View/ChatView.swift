@@ -114,7 +114,7 @@ struct ChatView: View {
                 if isWaiting {
                     HStack {
                         HStack(spacing: 4) {
-                            Text("Thinking")
+                            Text("chat.thinking")
                                 .font(.subheadline)
                                 .foregroundStyle(.secondary)
                             SWThinkingIndicator()
@@ -132,7 +132,7 @@ struct ChatView: View {
                 SWChatInputView(
                     text: $inputText,
                     isDisabled: isWaiting,
-                    placeHolderText: "Describe a component..."
+                    placeHolderText: "chat.placeholder"
                 ) {
                     sendMessage()
                 }
@@ -140,7 +140,7 @@ struct ChatView: View {
                 .frame(maxWidth: .infinity)
                 .padding(.horizontal)
             }
-            .navigationTitle("ShipSwift AI")
+            .navigationTitle("chat.title")
             .toolbarTitleDisplayMode(.inlineLarge)
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
@@ -157,7 +157,7 @@ struct ChatView: View {
                 messages = saved
             } else {
                 let welcome = ChatMessage(
-                    content: "Hi! Describe what you need, and I'll show you the best SwiftUI component from our library.",
+                    content: String(localized: "chat.welcome"),
                     isUser: false
                 )
                 messages = [welcome]

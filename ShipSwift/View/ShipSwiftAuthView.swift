@@ -127,23 +127,23 @@ struct ShipSwiftAuthView: View {
         }
     }
 
-    private var headerTitle: String {
+    private var headerTitle: LocalizedStringKey {
         switch viewMode {
-        case .signIn:         "Welcome Back"
-        case .signUp:         "Create Account"
-        case .confirmSignUp:  "Verify Email"
-        case .forgotPassword: "Forgot Password"
-        case .resetPassword:  "Reset Password"
+        case .signIn:         "auth.header.signin"
+        case .signUp:         "auth.header.signup"
+        case .confirmSignUp:  "auth.header.verify"
+        case .forgotPassword: "auth.header.forgot"
+        case .resetPassword:  "auth.header.reset"
         }
     }
 
     private var headerSubtitle: String {
         switch viewMode {
-        case .signIn:         "Sign in to manage your API key"
-        case .signUp:         "Create an account with your email"
-        case .confirmSignUp:  "Enter the 6-digit code sent to \(email)"
-        case .forgotPassword: "Enter your email to receive a reset code"
-        case .resetPassword:  "Enter the code and your new password"
+        case .signIn:         String(localized: "auth.subtitle.signin")
+        case .signUp:         String(localized: "auth.subtitle.signup")
+        case .confirmSignUp:  String(format: String(localized: "auth.subtitle.verify"), email)
+        case .forgotPassword: String(localized: "auth.subtitle.forgot")
+        case .resetPassword:  String(localized: "auth.subtitle.reset")
         }
     }
 
@@ -152,7 +152,7 @@ struct ShipSwiftAuthView: View {
     private var signInSection: some View {
         VStack(spacing: 12) {
             emailField
-            passwordField(text: $password, placeholder: "Password", contentType: .password)
+            passwordField(text: $password, placeholder: String(localized: "auth.field.password"), contentType: .password)
 
             SWAgreementChecker(
                 agreementChecked: $agreementChecked,
@@ -161,8 +161,8 @@ struct ShipSwiftAuthView: View {
             )
 
             actionButton(
-                title: "Sign In",
-                loadingTitle: "Signing In...",
+                title: String(localized: "auth.button.signin"),
+                loadingTitle: String(localized: "auth.button.signin_loading"),
                 disabled: !isValidEmail || !isValidPassword || !agreementChecked
             ) {
                 await signIn()
@@ -171,7 +171,7 @@ struct ShipSwiftAuthView: View {
             Button {
                 withAnimation { viewMode = .forgotPassword }
             } label: {
-                Text("Forgot Password?")
+                Text("auth.button.forgot")
                     .font(.subheadline)
                     .foregroundStyle(.accent)
             }
@@ -179,7 +179,7 @@ struct ShipSwiftAuthView: View {
             Button {
                 withAnimation { viewMode = .signUp; confirmPassword = "" }
             } label: {
-                Text("Don't have an account? Sign Up")
+                Text("auth.button.no_account")
                     .font(.subheadline)
                     .foregroundStyle(.accent)
             }
@@ -192,16 +192,16 @@ struct ShipSwiftAuthView: View {
     private var signUpSection: some View {
         VStack(spacing: 12) {
             emailField
-            passwordField(text: $password, placeholder: "Password", contentType: .newPassword)
+            passwordField(text: $password, placeholder: String(localized: "auth.field.password"), contentType: .newPassword)
 
             if !password.isEmpty {
                 passwordHint(valid: isValidPassword)
             }
 
-            passwordField(text: $confirmPassword, placeholder: "Confirm Password", contentType: .newPassword)
+            passwordField(text: $confirmPassword, placeholder: String(localized: "auth.field.confirm_password"), contentType: .newPassword)
 
             if !confirmPassword.isEmpty && !passwordsMatch {
-                Text("Passwords do not match")
+                Text("auth.hint.passwords_mismatch")
                     .font(.caption)
                     .foregroundStyle(.red)
             }
@@ -213,8 +213,8 @@ struct ShipSwiftAuthView: View {
             )
 
             actionButton(
-                title: "Create Account",
-                loadingTitle: "Creating Account...",
+                title: String(localized: "auth.button.signup"),
+                loadingTitle: String(localized: "auth.button.signup_loading"),
                 disabled: !isValidEmail || !isValidPassword || !passwordsMatch || !agreementChecked
             ) {
                 await signUp()
@@ -223,7 +223,7 @@ struct ShipSwiftAuthView: View {
             Button {
                 withAnimation { viewMode = .signIn }
             } label: {
-                Text("Already have an account? Sign In")
+                Text("auth.button.have_account")
                     .font(.subheadline)
                     .foregroundStyle(.accent)
             }
@@ -238,8 +238,8 @@ struct ShipSwiftAuthView: View {
             codeField(text: $verificationCode)
 
             actionButton(
-                title: "Verify Email",
-                loadingTitle: "Verifying...",
+                title: String(localized: "auth.button.verify"),
+                loadingTitle: String(localized: "auth.button.verify_loading"),
                 disabled: !isValidCode
             ) {
                 await confirmSignUp()
@@ -248,7 +248,7 @@ struct ShipSwiftAuthView: View {
             Button {
                 Task { await resendCode() }
             } label: {
-                Text("Resend Code")
+                Text("auth.button.resend")
                     .font(.subheadline)
                     .foregroundStyle(.accent)
             }
@@ -269,8 +269,8 @@ struct ShipSwiftAuthView: View {
             emailField
 
             actionButton(
-                title: "Send Reset Code",
-                loadingTitle: "Sending...",
+                title: String(localized: "auth.button.send_reset"),
+                loadingTitle: String(localized: "auth.button.send_reset_loading"),
                 disabled: !isValidEmail
             ) {
                 await sendResetCode()
@@ -286,17 +286,17 @@ struct ShipSwiftAuthView: View {
     private var resetPasswordSection: some View {
         VStack(spacing: 16) {
             VStack(alignment: .leading, spacing: 4) {
-                Text("Verification Code")
+                Text("auth.field.verification_code")
                     .font(.caption)
                     .foregroundStyle(.secondary)
                 codeField(text: $resetCode)
             }
 
             VStack(alignment: .leading, spacing: 4) {
-                Text("New Password")
+                Text("auth.field.new_password")
                     .font(.caption)
                     .foregroundStyle(.secondary)
-                passwordField(text: $newPassword, placeholder: "New Password", contentType: .newPassword)
+                passwordField(text: $newPassword, placeholder: String(localized: "auth.field.new_password"), contentType: .newPassword)
             }
 
             if !newPassword.isEmpty {
@@ -304,21 +304,21 @@ struct ShipSwiftAuthView: View {
             }
 
             VStack(alignment: .leading, spacing: 4) {
-                Text("Confirm New Password")
+                Text("auth.field.confirm_new_password")
                     .font(.caption)
                     .foregroundStyle(.secondary)
-                passwordField(text: $confirmNewPassword, placeholder: "Confirm New Password", contentType: .newPassword)
+                passwordField(text: $confirmNewPassword, placeholder: String(localized: "auth.field.confirm_new_password"), contentType: .newPassword)
 
                 if !confirmNewPassword.isEmpty && !newPasswordsMatch {
-                    Text("Passwords do not match")
+                    Text("auth.hint.passwords_mismatch")
                         .font(.caption)
                         .foregroundStyle(.red)
                 }
             }
 
             actionButton(
-                title: "Reset Password",
-                loadingTitle: "Resetting...",
+                title: String(localized: "auth.button.reset"),
+                loadingTitle: String(localized: "auth.button.reset_loading"),
                 disabled: !isValidResetCode || !isValidNewPassword || !newPasswordsMatch
             ) {
                 await confirmResetPassword()
@@ -335,7 +335,7 @@ struct ShipSwiftAuthView: View {
         HStack {
             Image(systemName: "envelope")
                 .foregroundStyle(.secondary)
-            TextField("Email", text: $email)
+            TextField("auth.field.email", text: $email)
                 #if os(iOS)
                 .keyboardType(.emailAddress)
                 #endif
@@ -385,7 +385,7 @@ struct ShipSwiftAuthView: View {
         HStack(spacing: 4) {
             Image(systemName: valid ? "checkmark.circle.fill" : "circle")
                 .foregroundStyle(valid ? .green : .secondary)
-            Text("At least 8 characters")
+            Text("auth.hint.password")
                 .foregroundStyle(valid ? .primary : .secondary)
         }
         .font(.caption)
@@ -423,7 +423,7 @@ struct ShipSwiftAuthView: View {
                 confirmNewPassword = ""
             }
         } label: {
-            Text("Back to Sign In")
+            Text("auth.button.back_signin")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
         }
@@ -469,7 +469,8 @@ struct ShipSwiftAuthView: View {
     private func resendCode() async {
         do {
             try await userManager.resendSignUpCode(email: email)
-            SWAlertManager.shared.show(.success, message: "Code sent to \(email)")
+            let message = String(format: String(localized: "auth.alert.code_sent"), email)
+            SWAlertManager.shared.show(.success, message: message)
         } catch {
             showError(error)
         }
@@ -491,7 +492,7 @@ struct ShipSwiftAuthView: View {
         defer { loadingState = .idle }
         do {
             try await userManager.confirmResetPassword(email: email, newPassword: newPassword, code: resetCode)
-            SWAlertManager.shared.show(.success, message: "Password reset successfully")
+            SWAlertManager.shared.show(.success, message: String(localized: "auth.alert.password_reset"))
             withAnimation {
                 viewMode = .signIn
                 resetCode = ""
@@ -525,29 +526,29 @@ struct ShipSwiftAuthView: View {
     private func authMessage(_ error: AuthError) -> String {
         switch error {
         case .notAuthorized:
-            return "Incorrect email or password"
+            return String(localized: "auth.error.incorrect")
         case .validation:
-            return "Invalid input"
+            return String(localized: "auth.error.invalid")
         default:
             let desc = error.errorDescription.lowercased()
-            if desc.contains("incorrect username or password") { return "Incorrect email or password" }
-            if desc.contains("user does not exist") { return "This email is not registered" }
-            if desc.contains("user is not confirmed") { return "Please verify your email first" }
-            return "Something went wrong, please try again"
+            if desc.contains("incorrect username or password") { return String(localized: "auth.error.incorrect") }
+            if desc.contains("user does not exist") { return String(localized: "auth.error.not_registered") }
+            if desc.contains("user is not confirmed") { return String(localized: "auth.error.not_verified") }
+            return String(localized: "auth.error.generic")
         }
     }
 
     private func cognitoMessage(_ error: AWSCognitoAuthError) -> String {
         switch error {
-        case .userNotFound:      "This email is not registered"
-        case .userNotConfirmed:  "Please verify your email first"
-        case .usernameExists:    "This email is already registered"
-        case .codeMismatch:      "Incorrect verification code"
-        case .codeExpired:       "Verification code expired"
-        case .invalidPassword:   "Password must be at least 8 characters"
+        case .userNotFound:      String(localized: "auth.error.not_registered")
+        case .userNotConfirmed:  String(localized: "auth.error.not_verified")
+        case .usernameExists:    String(localized: "auth.error.email_exists")
+        case .codeMismatch:      String(localized: "auth.error.wrong_code")
+        case .codeExpired:       String(localized: "auth.error.code_expired")
+        case .invalidPassword:   String(localized: "auth.error.weak_password")
         case .limitExceeded, .requestLimitExceeded:
-            "Too many attempts, please try again later"
-        default:                 "An error occurred, please try again"
+            String(localized: "auth.error.rate_limit")
+        default:                 String(localized: "auth.error.generic_short")
         }
     }
 }

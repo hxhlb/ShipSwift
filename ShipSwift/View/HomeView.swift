@@ -13,6 +13,7 @@ import SwiftUI
 struct HomeView: View {
     @Environment(SWStoreManager.self) private var storeManager
     @Environment(SWUserManager.self) private var userManager
+    @Environment(\.openURL) private var openURL
     @Binding var selectedTab: String
     @Binding var scrollTarget: String?
 
@@ -20,6 +21,7 @@ struct HomeView: View {
     @State private var copied = false
 
     private let skillsCommand = "npx skills add signerlabs/shipswift-skills"
+    private let founderEmail = "wei@signerlabs.com"
 
     var body: some View {
         NavigationStack {
@@ -30,6 +32,7 @@ struct HomeView: View {
                     skillsCard
                     linksRow
                     moduleGrid
+                    founderServicesCard
                     footer
                 }
                 .frame(maxWidth: 680)
@@ -38,7 +41,7 @@ struct HomeView: View {
                 .padding(.bottom, 32)
             }
             .scrollIndicators(.never)
-            .navigationTitle("ShipSwift")
+            .navigationTitle("tab.home")
             .toolbarTitleDisplayMode(.inlineLarge)
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
@@ -69,11 +72,11 @@ struct HomeView: View {
             )
             .padding(.vertical, 60)
 
-            Text("AI-native iOS component library")
+            Text("home.subtitle")
                 .font(.title3)
                 .foregroundStyle(.secondary)
 
-            Text("Production-ready SwiftUI components that LLMs can use to build real apps. Every component you see here is open-source.")
+            Text("home.description")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
@@ -92,7 +95,7 @@ struct HomeView: View {
                 Image(systemName: "terminal.fill")
                     .foregroundStyle(.accent)
                 
-                Text("Install")
+                Text("home.install")
             }
             .font(.headline)
 
@@ -104,7 +107,7 @@ struct HomeView: View {
                 NSPasteboard.general.clearContents()
                 NSPasteboard.general.setString(skillsCommand, forType: .string)
                 #endif
-                SWAlertManager.shared.show(.success, message: "Copied to clipboard")
+                SWAlertManager.shared.show(.success, message: String(localized: "home.copied"))
                 withAnimation(.easeInOut(duration: 0.2)) {
                     copied = true
                 }
@@ -148,7 +151,7 @@ struct HomeView: View {
             .buttonStyle(.plain)
 
             // -- Subtitle --
-            Text("Works with Claude Code, Codex, Gemini, Cursor, Copilot, Windsurf, and all other AI tools.")
+            Text("home.install.hint")
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .padding(.top, 2)
@@ -160,7 +163,7 @@ struct HomeView: View {
     private var linksRow: some View {
         HStack(spacing: 12) {
             Link(destination: URL(string: "https://shipswift.app")!) {
-                Label("Website", systemImage: "globe")
+                Label("home.link.website", systemImage: "globe")
                     .font(.subheadline)
                     .frame(maxWidth: .infinity)
             }
@@ -168,7 +171,7 @@ struct HomeView: View {
             .tint(.secondary)
 
             Link(destination: URL(string: "https://github.com/signerlabs/ShipSwift")!) {
-                Label("GitHub", systemImage: "chevron.left.forwardslash.chevron.right")
+                Label("home.link.github", systemImage: "chevron.left.forwardslash.chevron.right")
                     .font(.subheadline)
                     .frame(maxWidth: .infinity)
             }
@@ -182,11 +185,11 @@ struct HomeView: View {
     private var proStatusRow: some View {
         Group {
             if storeManager.isPro {
-                Label("Pro Recipes unlocked", systemImage: "checkmark.seal.fill")
+                Label("home.pro.unlocked", systemImage: "checkmark.seal.fill")
                     .foregroundStyle(.secondary)
             } else {
                 Button { showPaywall = true } label: {
-                    Label("Unlock Pro Recipes", systemImage: "lock.open.fill")
+                    Label("home.pro.unlock", systemImage: "lock.open.fill")
                         .foregroundStyle(.secondary)
                 }
             }
@@ -237,11 +240,116 @@ struct HomeView: View {
         }
     }
 
+    // MARK: - Founder Services Card
+
+    /// Custom development inquiry entry — pricing tier #4 on the website.
+    /// Starting at $5,000, MVP delivered in 4 weeks. Tap CTA to compose a
+    /// pre-filled inquiry email in the user's default mail client.
+    private var founderServicesCard: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            // Title row — hammer icon in a soft circular gradient badge
+            HStack(spacing: 12) {
+                Image(systemName: "hammer.fill")
+                    .font(.title3)
+                    .foregroundStyle(.accent)
+                    .frame(width: 36, height: 36)
+                    .background(
+                        LinearGradient(
+                            colors: [
+                                Color.accentColor.opacity(0.18),
+                                Color.accentColor.opacity(0.05),
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        ),
+                        in: Circle()
+                    )
+
+                VStack(alignment: .leading, spacing: 3) {
+                    Text("founder.title")
+                        .font(.headline)
+                    Text("founder.tagline")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+            }
+
+            // Price — SWStatusBadge capsule (info blue, translucent fill + stroke)
+            SWStatusBadge(text: "founder.price", style: .info)
+
+            // Features — SWBulletPointText with five distinct capsule colors
+            VStack(alignment: .leading, spacing: 10) {
+                SWBulletPointText(bulletColor: .blue) {
+                    Text("founder.feature.platforms")
+                        .font(.subheadline)
+                }
+                SWBulletPointText(bulletColor: .green) {
+                    Text("founder.feature.backend")
+                        .font(.subheadline)
+                }
+                SWBulletPointText(bulletColor: .orange) {
+                    Text("founder.feature.integrations")
+                        .font(.subheadline)
+                }
+                SWBulletPointText(bulletColor: .purple) {
+                    Text("founder.feature.submission")
+                        .font(.subheadline)
+                }
+                SWBulletPointText(bulletColor: .pink) {
+                    Text("founder.feature.handover")
+                        .font(.subheadline)
+                }
+            }
+            .padding(.leading, 4)
+
+            // SWGradientDivider — accent-tinted fade-out divider
+            SWGradientDivider(color: .accentColor, opacity: 0.3, height: 1)
+                .padding(.vertical, 2)
+
+            // CTA — one-tap email to Founder Services
+            Button {
+                contactFounderServices()
+            } label: {
+                HStack {
+                    Label("founder.cta", systemImage: "envelope.fill")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(.accent)
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                        .font(.footnote.weight(.semibold))
+                        .foregroundStyle(.accent)
+                }
+            }
+            .buttonStyle(.plain)
+        }
+        .padding(18)
+        .background(
+            RoundedRectangle(cornerRadius: 14)
+                .fill(Color(.secondarySystemGroupedBackground))
+        )
+    }
+
+    /// Build mailto URL with localized subject + body and open the default mail client.
+    /// Subject and body are pulled from Localizable.xcstrings, so users on a Chinese system
+    /// get a pre-filled Chinese inquiry template, and English-locale users get the English one.
+    private func contactFounderServices() {
+        let subject = String(localized: "founder.email.subject")
+        let body = String(localized: "founder.email.body")
+
+        guard
+            let encodedSubject = subject.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+            let encodedBody = body.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+            let url = URL(string: "mailto:\(founderEmail)?subject=\(encodedSubject)&body=\(encodedBody)")
+        else { return }
+
+        openURL(url)
+    }
+
     // MARK: - Footer
 
     private var footer: some View {
         Link(destination: URL(string: "https://shipswift.app")!) {
-            Text("Made with \u{2661} by SignerLabs")
+            Text("home.footer")
                 .font(.caption)
                 .foregroundStyle(.secondary)
         }

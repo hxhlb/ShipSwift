@@ -4,7 +4,10 @@
 //
 //  Settings page for the ShipSwift Showcase App.
 //  Includes Pro status, API key management, account, recommended apps,
-//  share, legal links, and version info.
+//  share, legal links, version info.
+//
+//  All user-facing strings live in Localizable.strings (en, zh-Hans).
+//  Localization scope: framework UI only — SWPackage demo data stays English.
 //
 //  Created by Wei Zhong on 13/2/26.
 //
@@ -15,6 +18,7 @@ import StoreKit
 struct SettingView: View {
     @Environment(SWStoreManager.self) private var storeManager
     @Environment(SWUserManager.self) private var userManager
+    @Environment(\.openURL) private var openURL
 
     // MARK: - State
 
@@ -59,7 +63,7 @@ struct SettingView: View {
                 legalSection
                 versionSection
             }
-            .navigationTitle("Settings")
+            .navigationTitle("settings.title")
             .toolbarTitleDisplayMode(.inlineLarge)
             .sheet(isPresented: $showPaywall) {
                 ProPaywallView()
@@ -87,15 +91,15 @@ struct SettingView: View {
                     Task { await syncProStatus() }
                 }
             }
-            .alert("Delete Account", isPresented: $showDeleteConfirmation) {
-                Button("Delete", role: .destructive) {
+            .alert("settings.account.delete_confirm_title", isPresented: $showDeleteConfirmation) {
+                Button("settings.account.delete_action", role: .destructive) {
                     Task {
                         try? await userManager.deleteAccount()
                     }
                 }
-                Button("Cancel", role: .cancel) {}
+                Button("settings.account.cancel", role: .cancel) {}
             } message: {
-                Text("This action cannot be undone. Your account and all associated data will be permanently deleted.")
+                Text("settings.account.delete_confirm_message")
             }
         }
     }
@@ -107,10 +111,10 @@ struct SettingView: View {
             if storeManager.isPro {
                 // Pro status
                 HStack {
-                    Label("ShipSwift Pro", systemImage: "checkmark.seal.fill")
+                    Label("settings.pro.active", systemImage: "checkmark.seal.fill")
                         .foregroundStyle(.green)
                     Spacer()
-                    Text("Active")
+                    Text("settings.pro.active_badge")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
@@ -122,7 +126,7 @@ struct SettingView: View {
                     Button {
                         showAuth = true
                     } label: {
-                        Label("Sign in to get your API Key", systemImage: "person.badge.key.fill")
+                        Label("settings.pro.sign_in_for_key", systemImage: "person.badge.key.fill")
                     }
                 }
             } else {
@@ -131,7 +135,7 @@ struct SettingView: View {
                     showPaywall = true
                 } label: {
                     HStack {
-                        Label("Upgrade to Pro", systemImage: "star.fill")
+                        Label("settings.pro.upgrade", systemImage: "star.fill")
                             .foregroundStyle(.accent)
                         Spacer()
                         Image(systemName: "chevron.right")
@@ -145,10 +149,10 @@ struct SettingView: View {
             Button {
                 Task { await restorePurchases() }
             } label: {
-                Label("Restore Purchases", systemImage: "arrow.clockwise")
+                Label("settings.pro.restore", systemImage: "arrow.clockwise")
             }
         } header: {
-            Text("Pro")
+            Text("settings.section.pro")
         }
     }
 
@@ -175,7 +179,7 @@ struct SettingView: View {
                 }
             } else if isSyncing {
                 HStack {
-                    Label("Syncing purchase...", systemImage: "key.fill")
+                    Label("settings.pro.syncing", systemImage: "key.fill")
                     Spacer()
                     ProgressView()
                 }
@@ -183,7 +187,7 @@ struct SettingView: View {
                 Button {
                     Task { await syncProStatus() }
                 } label: {
-                    Label("Get API Key", systemImage: "key.fill")
+                    Label("settings.pro.get_key", systemImage: "key.fill")
                 }
             }
         }
@@ -192,9 +196,9 @@ struct SettingView: View {
     // MARK: - Account Section
 
     private var accountSection: some View {
-        Section("Account") {
+        Section("settings.section.account") {
             HStack {
-                Label("Email", systemImage: "envelope")
+                Label("settings.account.email", systemImage: "envelope")
                 Spacer()
                 Text(extractEmail())
                     .foregroundStyle(.secondary)
@@ -204,22 +208,22 @@ struct SettingView: View {
             Button {
                 Task { await userManager.signOut() }
             } label: {
-                Label("Sign Out", systemImage: "rectangle.portrait.and.arrow.right")
+                Label("settings.account.sign_out", systemImage: "rectangle.portrait.and.arrow.right")
             }
 
             Button(role: .destructive) {
                 showDeleteConfirmation = true
             } label: {
-                Label("Delete Account", systemImage: "trash")
+                Label("settings.account.delete", systemImage: "trash")
                     .foregroundStyle(.red)
             }
         }
     }
 
-    // MARK: - Other Sections
+    // MARK: - Recommended Apps
 
     private var recommendedAppsSection: some View {
-        Section("Apps Built with ShipSwift") {
+        Section("settings.section.apps") {
             Link(destination: URL(string: appStoreSmileMax)!) {
                 labelWithImage(.smileMaxLogo, name: "SmileMax - Glow Up Coach")
             }
@@ -241,11 +245,13 @@ struct SettingView: View {
         }
     }
 
+    // MARK: - Other Sections
+
     private var generalSection: some View {
         Section {
             ShareLink(item: appStoreURL) {
                 HStack {
-                    Text("Share App")
+                    Text("settings.general.share")
                     Spacer()
                     Image(systemName: "square.and.arrow.up")
                         .foregroundStyle(.secondary)
@@ -258,7 +264,7 @@ struct SettingView: View {
         Section {
             Link(destination: termsURL) {
                 HStack {
-                    Text("Terms of Service")
+                    Text("settings.legal.terms")
                     Spacer()
                     Image(systemName: "chevron.right")
                         .font(.footnote)
@@ -268,7 +274,7 @@ struct SettingView: View {
 
             Link(destination: privacyURL) {
                 HStack {
-                    Text("Privacy Policy")
+                    Text("settings.legal.privacy")
                     Spacer()
                     Image(systemName: "chevron.right")
                         .font(.footnote)
@@ -280,7 +286,7 @@ struct SettingView: View {
 
     private var versionSection: some View {
         Section {
-            LabeledContent("Version") {
+            LabeledContent("settings.version") {
                 Text("v\(appVersion) (\(buildNumber))")
                     .foregroundStyle(.secondary)
             }
@@ -342,9 +348,9 @@ struct SettingView: View {
             NSPasteboard.general.clearContents()
             NSPasteboard.general.setString(key, forType: .string)
             #endif
-            SWAlertManager.shared.show(.success, message: "API Key copied to clipboard")
+            SWAlertManager.shared.show(.success, message: String(localized: "settings.alert.key_copied"))
         } catch {
-            SWAlertManager.shared.show(.error, message: "Failed to copy API key")
+            SWAlertManager.shared.show(.error, message: String(localized: "settings.alert.key_copy_failed"))
         }
     }
 
@@ -353,12 +359,12 @@ struct SettingView: View {
             try await AppStore.sync()
             await storeManager.updatePurchaseStatus()
             if storeManager.isPro {
-                SWAlertManager.shared.show(.success, message: "Purchases restored!")
+                SWAlertManager.shared.show(.success, message: String(localized: "settings.alert.restored"))
             } else {
-                SWAlertManager.shared.show(.info, message: "No previous purchases found")
+                SWAlertManager.shared.show(.info, message: String(localized: "settings.alert.no_purchases"))
             }
         } catch {
-            SWAlertManager.shared.show(.error, message: "Restore failed")
+            SWAlertManager.shared.show(.error, message: String(localized: "settings.alert.restore_failed"))
         }
     }
 }

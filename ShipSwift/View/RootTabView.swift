@@ -30,7 +30,7 @@ extension RootTabView {
                 HomeView(selectedTab: $selectedTab, scrollTarget: $scrollTarget)
             } label: {
                 Label {
-                    Text("ShipSwift")
+                    Text("tab.home")
                 } icon: {
                     Image(systemName: selectedTab == "home" ? "house.fill" : "house")
                 }
@@ -41,7 +41,7 @@ extension RootTabView {
                 ChatView()
             } label: {
                 Label {
-                    Text("Chat")
+                    Text("tab.chat")
                 } icon: {
                     Image(systemName: selectedTab == "chat" ? "bubble.left.and.bubble.right.fill" : "bubble.left.and.bubble.right")
                 }
@@ -52,7 +52,7 @@ extension RootTabView {
                 ComponentView(scrollTarget: $scrollTarget)
             } label: {
                 Label {
-                    Text("Component")
+                    Text("tab.component")
                 } icon: {
                     Image(systemName: selectedTab == "component" ? "square.grid.2x2.fill" : "square.grid.2x2")
                 }
