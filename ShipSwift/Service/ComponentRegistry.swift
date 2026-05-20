@@ -599,6 +599,26 @@ struct ComponentRegistry {
             presentation: .push
         )
 
+        reg["fractal-clouds"] = ComponentEntry(
+            title: "Fractal Clouds",
+            icon: "cloud.fill",
+            description: "Metal-shader drifting fractal clouds built from two-pass FBM noise",
+            preview: {
+                AnyView(
+                    SWFractalClouds()
+                        .frame(height: 150)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                )
+            },
+            fullView: {
+                AnyView(
+                    SWFractalClouds(showsControls: true)
+                        .ignoresSafeArea()
+                )
+            },
+            presentation: .push
+        )
+
         reg["orbiting-logos"] = ComponentEntry(
             title: "Orbiting Logos",
             icon: "atom",

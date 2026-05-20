@@ -501,6 +501,16 @@ struct ComponentView: View {
             }
 
             ComponentNavigationLink {
+                SWFractalClouds(showsControls: true)
+            } label: {
+                ListItem(
+                    title: "Fractal Clouds",
+                    icon: "cloud.fill",
+                    description: "Drifting cumulus-like clouds built from a two-pass 5-octave FBM noise — the first pass warps the second's sample position for soft swirls. Sky / cloud / warm-tint colors, drift velocity, coverage, and warp depth are all tunable. Tap the gear to live-tune."
+                )
+            }
+
+            ComponentNavigationLink {
                 VStack {
                     SWOrbitingLogos(
                         images: ["airpods", "business-shoes", "sunglasses", "tshirt", "wide-brimmed-hat", "golf-gloves", "suit", "golf-gloves"]
