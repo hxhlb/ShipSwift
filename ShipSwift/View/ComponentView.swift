@@ -481,6 +481,17 @@ struct ComponentView: View {
             }
 
             NavigationLink {
+                SWWavyDots()
+                    .ignoresSafeArea()
+            } label: {
+                ListItem(
+                    title: "Wavy Dots",
+                    icon: "waveform.path",
+                    description: "Metal-shader 3D dot grid on a wave-displaced ground plane. Perspective projection with soft halos, crest highlighting, and tunable horizon — ideal as a hero or section background."
+                )
+            }
+
+            NavigationLink {
                 VStack {
                     SWOrbitingLogos(
                         images: ["airpods", "business-shoes", "sunglasses", "tshirt", "wide-brimmed-hat", "golf-gloves", "suit", "golf-gloves"]

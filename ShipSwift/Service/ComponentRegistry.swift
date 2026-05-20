@@ -559,6 +559,26 @@ struct ComponentRegistry {
             presentation: .push
         )
 
+        reg["wavy-dots"] = ComponentEntry(
+            title: "Wavy Dots",
+            icon: "waveform.path",
+            description: "Metal-shader 3D dot grid on a wave-displaced ground plane with crest highlighting",
+            preview: {
+                AnyView(
+                    SWWavyDots()
+                        .frame(height: 150)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                )
+            },
+            fullView: {
+                AnyView(
+                    SWWavyDots()
+                        .ignoresSafeArea()
+                )
+            },
+            presentation: .push
+        )
+
         reg["orbiting-logos"] = ComponentEntry(
             title: "Orbiting Logos",
             icon: "atom",
