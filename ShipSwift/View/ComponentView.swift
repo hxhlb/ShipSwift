@@ -115,7 +115,7 @@ struct ComponentView: View {
             .toolbarTitleDisplayMode(.inlineLarge)
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
-                    NavigationLink {
+                    ComponentNavigationLink {
                         SettingView()
                             .hideTabBar()
                     } label: {
@@ -165,7 +165,7 @@ struct ComponentView: View {
                     .toolbarBackground(.hidden, for: .windowToolbar)
                     .toolbar {
                         ToolbarItem(placement: .primaryAction) {
-                            NavigationLink {
+                            ComponentNavigationLink {
                                 SettingView()
                             } label: {
                                 Image(systemName: "gearshape.fill")
@@ -184,7 +184,7 @@ struct ComponentView: View {
     private var moduleSection: some View {
         Section {
             // Auth demo — renders SWAuthView (iOS or macOS version automatically)
-            NavigationLink {
+            ComponentNavigationLink {
                 SWAuthView(isDemo: true)
                     .environment(SWUserManager(skipAuthCheck: true))
                     .hideTabBar()
@@ -198,7 +198,7 @@ struct ComponentView: View {
 
             // Camera demo — iOS only
             #if os(iOS)
-            NavigationLink {
+            ComponentNavigationLink {
                 ComponentViewCameraDemo()
                     .swAlert()
                     .hideTabBar()
@@ -211,7 +211,7 @@ struct ComponentView: View {
             }
 
             // Face Camera demo — iOS only
-            NavigationLink {
+            ComponentNavigationLink {
                 ComponentViewFaceCameraDemo()
                     .hideTabBar()
             } label: {
@@ -224,7 +224,7 @@ struct ComponentView: View {
             #endif
 
             // Paywall — Pro paywall with lifetime purchase
-            NavigationLink {
+            ComponentNavigationLink {
                 SWPaywallView(isDemo: true)
                     .environment(SWStoreManager.shared)
                     .hideTabBar()
@@ -238,7 +238,7 @@ struct ComponentView: View {
 
             // Chat demo — iOS only
             #if os(iOS)
-            NavigationLink {
+            ComponentNavigationLink {
                 ComponentViewChatDemo()
                     .hideTabBar()
             } label: {
@@ -252,7 +252,7 @@ struct ComponentView: View {
 
             // TikTok Tracking demo — iOS only
             #if os(iOS)
-            NavigationLink {
+            ComponentNavigationLink {
                 SWTikTokTrackingView()
                     .hideTabBar()
             } label: {
@@ -266,7 +266,7 @@ struct ComponentView: View {
 
             // Subject Lifting demo — iOS only
             #if os(iOS)
-            NavigationLink {
+            ComponentNavigationLink {
                 SWSubjectLiftingView()
                     .hideTabBar()
             } label: {
@@ -279,7 +279,7 @@ struct ComponentView: View {
             #endif
 
             // Settings module
-            NavigationLink {
+            ComponentNavigationLink {
                 SWSettingView(isDemo: true)
                     .hideTabBar()
             } label: {
@@ -303,7 +303,7 @@ struct ComponentView: View {
 
     private var animationSection: some View {
         Section {
-            NavigationLink {
+            ComponentNavigationLink {
                 SWBeforeAfterSlider(
                     before: Image(.smileBefore),
                     after: Image(.smileAfter)
@@ -317,7 +317,7 @@ struct ComponentView: View {
                 )
             }
 
-            NavigationLink {
+            ComponentNavigationLink {
                 VStack(spacing: 26) {
                     SWTypewriterText(
                         texts: ["Level up your smile game", "AI-powered smile analysis", "Join the glow up era"],
@@ -348,7 +348,7 @@ struct ComponentView: View {
                 )
             }
 
-            NavigationLink {
+            ComponentNavigationLink {
                 VStack(spacing: 40) {
                     SWShakingIcon(image: Image(systemName: "apple.logo"), height: 20)
                     SWShakingIcon(image: Image(.smileAfter), height: 100, cornerRadius: 8)
@@ -362,7 +362,7 @@ struct ComponentView: View {
                 )
             }
 
-            NavigationLink {
+            ComponentNavigationLink {
                 VStack(spacing: 30) {
                     SWShimmer {
                         Button {} label: {
@@ -390,7 +390,7 @@ struct ComponentView: View {
                 )
             }
 
-            NavigationLink {
+            ComponentNavigationLink {
                 VStack(spacing: 26) {
                     SWGlowSweep {
                         Text("Start Scan Today")
@@ -416,7 +416,7 @@ struct ComponentView: View {
                 )
             }
 
-            NavigationLink {
+            ComponentNavigationLink {
                 VStack(spacing: 26) {
                     SWLightSweep {
                         Image(.smileAfter)
@@ -441,7 +441,7 @@ struct ComponentView: View {
                 )
             }
 
-            NavigationLink {
+            ComponentNavigationLink {
                 VStack(spacing: 20) {
                     SWScanningOverlay {
                         Image(.facePicture)
@@ -469,7 +469,7 @@ struct ComponentView: View {
                 )
             }
 
-            NavigationLink {
+            ComponentNavigationLink {
                 SWAnimatedMeshGradient()
                     .ignoresSafeArea()
             } label: {
@@ -480,18 +480,17 @@ struct ComponentView: View {
                 )
             }
 
-            NavigationLink {
-                SWWavyDots()
-                    .ignoresSafeArea()
+            ComponentNavigationLink {
+                SWDots(showsControls: true)
             } label: {
                 ListItem(
-                    title: "Wavy Dots",
-                    icon: "waveform.path",
-                    description: "Metal-shader 3D dot grid on a wave-displaced ground plane. Perspective projection with soft halos, crest highlighting, and tunable horizon — ideal as a hero or section background."
+                    title: "Dots",
+                    icon: "circle.grid.3x3.fill",
+                    description: "Metal-shader 3D dot-grid backgrounds — switch between styles (wavy, mountains, …) via a single enum. Perspective projection with soft halos, crest highlighting, vignette, and a tunable horizon. Tap the gear in this preview to live-tune every parameter."
                 )
             }
 
-            NavigationLink {
+            ComponentNavigationLink {
                 VStack {
                     SWOrbitingLogos(
                         images: ["airpods", "business-shoes", "sunglasses", "tshirt", "wide-brimmed-hat", "golf-gloves", "suit", "golf-gloves"]
@@ -523,7 +522,7 @@ struct ComponentView: View {
 
             // Full-Screen Button — iOS 18 zoom transition; unavailable on macOS.
             #if os(iOS)
-            NavigationLink {
+            ComponentNavigationLink {
                 ScrollView {
                     VStack(spacing: 30) {
                         // Default — reproduces the original showcase look
@@ -575,7 +574,7 @@ struct ComponentView: View {
 
     private var chartSection: some View {
         Section {
-            NavigationLink {
+            ComponentNavigationLink {
                 ScrollView {
                     VStack(spacing: 32) {
                         Group {
@@ -634,7 +633,7 @@ struct ComponentView: View {
                 )
             }
 
-            NavigationLink {
+            ComponentNavigationLink {
                 ScrollView {
                     VStack(spacing: 32) {
                         Group {
@@ -692,7 +691,7 @@ struct ComponentView: View {
                 )
             }
 
-            NavigationLink {
+            ComponentNavigationLink {
                 ScrollView {
                     VStack(spacing: 32) {
                         Group {
@@ -752,7 +751,7 @@ struct ComponentView: View {
                 )
             }
 
-            NavigationLink {
+            ComponentNavigationLink {
                 ScrollView {
                     VStack(spacing: 32) {
                         Group {
@@ -810,7 +809,7 @@ struct ComponentView: View {
                 )
             }
 
-            NavigationLink {
+            ComponentNavigationLink {
                 SWDonutChart(
                     subjects: {
                         let work = SWDonutChart.Category(name: "Work")
@@ -839,7 +838,7 @@ struct ComponentView: View {
                 )
             }
 
-            NavigationLink {
+            ComponentNavigationLink {
                 SWRadarChart(data: [
                     .init(label: "Tolerance", value: 75),
                     .init(label: "Ambition", value: 50),
@@ -856,7 +855,7 @@ struct ComponentView: View {
                 )
             }
 
-            NavigationLink {
+            ComponentNavigationLink {
                 VStack(spacing: 40) {
                     SWRingChart(data: [
                         .init(label: "Move", value: 75, color: .red),
@@ -895,7 +894,7 @@ struct ComponentView: View {
                 )
             }
 
-            NavigationLink {
+            ComponentNavigationLink {
                 let timestamps: [Date] = {
                     var dates: [Date] = []
                     let calendar = Calendar.current
@@ -961,7 +960,7 @@ struct ComponentView: View {
     private var displaySection: some View {
         Section {
             // Floating labels — animated capsule labels hovering over an image
-            NavigationLink {
+            ComponentNavigationLink {
                 SWFloatingLabels(
                     image: Image(.facePicture),
                     labels: [
@@ -980,7 +979,7 @@ struct ComponentView: View {
 
             // Scrolling FAQ — iOS only (UIScrollView + CADisplayLink)
             #if os(iOS)
-            NavigationLink {
+            ComponentNavigationLink {
                 SWScrollingFAQ(
                     rows: [
                         ["How does AI work?", "What can I ask?", "How accurate?", "Help with coding?",
@@ -1002,7 +1001,7 @@ struct ComponentView: View {
             #endif
 
             // Rotating quote — auto-cycling famous quotes display
-            NavigationLink {
+            ComponentNavigationLink {
                 ScrollView {
                     VStack(spacing: 32) {
                         // Multiple quotes rotation
@@ -1058,7 +1057,7 @@ struct ComponentView: View {
             }
 
             // Basic display elements — BulletPointText + GradientDivider + Label
-            NavigationLink {
+            ComponentNavigationLink {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 24) {
 
@@ -1149,7 +1148,7 @@ struct ComponentView: View {
                 )
             }
             // Onboarding — multi-page welcome flow with swipe navigation and skip
-            NavigationLink {
+            ComponentNavigationLink {
                 SWOnboardingView(onComplete: {})
             } label: {
                 ListItem(
@@ -1160,7 +1159,7 @@ struct ComponentView: View {
             }
 
             // Order — animated drink customization demo
-            NavigationLink {
+            ComponentNavigationLink {
                 SWOrderView()
             } label: {
                 ListItem(
@@ -1171,7 +1170,7 @@ struct ComponentView: View {
             }
 
             // Tab — TabView template
-            NavigationLink {
+            ComponentNavigationLink {
                 SWRootTabView()
             } label: {
                 ListItem(
@@ -1182,7 +1181,7 @@ struct ComponentView: View {
             }
 
             // Markdown Text — renders common LLM Markdown output
-            NavigationLink {
+            ComponentNavigationLink {
                 ScrollView {
                     SWMarkdownText("""
                     # Heading 1
@@ -1221,7 +1220,7 @@ struct ComponentView: View {
             }
 
             // Status Badge — capsule status indicator with five semantic styles
-            NavigationLink {
+            ComponentNavigationLink {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 24) {
                         VStack(alignment: .leading, spacing: 10) {
@@ -1279,7 +1278,7 @@ struct ComponentView: View {
             }
 
             // Image Thumbnail — square image tile with same-named ColorSet fallback
-            NavigationLink {
+            ComponentNavigationLink {
                 ScrollView {
                     VStack(spacing: 24) {
                         VStack(spacing: 8) {
@@ -1320,7 +1319,7 @@ struct ComponentView: View {
             }
 
             // KPI Card — dashboard metric card with icon, animated value, and trailing slot
-            NavigationLink {
+            ComponentNavigationLink {
                 ScrollView {
                     VStack(spacing: 20) {
                         LazyVGrid(
@@ -1399,7 +1398,7 @@ struct ComponentView: View {
     private var feedbackSection: some View {
         Section {
             // Global toast alert — supports info/success/warning/error presets and custom styles
-            NavigationLink {
+            ComponentNavigationLink {
                 VStack(spacing: 12) {
                     Spacer()
 
@@ -1469,7 +1468,7 @@ struct ComponentView: View {
             }
 
             // Fullscreen loading overlay — blur material background + optional icon pulse animation
-            NavigationLink {
+            ComponentNavigationLink {
                 ZStack {
                     LinearGradient(
                         colors: [.blue, .purple],
@@ -1516,7 +1515,7 @@ struct ComponentView: View {
             }
 
             // Thinking indicator — three-dot bouncing animation for chat typing state
-            NavigationLink {
+            ComponentNavigationLink {
                 VStack(spacing: 40) {
                     // Default style
                     VStack(spacing: 8) {
@@ -1579,7 +1578,7 @@ struct ComponentView: View {
     private var inputSection: some View {
         Section {
             // Capsule tab button — for custom segmented controls and filter bars
-            NavigationLink {
+            ComponentNavigationLink {
                 List {
                     HStack {
                         SWTabButton(title: "All", isSelected: selectedInputTab == 0) {
@@ -1630,7 +1629,7 @@ struct ComponentView: View {
             }
 
             // Numeric stepper — compact control with animated transitions and haptic feedback
-            NavigationLink {
+            ComponentNavigationLink {
                 VStack(spacing: 30) {
                     SWStepper(quantity: $stepperValue)
 
@@ -1654,7 +1653,7 @@ struct ComponentView: View {
             }
 
             // Add sheet — bottom sheet with text input
-            NavigationLink {
+            ComponentNavigationLink {
                 VStack {
                     Spacer()
 
@@ -1678,7 +1677,7 @@ struct ComponentView: View {
             }
 
             // Search bar — capsule-shaped with magnifying glass, clear button, ultra-thin material
-            NavigationLink {
+            ComponentNavigationLink {
                 VStack(spacing: 24) {
                     SWSearchBar(text: $searchBarText)
                         .padding(.horizontal)
@@ -1782,6 +1781,27 @@ private extension View {
         #else
         self
         #endif
+    }
+}
+
+/// Drop-in replacement for `NavigationLink { destination } label: { … }` that
+/// automatically hides the floating tab bar when the destination is pushed.
+///
+/// Convention for this showcase: every component preview is a subpage of the
+/// root tab — the tab bar should only be visible on top-level tabs, never on
+/// pushed component previews. Using this wrapper instead of `NavigationLink`
+/// makes that the default; no per-call `.hideTabBar()` needed.
+private struct ComponentNavigationLink<Label: View, Destination: View>: View {
+    @ViewBuilder let destination: () -> Destination
+    @ViewBuilder let label: () -> Label
+
+    var body: some View {
+        NavigationLink {
+            destination()
+                .hideTabBar()
+        } label: {
+            label()
+        }
     }
 }
 

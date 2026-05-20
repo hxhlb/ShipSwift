@@ -1,25 +1,23 @@
 //
-//  SWWavyDots.metal
+//  SWDotsWavy.metal
 //  ShipSwift
 //
-//  Stitchable SwiftUI color effect that renders a 3D dot grid on a
-//  wave-displaced ground plane. Perspective projection with per-cell dot
-//  rendering, soft halos, and crest highlighting.
+//  Stitchable SwiftUI color effect — `wavy` style of the SWDots family.
+//  Renders a 3D dot grid on a wave-displaced ground plane. Sums four
+//  sinusoids of different spatial / temporal frequencies, attenuated
+//  toward the horizon so distant cells flatten.
 //
-//  Paired with: SWWavyDots.swift
-//  Entry point: `swWavyDots` — invoked via SwiftUI `.colorEffect(...)`.
+//  Paired with: SWDots.swift (style = .wavy)
+//  Entry point: `swDotsWavy` — invoked via SwiftUI `.colorEffect(...)`.
 //
-//  Requires iOS 17+ / macOS 14+ (SwiftUI `ShaderLibrary` + `[[stitchable]]`).
+//  Requires iOS 17+ / macOS 14+.
 //
 
 #include <metal_stdlib>
 #include <SwiftUI/SwiftUI_Metal.h>
 using namespace metal;
 
-// Wave displacement of the ground plane at world coordinates (x, z).
-// Sums four sinusoids of different spatial / temporal frequencies, then
-// attenuates the result towards the horizon so distant cells flatten out.
-static float swWavyDotsHeight(float x, float z, float t,
+static float swDotsWavyHeight(float x, float z, float t,
                               float amplitude, float patternScale) {
     float base = (sin(x * 3.6 * patternScale + t * 0.85) * 0.45 +
                   sin(z * 2.2 * patternScale + t * 0.65) * 0.40 +
@@ -29,7 +27,7 @@ static float swWavyDotsHeight(float x, float z, float t,
     return base * damp * amplitude;
 }
 
-[[ stitchable ]] half4 swWavyDots(float2 position,
+[[ stitchable ]] half4 swDotsWavy(float2 position,
                                   half4  color,
                                   float4 boundingRect,
                                   float  time,
@@ -104,7 +102,7 @@ static float swWavyDotsHeight(float x, float z, float t,
             if (abs(position.x - dotScreenX) > horizCullThresh) continue;
 
             float cellX = iCenterCellX + float(di) * gridSize;
-            float Y     = swWavyDotsHeight(cellX, cellZ, t, amplitude, patternScale);
+            float Y     = swDotsWavyHeight(cellX, cellZ, t, amplitude, patternScale);
 
             float dotYFromHorizon = (1.0 - Y) * invCellZ;
             if (dotYFromHorizon < 0.01) continue;

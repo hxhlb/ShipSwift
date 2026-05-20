@@ -901,6 +901,9 @@
     "Back to Sign In" : {
 
     },
+    "Background" : {
+
+    },
     "Bottom sheet with text input and confirm button" : {
 
     },
@@ -1014,6 +1017,9 @@
         }
       }
     },
+    "Colors" : {
+
+    },
     "ColorSet fallback when image asset is missing or still loading." : {
 
     },
@@ -1072,6 +1078,12 @@
 
     },
     "Done" : {
+
+    },
+    "Dot Color" : {
+
+    },
+    "Dots Controls" : {
 
     },
     "Email" : {
@@ -2582,6 +2594,9 @@
     "Skip" : {
 
     },
+    "Sliders" : {
+
+    },
     "SmileMax - Glow Up Coach" : {
 
     },
@@ -2601,6 +2616,9 @@
 
     },
     "Steve Jobs" : {
+
+    },
+    "Style" : {
 
     },
     "Subject extracted successfully" : {

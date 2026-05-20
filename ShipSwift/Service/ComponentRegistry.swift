@@ -559,20 +559,20 @@ struct ComponentRegistry {
             presentation: .push
         )
 
-        reg["wavy-dots"] = ComponentEntry(
-            title: "Wavy Dots",
-            icon: "waveform.path",
-            description: "Metal-shader 3D dot grid on a wave-displaced ground plane with crest highlighting",
+        reg["dots"] = ComponentEntry(
+            title: "Dots",
+            icon: "circle.grid.3x3.fill",
+            description: "Metal-shader 3D dot-grid backgrounds with switchable styles (wavy, mountains, …)",
             preview: {
                 AnyView(
-                    SWWavyDots()
+                    SWDots()
                         .frame(height: 150)
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                 )
             },
             fullView: {
                 AnyView(
-                    SWWavyDots()
+                    SWDots(showsControls: true)
                         .ignoresSafeArea()
                 )
             },
