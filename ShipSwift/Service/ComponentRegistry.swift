@@ -639,6 +639,26 @@ struct ComponentRegistry {
             presentation: .push
         )
 
+        reg["liquid-chrome"] = ComponentEntry(
+            title: "Liquid Chrome",
+            icon: "circle.lefthalf.filled",
+            description: "Metal-shader animated liquid chrome with specular glints",
+            preview: {
+                AnyView(
+                    SWLiquidChrome()
+                        .frame(height: 150)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                )
+            },
+            fullView: {
+                AnyView(
+                    SWLiquidChrome(showsControls: true)
+                        .ignoresSafeArea()
+                )
+            },
+            presentation: .push
+        )
+
         reg["orbiting-logos"] = ComponentEntry(
             title: "Orbiting Logos",
             icon: "atom",

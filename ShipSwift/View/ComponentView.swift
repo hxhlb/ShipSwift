@@ -521,6 +521,16 @@ struct ComponentView: View {
             }
 
             ComponentNavigationLink {
+                SWLiquidChrome(showsControls: true)
+            } label: {
+                ListItem(
+                    title: "Liquid Chrome",
+                    icon: "circle.lefthalf.filled",
+                    description: "Animated liquid chrome surface — three sequential value-noise samples domain-warp into a fluid metallic flow lit with a gamma curve and a high-power specular glint. Shadow / silver / highlight / tint colors are tunable; the cool spec bias is baked in for true chrome feel. Tap the gear to live-tune."
+                )
+            }
+
+            ComponentNavigationLink {
                 VStack {
                     SWOrbitingLogos(
                         images: ["airpods", "business-shoes", "sunglasses", "tshirt", "wide-brimmed-hat", "golf-gloves", "suit", "golf-gloves"]
