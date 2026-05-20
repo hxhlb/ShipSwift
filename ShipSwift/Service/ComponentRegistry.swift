@@ -659,6 +659,26 @@ struct ComponentRegistry {
             presentation: .push
         )
 
+        reg["plasma"] = ComponentEntry(
+            title: "Plasma",
+            icon: "flame.fill",
+            description: "Metal-shader plasma backgrounds with five hand-tuned styles",
+            preview: {
+                AnyView(
+                    SWPlasma()
+                        .frame(height: 150)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                )
+            },
+            fullView: {
+                AnyView(
+                    SWPlasma(showsControls: true)
+                        .ignoresSafeArea()
+                )
+            },
+            presentation: .push
+        )
+
         reg["orbiting-logos"] = ComponentEntry(
             title: "Orbiting Logos",
             icon: "atom",

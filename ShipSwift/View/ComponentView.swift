@@ -531,6 +531,16 @@ struct ComponentView: View {
             }
 
             ComponentNavigationLink {
+                SWPlasma(showsControls: true)
+            } label: {
+                ListItem(
+                    title: "Plasma",
+                    icon: "flame.fill",
+                    description: "Full-color plasma backgrounds with five hand-tuned styles — Solar (warm), Prism (chromatic split), Spectrum (vertical split), Ember (glowing coals), Lilac (soft pulsing pastel). Switch styles in the sheet to load each style's signature 5-stop palette."
+                )
+            }
+
+            ComponentNavigationLink {
                 VStack {
                     SWOrbitingLogos(
                         images: ["airpods", "business-shoes", "sunglasses", "tshirt", "wide-brimmed-hat", "golf-gloves", "suit", "golf-gloves"]
