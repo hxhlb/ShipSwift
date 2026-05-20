@@ -78,8 +78,16 @@ import SwiftUI
 // MARK: - Style
 
 enum SWDotsStyle: String, CaseIterable, Identifiable {
+    // 3D perspective styles — dots sit on a wave-displaced ground plane.
     case wavy
     case mountains
+    case ocean
+    case standing
+
+    // Flat-grid styles — dots tile the screen without perspective.
+    case flow
+    case plasma
+    case snake
 
     var id: String { rawValue }
 
@@ -87,6 +95,11 @@ enum SWDotsStyle: String, CaseIterable, Identifiable {
         switch self {
         case .wavy:      "Wavy"
         case .mountains: "Mountains"
+        case .ocean:     "Ocean"
+        case .standing:  "Standing"
+        case .flow:      "Flow"
+        case .plasma:    "Plasma"
+        case .snake:     "Snake"
         }
     }
 
@@ -95,6 +108,22 @@ enum SWDotsStyle: String, CaseIterable, Identifiable {
         switch self {
         case .wavy:      "swDotsWavy"
         case .mountains: "swDotsMountains"
+        case .ocean:     "swDotsOcean"
+        case .standing:  "swDotsStanding"
+        case .flow:      "swDotsFlow"
+        case .plasma:    "swDotsPlasma"
+        case .snake:     "swDotsSnake"
+        }
+    }
+
+    /// Whether this style projects dots in 3D perspective onto a ground
+    /// plane. 3D styles consume the `horizon`, `amplitude`, and `depthFade`
+    /// parameters; flat-grid styles ignore them (the shader signature still
+    /// accepts them for a unified call site, but the values do nothing).
+    var is3D: Bool {
+        switch self {
+        case .wavy, .mountains, .ocean, .standing: true
+        case .flow, .plasma, .snake:               false
         }
     }
 }
@@ -327,15 +356,19 @@ private struct SWDotsControlsSheet: View {
                 }
 
                 Section("Sliders") {
-                    SliderRow(label: "Speed",         value: $speed,        range: 0...3,         step: 0.05)
-                    SliderRow(label: "Brightness",    value: $brightness,   range: 0...3,         step: 0.05)
-                    SliderRow(label: "Dot Size",      value: $dotSize,      range: 0.2...3,       step: 0.05)
-                    SliderRow(label: "Grid Density",  value: $gridDensity,  range: 0.3...3,       step: 0.05)
-                    SliderRow(label: "Pattern Scale", value: $patternScale, range: 0.2...3,       step: 0.05)
-                    SliderRow(label: "Wave Amplitude",value: $amplitude,    range: 0...3,         step: 0.05)
-                    SliderRow(label: "Depth Fade",    value: $depthFade,    range: 0...3,         step: 0.05)
-                    SliderRow(label: "Vignette",      value: $vignette,     range: 0...3,         step: 0.05)
-                    SliderRow(label: "Horizon",       value: $horizon,      range: -1.0...0.4,    step: 0.01)
+                    SliderRow(label: "Speed",         value: $speed,        range: 0...3,   step: 0.05)
+                    SliderRow(label: "Brightness",    value: $brightness,   range: 0...3,   step: 0.05)
+                    SliderRow(label: "Dot Size",      value: $dotSize,      range: 0.2...3, step: 0.05)
+                    SliderRow(label: "Grid Density",  value: $gridDensity,  range: 0.3...3, step: 0.05)
+                    SliderRow(label: "Pattern Scale", value: $patternScale, range: 0.2...3, step: 0.05)
+                    SliderRow(label: "Vignette",      value: $vignette,     range: 0...3,   step: 0.05)
+
+                    // Hidden for flat-grid styles whose shaders ignore these.
+                    if style.is3D {
+                        SliderRow(label: "Wave Amplitude", value: $amplitude, range: 0...3,      step: 0.05)
+                        SliderRow(label: "Depth Fade",     value: $depthFade, range: 0...3,      step: 0.05)
+                        SliderRow(label: "Horizon",        value: $horizon,   range: -1.0...0.4, step: 0.01)
+                    }
                 }
             }
             .navigationTitle("Dots Controls")
