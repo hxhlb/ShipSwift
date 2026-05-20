@@ -92,8 +92,38 @@
     "and" : {
 
     },
+    "Angular (Neon)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "角向（Neon）"
+          }
+        }
+      }
+    },
     "Animated drink customization with cup animations" : {
 
+    },
+    "Animated Loop" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "动画环"
+          }
+        }
+      }
+    },
+    "Animated Loop Controls" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "动画环控制"
+          }
+        }
+      }
     },
     "Animation" : {
 
@@ -902,7 +932,14 @@
 
     },
     "Background" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "背景"
+          }
+        }
+      }
     },
     "Bottom sheet with text input and confirm button" : {
 
@@ -942,6 +979,36 @@
     },
     "Chart" : {
 
+    },
+    "Channel 1" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通道 1"
+          }
+        }
+      }
+    },
+    "Channel 2" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通道 2"
+          }
+        }
+      }
+    },
+    "Channel 3" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通道 3"
+          }
+        }
+      }
     },
     "Chat Bubble" : {
 
@@ -1018,25 +1085,74 @@
       }
     },
     "Cloud" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "云"
+          }
+        }
+      }
     },
     "Color 1" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "颜色 1"
+          }
+        }
+      }
     },
     "Color 2" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "颜色 2"
+          }
+        }
+      }
     },
     "Color 3" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "颜色 3"
+          }
+        }
+      }
     },
     "Color 4" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "颜色 4"
+          }
+        }
+      }
     },
     "Color 5" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "颜色 5"
+          }
+        }
+      }
     },
     "Colors" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "颜色"
+          }
+        }
+      }
     },
     "ColorSet fallback when image asset is missing or still loading." : {
 
@@ -1096,13 +1212,34 @@
 
     },
     "Done" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完成"
+          }
+        }
+      }
     },
     "Dot Color" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "点颜色"
+          }
+        }
+      }
     },
     "Dots Controls" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "点阵控制"
+          }
+        }
+      }
     },
     "Email" : {
 
@@ -1141,7 +1278,14 @@
 
     },
     "Field" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "场"
+          }
+        }
+      }
     },
     "Forgot Password?" : {
 
@@ -1334,10 +1478,24 @@
       }
     },
     "Fractal Clouds" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分形云"
+          }
+        }
+      }
     },
     "Fractal Clouds Controls" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分形云控制"
+          }
+        }
+      }
     },
     "Full-stack iOS + AWS backend" : {
 
@@ -1358,7 +1516,14 @@
 
     },
     "Glow" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "辉光"
+          }
+        }
+      }
     },
     "Google" : {
 
@@ -1376,7 +1541,14 @@
 
     },
     "Highlight" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高光"
+          }
+        }
+      }
     },
     "Home" : {
 
@@ -1561,25 +1733,74 @@
 
     },
     "Ink 1" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "墨色 1"
+          }
+        }
+      }
     },
     "Ink 2" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "墨色 2"
+          }
+        }
+      }
     },
     "Ink 3" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "墨色 3"
+          }
+        }
+      }
     },
     "Ink 4" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "墨色 4"
+          }
+        }
+      }
     },
     "Ink Smoke" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "墨烟"
+          }
+        }
+      }
     },
     "Ink Smoke Controls" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "墨烟控制"
+          }
+        }
+      }
     },
     "Inks" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "墨色"
+          }
+        }
+      }
     },
     "Innovation distinguishes between a leader and a follower." : {
 
@@ -1618,13 +1839,34 @@
 
     },
     "Lighting" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "光照"
+          }
+        }
+      }
     },
     "Liquid Chrome" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "液态金属"
+          }
+        }
+      }
     },
     "Liquid Chrome Controls" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "液态金属控制"
+          }
+        }
+      }
     },
     "Loading data..." : {
 
@@ -1639,7 +1881,14 @@
 
     },
     "Motion" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "运动"
+          }
+        }
+      }
     },
     "Multi-page swipe flow with skip support" : {
 
@@ -1714,7 +1963,14 @@
 
     },
     "Palette" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "调色板"
+          }
+        }
+      }
     },
     "Password" : {
 
@@ -2106,13 +2362,34 @@
 
     },
     "Plasma" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "等离子"
+          }
+        }
+      }
     },
     "Plasma as button border" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "等离子按钮边框"
+          }
+        }
+      }
     },
     "Plasma Controls" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "等离子控制"
+          }
+        }
+      }
     },
     "Privacy" : {
 
@@ -2149,6 +2426,16 @@
     },
     "Resources" : {
 
+    },
+    "Rings" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "环"
+          }
+        }
+      }
     },
     "Restore Purchases" : {
 
@@ -2640,10 +2927,24 @@
       }
     },
     "Shadow" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "阴影"
+          }
+        }
+      }
     },
     "Shape" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "形状"
+          }
+        }
+      }
     },
     "Share App" : {
 
@@ -2676,16 +2977,37 @@
 
     },
     "Silver" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "银色"
+          }
+        }
+      }
     },
     "Skip" : {
 
     },
     "Sky" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "天空"
+          }
+        }
+      }
     },
     "Sliders" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "滑块"
+          }
+        }
+      }
     },
     "SmileMax - Glow Up Coach" : {
 
@@ -2697,10 +3019,24 @@
 
     },
     "Star Color" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "星点颜色"
+          }
+        }
+      }
     },
     "Starfield Controls" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "星野控制"
+          }
+        }
+      }
     },
     "Start Scan Today" : {
 
@@ -2715,7 +3051,14 @@
 
     },
     "Style" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "样式"
+          }
+        }
+      }
     },
     "Subject extracted successfully" : {
 
@@ -2742,7 +3085,14 @@
 
     },
     "Surface" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "表面"
+          }
+        }
+      }
     },
     "Tab View Template" : {
 
@@ -2832,7 +3182,14 @@
 
     },
     "Tint" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "着色"
+          }
+        }
+      }
     },
     "Tip: register a same-named ColorSet alongside the image set to get a brand-appropriate tint before the image decodes — or as a permanent fallback for empty states." : {
 
@@ -2848,6 +3205,16 @@
     },
     "Trending" : {
 
+    },
+    "Transform" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "变换"
+          }
+        }
+      }
     },
     "Type a message..." : {
 
@@ -2917,7 +3284,14 @@
 
     },
     "Warm Tint" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暖色调"
+          }
+        }
+      }
     },
     "Warning" : {
 
