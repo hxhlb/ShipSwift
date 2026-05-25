@@ -599,6 +599,19 @@ struct ComponentView: View {
             }
 
             ComponentNavigationLink {
+                SWLiquidMetal(showsControls: true) {
+                    Image(systemName: "apple.logo")
+                        .font(.system(size: 300))
+                }
+            } label: {
+                ListItem(
+                    title: "Liquid Metal",
+                    icon: "drop.triangle.fill",
+                    description: "Paper Shaders' liquid-metal image filter port (by Stephen Haney) — simplex-noise driven stripe pattern with per-channel chromatic refraction, edge-aware bulge, and flowing chrome over any opaque source view (SF Symbols, logos). Tap the gear to tune refraction, edge, liquid, pattern blur / scale, time scale."
+                )
+            }
+
+            ComponentNavigationLink {
                 VStack {
                     SWOrbitingLogos(
                         images: ["airpods", "business-shoes", "sunglasses", "tshirt", "wide-brimmed-hat", "golf-gloves", "suit", "golf-gloves"]

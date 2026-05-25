@@ -795,6 +795,32 @@ struct ComponentRegistry {
             presentation: .push
         )
 
+        reg["liquid-metal"] = ComponentEntry(
+            title: "Liquid Metal",
+            icon: "drop.triangle.fill",
+            description: "Metal-shader liquid-metal image filter (Paper Shaders port by Stephen Haney) — simplex-noise driven stripe pattern with refraction, edge-aware bulge, and per-channel chromatic shift over any source view",
+            preview: {
+                AnyView(
+                    SWLiquidMetal {
+                        Image(systemName: "apple.logo")
+                            .font(.system(size: 100))
+                    }
+                    .frame(height: 150)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                )
+            },
+            fullView: {
+                AnyView(
+                    SWLiquidMetal(showsControls: true) {
+                        Image(systemName: "apple.logo")
+                            .font(.system(size: 300))
+                    }
+                    .ignoresSafeArea()
+                )
+            },
+            presentation: .push
+        )
+
         reg["orbiting-logos"] = ComponentEntry(
             title: "Orbiting Logos",
             icon: "atom",
