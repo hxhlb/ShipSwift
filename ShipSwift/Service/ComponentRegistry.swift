@@ -861,6 +861,26 @@ struct ComponentRegistry {
             presentation: .push
         )
 
+        reg["voronoi"] = ComponentEntry(
+            title: "Voronoi",
+            icon: "hexagon.fill",
+            description: "Metal-shader procedural Voronoi background (Paper Shaders port) — animated double-pass Voronoi with smooth AA edges, 1–5 color cell ramp, optional gap border and radial inner glow",
+            preview: {
+                AnyView(
+                    SWVoronoi()
+                        .frame(height: 150)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                )
+            },
+            fullView: {
+                AnyView(
+                    SWVoronoi(showsControls: true)
+                        .ignoresSafeArea()
+                )
+            },
+            presentation: .push
+        )
+
         reg["orbiting-logos"] = ComponentEntry(
             title: "Orbiting Logos",
             icon: "atom",

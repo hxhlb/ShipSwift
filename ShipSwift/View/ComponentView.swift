@@ -632,6 +632,16 @@ struct ComponentView: View {
             }
 
             ComponentNavigationLink {
+                SWVoronoi(showsControls: true)
+            } label: {
+                ListItem(
+                    title: "Voronoi",
+                    icon: "hexagon.fill",
+                    description: "Paper Shaders' voronoi procedural background port — animated double-pass Voronoi with anti-aliased edges, 1–5 color cell ramp, optional gap border between cells, and radial inner glow shadow. Tap the gear to tune palette, density, distortion, gap, glow, and motion."
+                )
+            }
+
+            ComponentNavigationLink {
                 VStack {
                     SWOrbitingLogos(
                         images: ["airpods", "business-shoes", "sunglasses", "tshirt", "wide-brimmed-hat", "golf-gloves", "suit", "golf-gloves"]
