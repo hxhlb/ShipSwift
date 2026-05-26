@@ -112,11 +112,13 @@ Select a simulator or device, then press **Cmd+R** to build and run.
 
 **SwiftUI animations:** Shimmer · TypewriterText · ShakingIcon · GlowSweep · LightSweep · ScanningOverlay · AnimatedMeshGradient · BeforeAfterSlider · OrbitingLogos · FullScreenButton
 
+**Canvas-rendered 3D:** DotSphere · CharSphere
+
 **Metal-shader procedural backgrounds:** Dots · Starfield · FractalClouds · InkSmoke · LiquidChrome · Plasma · AnimatedLoop
 
 **Paper Shaders ports (Metal):** Metaballs · Halftone · Water · LiquidMetal · NeuroNoise · DotOrbit · Voronoi · SimplexNoise · ColorPanels · SmokeRing · Swirl
 
-28 animation components total — see the [Showcase App](https://apps.apple.com/us/app/shipswift-mcp-codebase/id6759209764) for live previews.
+30 animation components total — see the [Showcase App](https://apps.apple.com/us/app/shipswift-mcp-codebase/id6759209764) for live previews.
 
 ### SWChart — Chart Components
 
