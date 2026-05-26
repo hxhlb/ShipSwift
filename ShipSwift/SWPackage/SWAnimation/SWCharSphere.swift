@@ -94,6 +94,23 @@ struct SWCharSphere: View {
         "同", "謂", "之", "玄", "玄", "之", "又", "玄",
         "眾", "妙", "之", "門"
     ]
+//    var chars: [String] = [
+//        // Asia
+//        "🇨🇳", "🇯🇵", "🇰🇷", "🇮🇳", "🇸🇬", "🇹🇭", "🇻🇳", "🇮🇩",
+//        "🇲🇾", "🇵🇭", "🇦🇪", "🇸🇦", "🇮🇱", "🇹🇷", "🇵🇰", "🇧🇩",
+//        // Europe
+//        "🇬🇧", "🇫🇷", "🇩🇪", "🇮🇹", "🇪🇸", "🇵🇹", "🇳🇱", "🇧🇪",
+//        "🇨🇭", "🇸🇪", "🇳🇴", "🇫🇮", "🇩🇰", "🇵🇱", "🇦🇹", "🇬🇷",
+//        "🇮🇪", "🇨🇿", "🇭🇺", "🇷🇴",
+//        // Americas
+//        "🇺🇸", "🇨🇦", "🇲🇽", "🇧🇷", "🇦🇷", "🇨🇱", "🇨🇴", "🇵🇪",
+//        // Africa
+//        "🇿🇦", "🇪🇬", "🇳🇬", "🇰🇪", "🇲🇦", "🇪🇹", "🇬🇭",
+//        // Oceania
+//        "🇦🇺", "🇳🇿",
+//        // Eurasia
+//        "🇷🇺", "🇺🇦", "🇰🇿"
+//    ]
     var glyphCount: Int = 240
     var colors: [Color] = [.white, .cyan, .pink]
     var background: Color = .black
@@ -520,8 +537,31 @@ private struct StepperRow: View {
 
 // MARK: - Preview
 
-#Preview {
+#Preview("Default — Tao Te Ching") {
     NavigationStack {
         SWCharSphere(showsControls: true)
     }
+}
+
+#Preview("World flags") {
+    SWCharSphere(
+        chars: [
+            // Asia
+            "🇨🇳", "🇯🇵", "🇰🇷", "🇮🇳", "🇸🇬", "🇹🇭", "🇻🇳", "🇮🇩",
+            "🇲🇾", "🇵🇭", "🇦🇪", "🇸🇦", "🇮🇱", "🇹🇷", "🇵🇰", "🇧🇩",
+            // Europe
+            "🇬🇧", "🇫🇷", "🇩🇪", "🇮🇹", "🇪🇸", "🇵🇹", "🇳🇱", "🇧🇪",
+            "🇨🇭", "🇸🇪", "🇳🇴", "🇫🇮", "🇩🇰", "🇵🇱", "🇦🇹", "🇬🇷",
+            "🇮🇪", "🇨🇿", "🇭🇺", "🇷🇴",
+            // Americas
+            "🇺🇸", "🇨🇦", "🇲🇽", "🇧🇷", "🇦🇷", "🇨🇱", "🇨🇴", "🇵🇪",
+            // Africa
+            "🇿🇦", "🇪🇬", "🇳🇬", "🇰🇪", "🇲🇦", "🇪🇹", "🇬🇭",
+            // Oceania
+            "🇦🇺", "🇳🇿",
+            // Eurasia
+            "🇷🇺", "🇺🇦", "🇰🇿"
+        ], glyphCount: 160, fontSize: 10, showsControls: true
+    )
+    .ignoresSafeArea()
 }
