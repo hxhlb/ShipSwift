@@ -2,15 +2,15 @@
 //  SWHalftone.metal
 //  ShipSwift
 //
-//  Stitchable SwiftUI layerEffect — port of Paper Shaders' halftone family
-//  (https://shaders.paper.design, MIT). Two entry points:
+//  Stitchable SwiftUI layerEffect rendering a halftone print family.
+//  Two entry points:
 //
-//    • `swHalftoneDots` — port of `halftone-dots`. 4 dot styles
+//    • `swHalftoneDots` — 4 dot styles
 //      (classic / gooey / holes / soft) × 2 grids (square / hex), with
 //      optional originalColors mode and procedural grain.
 //
-//    • `swHalftoneCmyk` — port of `halftone-cmyk` (simplified ink-only
-//      variant). 4 channel plates (C / M / Y / K) at the classic 15° /
+//    • `swHalftoneCmyk` — simplified ink-only CMYK
+//      variant. 4 channel plates (C / M / Y / K) at the classic 15° /
 //      75° / 0° / 45° rotations, multiplicatively layered on a paper
 //      background to produce a four-color printing look.
 //
@@ -31,7 +31,7 @@ using namespace metal;
 // MARK: - Shared helpers
 // =============================================================================
 
-// Linear smoothstep — matches Paper's `lst()`.
+// Linear smoothstep.
 static float swHt_lst(float a, float b, float x) {
     return clamp((x - a) / max(b - a, 1e-6), 0.0, 1.0);
 }
@@ -41,7 +41,7 @@ static float2 swHt_rot(float2 p, float c, float s) {
     return float2(c * p.x - s * p.y, s * p.x + c * p.y);
 }
 
-// Sigmoid — Paper applies this per-RGB-channel before luminance to give
+// Sigmoid — applied per-RGB-channel before luminance to give
 // a smoother contrast curve than a hard linear stretch.
 static float swHt_sigmoid(float x, float k) {
     return 1.0 / (1.0 + exp(-k * (x - 0.5)));
@@ -56,15 +56,14 @@ static float3 swHt_contrastRGB(float3 c, float k) {
     );
 }
 
-// Linear contrast — Paper uses this in originalColors mode where keeping
+// Linear contrast — used in originalColors mode where keeping
 // natural saturation matters more than a smooth midtone curve.
 static float3 swHt_contrastLinear(float3 c, float k) {
     return clamp((c - 0.5) * k + 0.5, 0.0, 1.0);
 }
 
-// Cheap 2D hash for procedural noise — Paper samples a noise texture in
-// the original GLSL; we approximate with a hash so we don't have to bind
-// a texture through SwiftUI.
+// Cheap 2D hash for procedural noise — approximated with a hash so we
+// don't have to bind a noise texture through SwiftUI.
 static float swHt_hash21(float2 p) {
     p = fract(p * float2(123.34, 456.21));
     p += dot(p, p + 45.32);
@@ -94,10 +93,10 @@ static float swHt_uvFrame(float2 uv, float2 pad) {
 }
 
 // =============================================================================
-// MARK: - Dot shape functions (Paper getCircle / getGooey / getHoles / getSoft)
+// MARK: - Dot shape functions (classic / gooey / holes / soft)
 // =============================================================================
 
-// Classic crisp circle (Paper getCircle). `lum=0` → big dot, `lum=1` → none.
+// Classic crisp circle. `lum=0` → big dot, `lum=1` → none.
 static float swHt_getClassic(float2 uv, float lum, float baseR) {
     float r = mix(0.25 * baseR, 0.0, lum);
     float d = length(uv - 0.5);
@@ -105,8 +104,8 @@ static float swHt_getClassic(float2 uv, float lum, float baseR) {
     return 1.0 - smoothstep(r - aa, r + aa, d);
 }
 
-// Gooey soft falloff blob (Paper getGooeyBall). Hex grid uses 0.42 base
-// radius vs 0.3 for square — Paper does the same swap.
+// Gooey soft falloff blob. Hex grid uses 0.42 base radius vs 0.3 for
+// square.
 static float swHt_getGooey(float2 uv, float lum, float baseR, bool hex) {
     float d = length(uv - 0.5);
     float sizeR = hex ? (0.42 * baseR) : (0.3 * baseR);
@@ -116,8 +115,8 @@ static float swHt_getGooey(float2 uv, float lum, float baseR, bool hex) {
     return d;
 }
 
-// Circle with optional hole (Paper getCircleWithHole). Big `lum` produces
-// a ring (cell minus inner circle).
+// Circle with optional hole. Big `lum` produces a ring (cell minus inner
+// circle).
 static float swHt_getHoles(float2 uv, float lum, float baseR) {
     float insideX = step(0.0, uv.x) * (1.0 - step(1.0, uv.x));
     float insideY = step(0.0, uv.y) * (1.0 - step(1.0, uv.y));
@@ -131,7 +130,7 @@ static float swHt_getHoles(float2 uv, float lum, float baseR) {
     return (r < 0.5) ? circle : (cell - circle);
 }
 
-// Soft fuzzy falloff (Paper getSoftBall).
+// Soft fuzzy falloff.
 static float swHt_getSoft(float2 uv, float lum, float baseR) {
     float d = length(uv - 0.5);
     float sizeR = clamp(baseR, 0.0, 1.0);
@@ -143,7 +142,7 @@ static float swHt_getSoft(float2 uv, float lum, float baseR) {
 }
 
 // =============================================================================
-// MARK: - Luminance ball (Paper getLumBall — combines sample + dot)
+// MARK: - Luminance ball (combines sample + dot)
 // =============================================================================
 
 // Evaluates one dot at a sub-cell offset, writing the sampled ball color
@@ -192,7 +191,7 @@ static float swHt_getLumBall(float2 uv,
     return ball * outOfFrame;
 }
 
-// Picks the right sub-sampling density per dot type — Paper's defaults.
+// Picks the right sub-sampling density per dot type.
 // classic = 2× (4 samples), gooey/soft = 6× (36 samples), holes = 1× (1 sample).
 static float swHt_stepMultiplierFor(int typeI) {
     if (typeI == 0) return 2.0;
@@ -236,7 +235,7 @@ static float swHt_stepMultiplierFor(int typeI) {
     float cellSizeY = 1.0 / cellsPerSide;
     float2 pad = cellSizeY * float2(1.0 / max(aspect, 1e-4), 1.0);
     if (typeI == 1 && hexGrid) {
-        // gooey + hex: Paper shrinks pad to keep cells overlapping properly.
+        // gooey + hex: shrink pad to keep cells overlapping properly.
         pad *= 0.7;
     }
 
@@ -252,7 +251,7 @@ static float swHt_stepMultiplierFor(int typeI) {
         ? (2.0 * pow(0.5 * saturate(radius), 0.3))
         : saturate(radius);
 
-    // Sub-cell scan — Paper's nested loop, capped at 6×6 = 36 samples.
+    // Sub-cell scan — nested loop, capped at 6×6 = 36 samples.
     float  totalShape   = 0.0;
     float3 totalColor   = float3(0.0);
     float  totalOpacity = 0.0;
@@ -266,7 +265,7 @@ static float swHt_stepMultiplierFor(int typeI) {
             float oy = -0.5 + (float(iy) + 0.5) * stepSize;
             float2 offset = float2(ox, oy);
 
-            // Hex grid: Paper alternates row/col parity differently per type.
+            // Hex grid alternates row/col parity differently per type.
             if (hexGrid) {
                 float rowIndex = floor((oy + 0.5) / stepSize);
                 float colIndex = floor((ox + 0.5) / stepSize);
@@ -302,7 +301,7 @@ static float swHt_stepMultiplierFor(int typeI) {
     totalColor   /= max(totalShape, eps);
     totalOpacity /= max(totalShape, eps);
 
-    // Threshold per Paper.
+    // Per-type threshold.
     float finalShape;
     if (typeI == 0)      finalShape = min(1.0, totalShape);
     else if (typeI == 1) { float aa = fwidth(totalShape);
@@ -351,13 +350,13 @@ static float swHt_stepMultiplierFor(int typeI) {
 // MARK: - swHalftoneCmyk (4-channel CMYK ink-only simplified port)
 // =============================================================================
 //
-// Differences from Paper's `halftone-cmyk`:
-//   • Only the `ink` dot style — Paper also ships `dots` (separate) and
-//     `sharp` (per-pixel) which need extra branching; left for a follow-up.
-//   • No flood / gain / softness sliders — uses Paper's defaults.
+// Simplified CMYK variant:
+//   • Only the `ink` dot style — `dots` (separate) and `sharp` (per-pixel)
+//     styles need extra branching and are left for a follow-up.
+//   • No flood / gain / softness sliders — uses fixed defaults.
 //   • No grain mixer / overlay.
-//   • The CMYK plate rotation angles, paper feed shifts, and 3×3
-//     neighbour scan are faithful to the original.
+//   • CMYK plate rotation angles, paper feed shifts, and a 3×3
+//     neighbour scan drive the four-color reconstruction.
 
 // Extract one CMYK channel from a contrast-shaped RGB triple.
 static float swHt_cyan(float3 c)    { float m = max(max(c.r, c.g), c.b); return m > 1e-5 ? (m - c.r) / m : 0.0; }
@@ -365,7 +364,7 @@ static float swHt_magenta(float3 c) { float m = max(max(c.r, c.g), c.b); return 
 static float swHt_yellow(float3 c)  { float m = max(max(c.r, c.g), c.b); return m > 1e-5 ? (m - c.b) / m : 0.0; }
 static float swHt_black(float3 c)   { return 1.0 - max(max(c.r, c.g), c.b); }
 
-// One CMYK dot in ink mode — Paper's `colorMask` with `isJoined=true`.
+// One CMYK dot in ink mode — joined coverage mask.
 static float swHt_cmykDot(float2 uvLocal, float2 cellCenter, float coverage, float alpha) {
     float radius = coverage * 1.1;
     radius += 0.15;
@@ -395,7 +394,7 @@ static float2 swHt_gridToImageUV(float2 cellCenter, float c, float s, float shif
     float2 sz = boundingRect.zw;
     float aspect = sz.x / max(sz.y, 1.0);
 
-    // Paper's CMYK plate rotations: 15° (C), 75° (M), 0° (Y), 45° (K).
+    // CMYK plate rotations: 15° (C), 75° (M), 0° (Y), 45° (K).
     const float cosC = 0.9659258, sinC = 0.2588190;
     const float cosM = 0.2588190, sinM = 0.9659258;
     const float cosY = 1.0,       sinY = 0.0;
@@ -457,8 +456,8 @@ static float2 swHt_gridToImageUV(float2 cellCenter, float c, float s, float shif
         }
     }
 
-    // Ink threshold — Paper joins overlapping dots into a continuous ink
-    // body via smoothstep; we use a fixed softness.
+    // Ink threshold — join overlapping dots into a continuous ink
+    // body via smoothstep with a fixed softness.
     const float th = 0.5;
     const float soft = 0.2;
     outMask = float4(

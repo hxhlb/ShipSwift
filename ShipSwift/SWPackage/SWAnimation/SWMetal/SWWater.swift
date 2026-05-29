@@ -2,11 +2,10 @@
 //  SWWater.swift
 //  ShipSwift
 //
-//  Port of Paper Shaders' water
-//  (https://shaders.paper.design/water, MIT) as a SwiftUI Metal
-//  `layerEffect`. Wraps any view in a rippling caustic distortion — a
-//  slow simplex-noise wave pushes UVs around while a 6-octave rotated
-//  caustic field paints sunlight-on-pool highlights across the surface.
+//  Wraps any view in a rippling caustic distortion via a SwiftUI Metal
+//  `layerEffect` — a slow simplex-noise wave pushes UVs around while a
+//  6-octave rotated caustic field paints sunlight-on-pool highlights
+//  across the surface.
 //
 //  Requires iOS 17+ / macOS 14+ (SwiftUI `ShaderLibrary`,
 //  `Shader`/`ShaderFunction`, Metal `stitchable`).

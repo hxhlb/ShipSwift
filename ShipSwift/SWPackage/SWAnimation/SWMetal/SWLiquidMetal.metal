@@ -2,19 +2,12 @@
 //  SWLiquidMetal.metal
 //  ShipSwift
 //
-//  Stitchable SwiftUI layerEffect — port of Paper Design's liquid-metal
-//  (https://shaders.paper.design/liquid-metal, original by Stephen Haney
-//  for paper-design/liquid-logo). Wraps any view (typically an SF Symbol)
-//  in a flowing chromatic liquid-metal effect: simplex noise drives a
-//  stripe-pattern color split with refraction, edge-aware bulge, and
-//  per-channel chromatic shift.
-//
-//  Reference Metal port:
-//    https://github.com/bobek-balinek/LiquidMetalShader (MIT-style fork
-//    of the original WebGL fragment shader). Function names adapted to
-//    the SW prefix and layer-size sourcing switched from `layer.tex.get_*`
-//    to the `boundingRect` parameter (more portable across SwiftUI shader
-//    APIs).
+//  Stitchable SwiftUI layerEffect — a flowing chromatic liquid-metal
+//  effect. Wraps any view (typically an SF Symbol) in animated metal:
+//  simplex noise drives a stripe-pattern color split with refraction,
+//  edge-aware bulge, and per-channel chromatic shift. Layer size is
+//  sourced from the `boundingRect` parameter for portability across
+//  SwiftUI shader APIs.
 //
 //  Paired with: SWLiquidMetal.swift
 //  Entry point: `swLiquidMetal` — invoked via SwiftUI `.layerEffect(...)`.
@@ -70,7 +63,7 @@ static float2 swLM_rotate(float2 uv, float th) {
     return m * uv;
 }
 
-// Soft alpha falloff at the layer's outer 10% (per Paper original).
+// Soft alpha falloff at the layer's outer 10%.
 static float swLM_imgFrameAlpha(float2 uv, float frameWidth) {
     float f = smoothstep(0.0, frameWidth, uv.x)
             * smoothstep(1.0, 1.0 - frameWidth, uv.x);
@@ -79,7 +72,7 @@ static float swLM_imgFrameAlpha(float2 uv, float frameWidth) {
     return f;
 }
 
-// Per-channel color resolver — Paper's `get_color_channel`. Threads the
+// Per-channel color resolver. Threads the
 // stripe pattern through 5 alternating smoothstep bands plus a trailing
 // gradient. `c1` / `c2` are the two endpoint colors (light vs. dark),
 // `stripePos` is the wrapped UV along the stripe direction, `w` packs
@@ -139,8 +132,7 @@ static float swLM_getColorChannel(float c1, float c2,
         return img;
     }
 
-    // Core shader (Paper / Stephen Haney algorithm, structurally
-    // unchanged from the published WebGL fragment).
+    // Core shader.
     float diagonal = uv.x - uv.y;
     float t = timeScale * speed * time;
 

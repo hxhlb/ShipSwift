@@ -2,10 +2,8 @@
 //  SWSwirl.swift
 //  ShipSwift
 //
-//  Port of Paper Shaders' swirl
-//  (https://shaders.paper.design/swirl, MIT) as a SwiftUI Metal
-//  `colorEffect`. Animated bands of color twisting and bending into
-//  spirals, arcs, and flowing circular patterns.
+//  Animated bands of color twisting and bending into spirals, arcs, and
+//  flowing circular patterns, rendered via a SwiftUI Metal `colorEffect`.
 //
 //  Algorithm: polar-coordinate angle multiplied by `bandCount` and
 //  spun by time; a `pow(length, -twist)` radial term bends straight

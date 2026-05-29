@@ -304,6 +304,16 @@ struct ComponentView: View {
     private var animationSection: some View {
         Section {
             ComponentNavigationLink {
+                SWPlayerCardShowcase()
+            } label: {
+                ListItem(
+                    title: "Player Cards",
+                    icon: "rectangle.portrait.on.rectangle.portrait.angled",
+                    description: "Holographic trading-card showcase. Drag a card to tilt its finish across five Metal foil effects: foil, glitter, intense bling, chromatic glass, and polished aluminum."
+                )
+            }
+
+            ComponentNavigationLink {
                 SWBeforeAfterSlider(
                     before: Image(.smileBefore),
                     after: Image(.smileAfter)

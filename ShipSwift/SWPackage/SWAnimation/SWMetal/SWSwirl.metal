@@ -2,8 +2,7 @@
 //  SWSwirl.metal
 //  ShipSwift
 //
-//  Port of Paper Shaders' swirl procedural background as a SwiftUI
-//  Metal `colorEffect` (https://shaders.paper.design/swirl, MIT).
+//  Swirl procedural background as a SwiftUI Metal `colorEffect`.
 //
 //  Algorithm: convert pixel position to polar coordinates, multiply
 //  angle by `bandCount` and add time to spin; apply a radial twist via
@@ -142,9 +141,8 @@ namespace SWSwirlImpl {
              snoise(15.0 * pow(noiseFrequency, 2.0) * uv);
 
     // Mask out a tiny disc at the origin (the `atan2(0,0)` singularity).
-    // Paper's reference shader hard-codes 0.2 here, which leaves a
-    // visible black hole; we shrink it to 0.005 so the swirl fills
-    // every visible pixel.
+    // Hard-coding 0.2 here would leave a visible black hole; we shrink
+    // it to 0.005 so the swirl fills every visible pixel.
     float lPosTwist = pow(l, twist);
     float holeCutoff = 0.005;
     float mid = smoothstep(holeCutoff, holeCutoff + 0.8 * center, lPosTwist);

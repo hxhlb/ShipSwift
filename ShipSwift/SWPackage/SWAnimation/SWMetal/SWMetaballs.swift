@@ -2,17 +2,15 @@
 //  SWMetaballs.swift
 //  ShipSwift
 //
-//  Port of Paper Shaders' Metaballs (https://shaders.paper.design/metaballs,
-//  MIT) to a SwiftUI Metal stitchable shader. Renders a cluster of soft
-//  blobs whose colors blend smoothly where they overlap, over a flat
-//  background. No spherical lighting / rim / specular — straight 2D
-//  shape blending, exactly like the reference.
+//  Renders a cluster of soft blobs whose colors blend smoothly where they
+//  overlap, over a flat background, via a SwiftUI Metal stitchable shader.
+//  No spherical lighting / rim / specular — straight 2D shape blending.
 //
 //  Requires iOS 17+ / macOS 14+ (SwiftUI `ShaderLibrary`,
 //  `Shader`/`ShaderFunction`, Metal `stitchable`).
 //
 //  Usage:
-//    // Default — Paper-style 5-color rainbow on black
+//    // Default — 5-color rainbow on black
 //    ZStack {
 //        SWMetaballs()
 //            .ignoresSafeArea()
@@ -38,9 +36,9 @@
 //  Parameters:
 //    - colors: Per-ball palette, 1–8 entries. Ball `i` picks
 //              `colors[i % colors.count]`, so adding more balls than
-//              colors cycles through the palette. Default is the Paper
-//              5-color rainbow (`#CC3333`, `#CC9933`, `#99CC33`,
-//              `#33CC33`, `#33CC99`).
+//              colors cycles through the palette. Default is a 5-color
+//              rainbow (`#CC3333`, `#CC9933`, `#99CC33`, `#33CC33`,
+//              `#33CC99`).
 //    - background: Color rendered behind the blobs (default `.black`).
 //    - speed: Multiplier on the internal drift time (default `1.0`).
 //    - count: Number of blobs, clamped to `1...8` by the shader
@@ -55,8 +53,8 @@
 //    - SwiftUI shader parameters can't be arrays, so internally the
 //      palette is packed into eight independent `Color` slots plus a
 //      `colorsCount` scalar. Extra slots are filled with `.clear`.
-//    - The Paper original loops 20 balls; we cap at 8 to fit SwiftUI's
-//      stitchable shader instruction budget.
+//    - Loops capped at 8 balls to fit SwiftUI's stitchable shader
+//      instruction budget.
 //
 //  Created by Wei Zhong on 5/24/26.
 //

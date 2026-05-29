@@ -8,8 +8,6 @@
 //  diamond / hexagon / star). All four styles share the same parameter
 //  surface; Neon adds three angular-wobble parameters on top.
 //
-//  Visual concept inspired by aliimam's Shader Animation on 21st.dev (MIT).
-//
 //  Requires iOS 17+ / macOS 14+.
 //
 //  Usage:

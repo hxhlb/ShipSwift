@@ -2,13 +2,10 @@
 //  SWVoronoi.swift
 //  ShipSwift
 //
-//  Port of Paper Shaders' voronoi
-//  (https://shaders.paper.design/voronoi, MIT) as a SwiftUI Metal
-//  `colorEffect`. Anti-aliased animated Voronoi pattern with smooth
-//  customizable edges, up to 5 cell colors in a step-discretized ramp,
-//  optional radial inner glow, and explicit gap border between cells.
-//
-//  Original Voronoi algorithm: https://www.shadertoy.com/view/ldl3W8
+//  Animated Voronoi pattern rendered via a SwiftUI Metal `colorEffect`.
+//  Anti-aliased cells with smooth customizable edges, up to 5 cell colors
+//  in a step-discretized ramp, optional radial inner glow, and explicit
+//  gap border between cells.
 //
 //  Requires iOS 17+ / macOS 14+ (SwiftUI `ShaderLibrary`,
 //  `Shader`/`ShaderFunction`, Metal `stitchable`).

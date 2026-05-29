@@ -431,8 +431,7 @@ private struct SliderRow: View {
 
 // MARK: - Button-Ring Demo Helpers
 
-/// Inset colors / sizes taken from the upstream MetalForge sample so the
-/// button-ring demo matches the reference pixel-for-pixel.
+/// Inset colors / sizes for the button-ring demo.
 private let plasmaButtonInk  = Color(red: 0.07, green: 0.07, blue: 0.08)
 private let plasmaRingWidth: CGFloat = 2.5
 

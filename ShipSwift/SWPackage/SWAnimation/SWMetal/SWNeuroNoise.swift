@@ -2,14 +2,12 @@
 //  SWNeuroNoise.swift
 //  ShipSwift
 //
-//  Port of Paper Shaders' neuro-noise
-//  (https://shaders.paper.design/neuro-noise, MIT) as a SwiftUI Metal
-//  `colorEffect`. Generates a glowing web-like structure of fluid lines
-//  and soft intersections — atmospheric, organic-yet-futuristic.
+//  A glowing web-like structure of fluid lines and soft intersections —
+//  atmospheric, organic-yet-futuristic — rendered via a SwiftUI Metal
+//  `colorEffect`.
 //
 //  Algorithm: 15 iterations of rotated UV + scale-doubling sine/cosine
-//  accumulation. Original by @zozuar:
-//  https://x.com/zozuar/status/1625182758745128981
+//  accumulation.
 //
 //  Requires iOS 17+ / macOS 14+ (SwiftUI `ShaderLibrary`,
 //  `Shader`/`ShaderFunction`, Metal `stitchable`).

@@ -2,11 +2,11 @@
 //  SWMetaballs.metal
 //  ShipSwift
 //
-//  Stitchable SwiftUI color effect — port of Paper Shaders' Metaballs
-//  (https://shaders.paper.design/metaballs, MIT). Each blob is a radial
-//  power-of-distance shape; per-ball shapes are summed and a smoothstep
-//  threshold carves the final silhouette. Color is the shape-weighted
-//  average of the per-ball colors, composited over `background`.
+//  Stitchable SwiftUI color effect that renders a cluster of metaballs.
+//  Each blob is a radial power-of-distance shape; per-ball shapes are
+//  summed and a smoothstep threshold carves the final silhouette. Color
+//  is the shape-weighted average of the per-ball colors, composited over
+//  `background`.
 //
 //  Paired with: SWMetaballs.swift
 //  Entry point: `swMetaballs` — invoked via SwiftUI `.colorEffect(...)`.
@@ -18,9 +18,9 @@
 #include <SwiftUI/SwiftUI_Metal.h>
 using namespace metal;
 
-// 1D hash + smoothstep noise — replaces Paper's `noise(float x)` (which
-// samples a texture in the original GLSL). Produces a smooth pseudo-
-// random scalar in [0, 1] so the per-ball drift is continuous in time.
+// 1D hash + smoothstep noise — avoids binding an auxiliary noise texture.
+// Produces a smooth pseudo-random scalar in [0, 1] so the per-ball drift
+// is continuous in time.
 static float swMetaballsHash1(float x) {
     return fract(sin(x * 12.9898) * 43758.5453);
 }
@@ -32,7 +32,7 @@ static float swMetaballsNoise1(float x) {
     return mix(swMetaballsHash1(i), swMetaballsHash1(i + 1.0), u);
 }
 
-// Paper's `getBallShape` — radial power-of-distance shape, 0..1.
+// Radial power-of-distance shape, 0..1.
 // `aspectScale` rescales the (uv - c) difference so 1 unit on each axis
 // corresponds to the same on-screen distance: keeps the blob round on
 // portrait / landscape viewports instead of stretching with the frame.
@@ -61,8 +61,8 @@ static float swMetaballsBallShape(float2 uv, float2 c, float p, float2 aspectSca
                                    half4  color8,
                                    half4  background) {
     float2 sz = boundingRect.zw;
-    // Paper's `v_objectUV + 0.5` maps the object rect to 0..1. We do the
-    // same in pixel space — divide by the bounding rect to get 0..1.
+    // Map the bounding rect to 0..1 in pixel space — divide the position
+    // by the bounding rect.
     float2 shape_uv = position / max(sz, float2(1.0));
     // `aspectScale` lets `length()` measure visually equal distances on
     // both axes — divide pixels by the short side, so the short axis
@@ -70,9 +70,9 @@ static float swMetaballsBallShape(float2 uv, float2 c, float p, float2 aspectSca
     float minDim = max(min(sz.x, sz.y), 1.0);
     float2 aspectScale = sz / minDim;
 
-    // Paper offsets time by 2503.4 in the first frame so the cluster
-    // doesn't start in a "uniform initial state". `speed` is exposed
-    // here as a wrapper-side multiplier on top of Paper's 0.2 factor.
+    // Offset time by 2503.4 in the first frame so the cluster doesn't
+    // start in a "uniform initial state". `speed` is exposed here as a
+    // wrapper-side multiplier on top of the internal 0.2 factor.
     const float firstFrameOffset = 2503.4;
     float t = 0.2 * (time * speed + firstFrameOffset);
 
@@ -81,10 +81,9 @@ static float swMetaballsBallShape(float2 uv, float2 c, float p, float2 aspectSca
                         color5, color6, color7, color8 };
     int colorsCountInt = max(int(colorsCount + 0.5), 1);
 
-    // Paper unrolls 20 iterations; SwiftUI's stitchable color shaders
-    // have a tighter instruction budget, so we cap at 8. `count` is
-    // exposed as a float so the wrapper can fractional-fade the last
-    // ball in / out — matching Paper's `fract(u_count)` behavior.
+    // Unrolled to 8 iterations to fit SwiftUI's stitchable color shaders'
+    // instruction budget. `count` is exposed as a float so the wrapper can
+    // fractional-fade the last ball in / out via `fract(count)`.
     float countClamped = min(max(count, 1.0), 8.0);
     int countCeil = int(ceil(countClamped));
 
@@ -107,8 +106,8 @@ static float swMetaballsBallShape(float2 uv, float2 c, float p, float2 aspectSca
         // color count cycles through the palette.
         int safeIdx = i % colorsCountInt;
         half4 ballColor = colors[safeIdx];
-        // Premultiply alpha — Paper's algorithm assumes premultiplied
-        // color contributions when summing.
+        // Premultiply alpha — the summation assumes premultiplied color
+        // contributions.
         float3 rgb = float3(ballColor.rgb) * float(ballColor.a);
 
         // Fractional last-ball fade: when `count` isn't a whole number,
@@ -131,9 +130,9 @@ static float swMetaballsBallShape(float2 uv, float2 c, float p, float2 aspectSca
     // overlaps blend smoothly.
     totalColor /= max(totalShape, 1e-4);
 
-    // Paper uses `fwidth(totalShape)` for an anti-aliased edge. Metal's
-    // `fwidth` works inside fragment-shader-style stitchables — fall
-    // back to a small constant if the compile target rejects it.
+    // Use `fwidth(totalShape)` for an anti-aliased edge. Metal's `fwidth`
+    // works inside fragment-shader-style stitchables — fall back to a
+    // small constant if the compile target rejects it.
     float edge_width = fwidth(totalShape);
     float finalShape = smoothstep(0.4, 0.4 + edge_width, totalShape);
 

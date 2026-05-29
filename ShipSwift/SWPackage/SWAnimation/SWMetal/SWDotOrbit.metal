@@ -2,14 +2,13 @@
 //  SWDotOrbit.metal
 //  ShipSwift
 //
-//  Stitchable SwiftUI colorEffect — port of Paper Shaders' dot-orbit
-//  (https://shaders.paper.design/dot-orbit, MIT). Animated multi-color
-//  dots, each orbiting around its own Voronoi-cell center, mapped onto
-//  a 1–10 color step-discretized gradient.
+//  Stitchable SwiftUI colorEffect that renders animated multi-color dots,
+//  each orbiting around its own Voronoi-cell center, mapped onto a 1–10
+//  color step-discretized gradient.
 //
-//  Paper's noise-texture-sampled randomizers (`randomR` / `randomGB`)
-//  are replaced with pure hash functions so no auxiliary texture has to
-//  be bound through SwiftUI's `ShaderLibrary`.
+//  The per-cell randomizers (`randomR` / `randomGB`) use pure hash
+//  functions so no auxiliary texture has to be bound through SwiftUI's
+//  `ShaderLibrary`.
 //
 //  Paired with: SWDotOrbit.swift
 //  Entry point: `swDotOrbit` — invoked via SwiftUI `.colorEffect(...)`.
@@ -21,17 +20,17 @@
 using namespace metal;
 
 // =============================================================================
-// MARK: - hash helpers (replace Paper's noise-texture randomizers)
+// MARK: - hash helpers (avoid binding an auxiliary noise texture)
 // =============================================================================
 
-// Single-channel hash for the orbit-rotation seed (Paper's `randomR`).
+// Single-channel hash for the orbit-rotation seed (`randomR`).
 static float swDO_hash11(float2 p) {
     float3 p3 = fract(float3(p.xyx) * 0.1031);
     p3 += dot(p3, p3.yzx + 33.33);
     return fract((p3.x + p3.y) * p3.z);
 }
 
-// 2-channel hash for the orbit-phase + palette mixer (Paper's `randomGB`).
+// 2-channel hash for the orbit-phase + palette mixer (`randomGB`).
 static float2 swDO_hash22(float2 p) {
     float3 p3 = fract(float3(p.xyx) * float3(0.1031, 0.1030, 0.0973));
     p3 += dot(p3, p3.yzx + 33.33);
@@ -44,8 +43,8 @@ static float2 swDO_rotate(float2 uv, float th) {
     return float2(c * uv.x - s * uv.y, s * uv.x + c * uv.y);
 }
 
-// Paper's `voronoiShape` — 3×3 neighbour scan to find the closest
-// orbiting cell-center. Returns `(minDist, randomizer.x, randomizer.y)`.
+// voronoiShape — 3×3 neighbour scan to find the closest orbiting
+// cell-center. Returns `(minDist, randomizer.x, randomizer.y)`.
 static float3 swDO_voronoi(float2 uv, float time, float spreading) {
     const float TWO_PI = 6.28318530718;
     float2 iuv = floor(uv);
@@ -84,7 +83,7 @@ static float3 swDO_voronoi(float2 uv, float time, float spreading) {
                                   float4 boundingRect,
                                   float  time,
                                   float  speed,
-                                  float  scale,         // 0.1..5, default 1.5 (Paper hard-coded)
+                                  float  scale,         // 0.1..5, default 1.5
                                   float  size,          // 0..1 dot radius
                                   float  sizeRange,     // 0..1 random size variation
                                   float  spreading,     // 0..1 orbit radius
@@ -113,9 +112,8 @@ static float3 swDO_voronoi(float2 uv, float time, float spreading) {
     float countF = float(countI);
     float steps = max(1.0, stepsPerColor);
 
-    // Paper's two-step mixer — the second assignment is the one that
-    // actually drives the gradient (the first was dead code in the
-    // original GLSL; preserved for line-for-line parity).
+    // Two-step mixer — the second assignment is the one that actually
+    // drives the gradient (the first is unused; kept for clarity).
     float mixerA = shape * (countF - 1.0);
     (void)mixerA;
     float mixer = (shape - 0.5 / countF) * countF;
@@ -135,8 +133,8 @@ static float3 swDO_voronoi(float2 uv, float time, float spreading) {
         gradient = mix(gradient, cc, half(localT));
     }
 
-    // Wrap-around mix — Paper handles the edge case where mixer is
-    // outside [0, count-1] by interpolating between last and first.
+    // Wrap-around mix — handle the edge case where mixer is outside
+    // [0, count-1] by interpolating between last and first.
     if (mixer < 0.0 || mixer > (countF - 1.0)) {
         float localT = mixer + 1.0;
         if (mixer > (countF - 1.0)) {

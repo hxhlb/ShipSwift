@@ -2,10 +2,9 @@
 //  SWSimplexNoise.swift
 //  ShipSwift
 //
-//  Port of Paper Shaders' simplex-noise
-//  (https://shaders.paper.design/simplex-noise, MIT) as a SwiftUI Metal
-//  `colorEffect`. A multi-color gradient mapped into smooth animated
-//  curves built from two layered 2D simplex noises.
+//  A multi-color gradient mapped into smooth animated curves built from
+//  two layered 2D simplex noises, rendered via a SwiftUI Metal
+//  `colorEffect`.
 //
 //  Algorithm: two snoise samples (one at base UV scale, one at 2× scale)
 //  are added into a 0..1 shape value, then mapped across up to 10 base

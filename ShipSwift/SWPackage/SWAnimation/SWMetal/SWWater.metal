@@ -2,8 +2,7 @@
 //  SWWater.metal
 //  ShipSwift
 //
-//  Stitchable SwiftUI layerEffect — port of Paper Shaders' water
-//  (https://shaders.paper.design/water, MIT). Wraps a source layer in a
+//  Stitchable SwiftUI layerEffect that wraps a source layer in a
 //  rippling caustic distortion: a slow simplex-noise wave gently pushes
 //  UVs around while a 6-octave rotated caustic field pinches highlights
 //  into the surface, like sunlight on a pool bottom.
@@ -81,7 +80,7 @@ static float swW_uvFrame(float2 uv) {
     return left * right * bottom * top;
 }
 
-// Paper's `getCausticNoise` — six rotated octaves whose phase advances
+// `getCausticNoise` — six rotated octaves whose phase advances
 // with `t`. The vec2 accumulator `n` carries phase forward into the next
 // octave, while `N` accumulates the visible caustic field.
 static float swW_caustic(float2 uv, float t, float scale) {
@@ -133,8 +132,8 @@ static float swW_caustic(float2 uv, float t, float scale) {
     float wavesNoise = swW_snoise((0.3 + 0.1 * sin(t)) * 0.1 * patternUV
                                   + float2(0.0, 0.4 * t));
 
-    // Two layered caustic samples — Paper does the same to add detail
-    // without doubling the inner loop count.
+    // Two layered caustic samples to add detail without doubling the
+    // inner loop count.
     float causticN = swW_caustic(patternUV + waves * float2(1.0, -1.0) * wavesNoise,
                                  2.0 * t, 1.5);
     causticN += saturate(layering) * swW_caustic(patternUV + 2.0 * waves * float2(1.0, -1.0) * wavesNoise,

@@ -2,8 +2,7 @@
 //  SWSimplexNoise.metal
 //  ShipSwift
 //
-//  Port of Paper Shaders' simplex-noise procedural background as a
-//  SwiftUI Metal `colorEffect` (https://shaders.paper.design/simplex-noise, MIT).
+//  Simplex-noise procedural background as a SwiftUI Metal `colorEffect`.
 //
 //  Algorithm: two layered 2D simplex noises composed into a 0..1 shape
 //  value, then mapped across up to 10 base colors with `stepsPerColor`
@@ -116,7 +115,7 @@ namespace SWSimplexNoiseImpl {
     // Normalize so the shader is resolution-independent.
     float2 uv = (position - 0.5 * size) / minDim;
     uv /= max(scale, 0.001);
-    uv *= 0.1; // Paper's intrinsic `shape_uv *= .1`.
+    uv *= 0.1; // `shape_uv *= .1`.
 
     float t = 0.2 * time;
 
@@ -141,8 +140,8 @@ namespace SWSimplexNoiseImpl {
         gradient = mix(gradient, cc, half(localM));
     }
 
-    // Wrap zone — Paper's `extraSides` branch lets the first and last
-    // colors blend smoothly across the gradient seam.
+    // Wrap zone — lets the first and last colors blend smoothly across
+    // the gradient seam.
     if (mixer < 0.0 || mixer > (n - 1.0)) {
         float localM = (mixer < 0.0) ? (mixer + 1.0) : (mixer - (n - 1.0));
         localM = steppedSmooth(localM, steps, 0.5 * softness);

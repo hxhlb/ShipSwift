@@ -2,8 +2,7 @@
 //  SWColorPanels.metal
 //  ShipSwift
 //
-//  Port of Paper Shaders' color-panels procedural background as a
-//  SwiftUI Metal `colorEffect` (https://shaders.paper.design/color-panels, MIT).
+//  Color-panels procedural background as a SwiftUI Metal `colorEffect`.
 //
 //  Algorithm: pseudo-3D semi-transparent panels rotating around a
 //  central vertical axis. Each panel is rendered analytically via a

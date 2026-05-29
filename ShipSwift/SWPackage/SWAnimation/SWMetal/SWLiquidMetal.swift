@@ -2,18 +2,13 @@
 //  SWLiquidMetal.swift
 //  ShipSwift
 //
-//  Port of Paper Design's liquid-metal shader
-//  (https://shaders.paper.design/liquid-metal, original by Stephen Haney
-//  for paper-design/liquid-logo) as a SwiftUI Metal `layerEffect`. Wraps
-//  any view in a flowing chromatic liquid-metal effect: simplex noise
-//  drives a stripe-pattern color split with refraction, edge-aware
-//  bulge, and per-channel chromatic shift.
+//  Wraps any view in a flowing chromatic liquid-metal effect via a SwiftUI
+//  Metal `layerEffect`: simplex noise drives a stripe-pattern color split
+//  with refraction, edge-aware bulge, and per-channel chromatic shift.
 //
 //  Best paired with a bold, opaque silhouette (SF Symbol, logo) — the
 //  effect uses the source's red channel as its edge mask, so vector
 //  shapes against transparent background work cleanest.
-//
-//  Reference Metal port: bobek-balinek/LiquidMetalShader (MIT).
 //
 //  Requires iOS 17+ / macOS 14+ (SwiftUI `ShaderLibrary`,
 //  `Shader`/`ShaderFunction`, Metal `stitchable`).

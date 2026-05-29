@@ -20,9 +20,6 @@
 //  apply to a given style are touched with `(void)x;` to make the "unused
 //  on purpose" decision explicit.
 //
-//  Visual concept inspired by aliimam's Shader Animation on 21st.dev (MIT).
-//  https://21st.dev/community/components/aliimam/shader-animation/default
-//
 //  Paired with: SWAnimatedLoop.swift
 //  Requires iOS 17+ / macOS 14+.
 //

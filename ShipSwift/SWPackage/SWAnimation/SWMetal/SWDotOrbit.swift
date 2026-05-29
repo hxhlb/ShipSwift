@@ -2,11 +2,9 @@
 //  SWDotOrbit.swift
 //  ShipSwift
 //
-//  Port of Paper Shaders' dot-orbit
-//  (https://shaders.paper.design/dot-orbit, MIT) as a SwiftUI Metal
-//  `colorEffect`. Animated multi-color dots, each orbiting around its
-//  own Voronoi-cell center, mapped onto a 1–10 color
-//  step-discretized gradient.
+//  Animated multi-color dots rendered via a SwiftUI Metal `colorEffect`,
+//  each orbiting around its own Voronoi-cell center, mapped onto a 1–10
+//  color step-discretized gradient.
 //
 //  Requires iOS 17+ / macOS 14+ (SwiftUI `ShaderLibrary`,
 //  `Shader`/`ShaderFunction`, Metal `stitchable`).

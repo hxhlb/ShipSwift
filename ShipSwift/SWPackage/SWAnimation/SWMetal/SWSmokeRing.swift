@@ -2,10 +2,8 @@
 //  SWSmokeRing.swift
 //  ShipSwift
 //
-//  Port of Paper Shaders' smoke-ring
-//  (https://shaders.paper.design/smoke-ring, MIT) as a SwiftUI Metal
-//  `colorEffect`. A radial multi-colored gradient distorted by layered
-//  noise into a soft smoky ring.
+//  A radial multi-colored gradient distorted by layered noise into a soft
+//  smoky ring, rendered via a SwiftUI Metal `colorEffect`.
 //
 //  Algorithm: ring shape is built in polar coordinates from `length` +
 //  `atan2`; two phase-shifted FBM noise layers (1...8 octaves of

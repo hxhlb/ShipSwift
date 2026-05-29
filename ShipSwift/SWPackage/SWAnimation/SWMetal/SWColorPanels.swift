@@ -2,10 +2,8 @@
 //  SWColorPanels.swift
 //  ShipSwift
 //
-//  Port of Paper Shaders' color-panels
-//  (https://shaders.paper.design/color-panels, MIT) as a SwiftUI Metal
-//  `colorEffect`. Pseudo-3D semi-transparent panels rotating around a
-//  central vertical axis.
+//  Pseudo-3D semi-transparent panels rendered via a SwiftUI Metal
+//  `colorEffect`, rotating around a central vertical axis.
 //
 //  Algorithm: analytic perspective projection — for each pixel the
 //  shader walks 12–20 candidate panels (count depends on `colors.count`

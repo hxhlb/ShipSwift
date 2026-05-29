@@ -2,16 +2,13 @@
 //  SWVoronoi.metal
 //  ShipSwift
 //
-//  Stitchable SwiftUI colorEffect — port of Paper Shaders' voronoi
-//  (https://shaders.paper.design/voronoi, MIT). Anti-aliased animated
+//  Stitchable SwiftUI colorEffect — voronoi. Anti-aliased animated
 //  Voronoi pattern with smooth, customizable edges; up to 5 cell colors
 //  in a step-discretized ramp, plus radial inner glow and explicit gap
 //  border between cells.
 //
-//  Original Voronoi algorithm: https://www.shadertoy.com/view/ldl3W8
-//
-//  Paper's noise-texture randomizer (`randomGB`) is replaced by a pure
-//  2-channel hash function so no auxiliary texture binding is needed.
+//  The per-cell randomizer (`randomGB`) uses a pure 2-channel hash
+//  function so no auxiliary texture binding is needed.
 //
 //  Paired with: SWVoronoi.swift
 //  Entry point: `swVoronoi` — invoked via SwiftUI `.colorEffect(...)`.
@@ -33,7 +30,7 @@ static float2 swV_hash22(float2 p) {
     return fract((p3.xx + p3.yz) * p3.zy);
 }
 
-// Double-pass Voronoi (Inigo Quilez style). First pass finds the closest
+// Double-pass Voronoi. First pass finds the closest
 // cell center; second pass scans a 5×5 neighbourhood to compute the
 // minimum half-plane distance to all neighbour cells — that's the cell
 // edge distance.
@@ -114,8 +111,8 @@ static float4 swV_voronoi(float2 x, float time, float distortion) {
     float t = time * speed;
     float4 v = swV_voronoi(uv, t, saturate(distortion));
 
-    // Palette mixer (Paper's exact two-line idiom — the first assignment
-    // is overwritten; preserved for parity).
+    // Palette mixer — two-line idiom where the first assignment
+    // is overwritten; preserved for parity.
     float shape = saturate(v.w);
     int countI = clamp(int(colorsCount + 0.5), 1, 5);
     float countF = float(countI);
@@ -162,7 +159,7 @@ static float4 swV_voronoi(float2 x, float time, float distortion) {
     float3 col = mix(cellColor, glowRGB, float(colorGlow.a) * glows);
     float opacity = cellOpacity + float(colorGlow.a) * glows;
 
-    // Cell border (gap) — AA width scales with viewport scale per Paper.
+    // Cell border (gap) — AA width scales with viewport scale.
     float edge = v.x;
     float smoothEdge = 0.02 / (2.0 * max(scale, 1e-4)) * (1.0 + 0.5 * saturate(gap));
     edge = smoothstep(saturate(gap) - smoothEdge, saturate(gap) + smoothEdge, edge);

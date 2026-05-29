@@ -2,8 +2,7 @@
 //  SWSmokeRing.metal
 //  ShipSwift
 //
-//  Port of Paper Shaders' smoke-ring procedural background as a
-//  SwiftUI Metal `colorEffect` (https://shaders.paper.design/smoke-ring, MIT).
+//  Smoke-ring procedural background as a SwiftUI Metal `colorEffect`.
 //
 //  Algorithm: a polar-coordinate ring shape (`length(uv)` + `atan2`)
 //  is distorted by two layers of value-noise FBM. The two layers are
@@ -12,8 +11,7 @@
 //  and inner-fill are user controls; the distorted shape mask drives
 //  the alpha and a 1...10 color gradient.
 //
-//  Paper's GLSL reads from a pre-computed noise texture; Metal port
-//  uses a procedural `hash21` so the shader is fully self-contained
+//  Uses a procedural `hash21` so the shader is fully self-contained
 //  (no sampler / no resource binding).
 //
 
@@ -30,8 +28,8 @@ namespace SWSmokeRingImpl {
         return fract(p.x * p.y);
     }
 
-    // Paper's `randomR` quantizes the input by /100 and wraps to keep
-    // the noise tileable.
+    // `randomR` quantizes the input by /100 and wraps to keep the noise
+    // tileable.
     inline float randomR(float2 p) {
         float2 uv = floor(p) / 100.0 + 0.5;
         return hash21(fract(uv));

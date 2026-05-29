@@ -2,12 +2,10 @@
 //  SWHalftone.swift
 //  ShipSwift
 //
-//  Port of Paper Shaders' halftone family
-//  (https://shaders.paper.design, MIT) as a SwiftUI Metal `layerEffect`.
-//  Wraps any view in a halftone print filter — the child content is
-//  treated as a source image, quantized into a rotated cell grid, and
-//  rendered as dots whose size tracks the local luminance (or CMYK
-//  channel coverage in `.cmyk` mode).
+//  A halftone print filter rendered via a SwiftUI Metal `layerEffect`.
+//  Wraps any view — the child content is treated as a source image,
+//  quantized into a rotated cell grid, and rendered as dots whose size
+//  tracks the local luminance (or CMYK channel coverage in `.cmyk` mode).
 //
 //  Style menu:
 //    • `.dotsClassic` — crisp newspaper circles (square or hex grid)
