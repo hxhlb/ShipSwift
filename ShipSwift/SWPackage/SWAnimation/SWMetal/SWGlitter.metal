@@ -80,7 +80,7 @@ static half3 swGlitter_generateRainbow(float angle, float intensity) {
     float rainbowAngle = random * 6.28 + tilt.x * 2.0 + tilt.y * 2.0;
     sparkleColor += swGlitter_generateRainbow(rainbowAngle, 0.3) * 0.5h;
 
-    half3 finalColor = originalColor.rgb + sparkleColor * half(point * sparkleIntensity * 0.8);
+    half3 finalColor = originalColor.rgb + sparkleColor * half(point * sparkleIntensity * 0.55);
 
     return half4(finalColor, originalColor.a);
 }

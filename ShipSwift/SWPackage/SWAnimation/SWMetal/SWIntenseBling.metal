@@ -54,7 +54,8 @@ static half3 swBling_hsv2rgb(half3 c) {
     SwiftUI::Layer layer,
     float4 boundingRect,
     float2 tilt,
-    float time
+    float time,
+    float intensity
 ) {
     float2 size = boundingRect.zw;
     float2 uv = position / size;
@@ -119,16 +120,20 @@ static half3 swBling_hsv2rgb(half3 c) {
     megaSparkle *= step(0.85, sparkleRand);
     megaSparkle *= diamondEdge;
 
-    // Combine all effects
-    half holoStrength = half(diamondEdge * (0.7 + totalHot * 0.3));
+    // Combine all effects. `hi` scales every holographic overlay so the
+    // shader can act as a light surface finish (intensity 0 ≈ source image)
+    // up to the full secret-rare blast (intensity 1).
+    half hi = half(intensity);
+
+    half holoStrength = half(diamondEdge * (0.7 + totalHot * 0.3)) * hi;
     half3 result = mix(originalColor.rgb, diamondColor, holoStrength);
 
-    result = mix(result, diamondColor2, half(totalHot * diamondEdge * 0.3));
-    result += half(totalHot * diamondEdge * 0.5) * diamondColor;
-    result += half(diamondRim * 0.5 * (totalHot + 0.3)) * half3(1.0h, 1.0h, 1.0h);
-    result += half(sparkle * 1.5) * half3(1.0h, 1.0h, 1.0h);
-    result += half(megaSparkle * 2.5) * half3(1.0h, 0.95h, 0.9h);
-    result *= half(1.0 + totalHot * 0.25);
+    result = mix(result, diamondColor2, half(totalHot * diamondEdge * 0.3) * hi);
+    result += half(totalHot * diamondEdge * 0.5) * diamondColor * hi;
+    result += half(diamondRim * 0.5 * (totalHot + 0.3)) * half3(1.0h, 1.0h, 1.0h) * hi;
+    result += half(sparkle * 1.5) * half3(1.0h, 1.0h, 1.0h) * hi;
+    result += half(megaSparkle * 2.5) * half3(1.0h, 0.95h, 0.9h) * hi;
+    result *= half(1.0 + totalHot * 0.25 * intensity);
 
     return half4(result, originalColor.a);
 }

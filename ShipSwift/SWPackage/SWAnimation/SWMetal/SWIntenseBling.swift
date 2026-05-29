@@ -32,12 +32,16 @@
 //  Parameters:
 //    - tilt: Light/parallax direction in roughly `-1...1` per axis,
 //            usually drag-driven (default `.zero`).
+//    - intensity: Strength of every holographic overlay in `0...1`
+//                 (default `0.5`). At 0 the source artwork shows through
+//                 almost untouched; at 1 it is the full secret-rare blast.
 //    - speed: Multiplier on the internal animation time (default `1.0`).
 //    - showsControls: Attach a gear `ToolbarItem` that opens a live-tuning
 //                     sheet (default `false`).
 //
-//  Note: This is the most intense of the foil family — it largely paints
-//  over the source artwork. Best on bold, high-contrast card art.
+//  Note: This is the most intense of the foil family. `intensity` controls
+//  how much it covers the source artwork — keep it low to leave the photo
+//  the clear subject and let the shader read as a surface finish only.
 //
 
 import SwiftUI
@@ -47,6 +51,10 @@ import SwiftUI
 struct SWIntenseBling<Content: View>: View {
     /// Light/parallax direction in roughly -1...1 per axis (drag-driven).
     var tilt: CGSize = .zero
+
+    /// Strength of every holographic overlay in 0...1. At 0 the source
+    /// artwork shows through almost untouched; at 1 it is the full blast.
+    var intensity: Float = 0.5
 
     /// Multiplier on the internal animation time.
     var speed: Float = 1.0
@@ -58,11 +66,13 @@ struct SWIntenseBling<Content: View>: View {
 
     init(
         tilt: CGSize = .zero,
+        intensity: Float = 0.5,
         speed: Float = 1.0,
         showsControls: Bool = false,
         @ViewBuilder content: () -> Content
     ) {
         self.tilt = tilt
+        self.intensity = intensity
         self.speed = speed
         self.showsControls = showsControls
         self.content = content()
@@ -92,7 +102,8 @@ private struct SWIntenseBlingRenderer<Content: View>: View {
                 ShaderLibrary.swIntenseBling(
                     .boundingRect,
                     .float2(Float(initial.tilt.width), Float(initial.tilt.height)),
-                    .float(elapsed)
+                    .float(elapsed),
+                    .float(initial.intensity)
                 ),
                 maxSampleOffset: .zero
             )
@@ -105,6 +116,7 @@ private struct SWIntenseBlingRenderer<Content: View>: View {
 private struct SWIntenseBlingControlled<Content: View>: View {
     @State private var tiltX: Float
     @State private var tiltY: Float
+    @State private var intensity: Float
     @State private var speed: Float
 
     @State private var showSheet = false
@@ -114,6 +126,7 @@ private struct SWIntenseBlingControlled<Content: View>: View {
     init(initial: SWIntenseBling<Content>, content: Content) {
         _tiltX = State(initialValue: Float(initial.tilt.width))
         _tiltY = State(initialValue: Float(initial.tilt.height))
+        _intensity = State(initialValue: initial.intensity)
         _speed = State(initialValue: initial.speed)
         self.content = content
     }
@@ -122,6 +135,7 @@ private struct SWIntenseBlingControlled<Content: View>: View {
         SWIntenseBlingRenderer(
             initial: SWIntenseBling(
                 tilt: CGSize(width: CGFloat(tiltX), height: CGFloat(tiltY)),
+                intensity: intensity,
                 speed: speed
             ) { content },
             content: content
@@ -140,6 +154,7 @@ private struct SWIntenseBlingControlled<Content: View>: View {
             SWIntenseBlingControlsSheet(
                 tiltX: $tiltX,
                 tiltY: $tiltY,
+                intensity: $intensity,
                 speed: $speed
             )
             .presentationDetents([.medium, .large])
@@ -153,6 +168,7 @@ private struct SWIntenseBlingControlled<Content: View>: View {
 private struct SWIntenseBlingControlsSheet: View {
     @Binding var tiltX: Float
     @Binding var tiltY: Float
+    @Binding var intensity: Float
     @Binding var speed: Float
 
     @Environment(\.dismiss) private var dismiss
@@ -163,6 +179,9 @@ private struct SWIntenseBlingControlsSheet: View {
                 Section("Tilt") {
                     SWIntenseBlingSliderRow(label: "Tilt X", value: $tiltX, range: -1...1, step: 0.01)
                     SWIntenseBlingSliderRow(label: "Tilt Y", value: $tiltY, range: -1...1, step: 0.01)
+                }
+                Section("Bling") {
+                    SWIntenseBlingSliderRow(label: "Intensity", value: $intensity, range: 0...1, step: 0.01)
                 }
                 Section("Motion") {
                     SWIntenseBlingSliderRow(label: "Speed", value: $speed, range: 0...3, step: 0.05)

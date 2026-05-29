@@ -304,10 +304,10 @@ struct ComponentView: View {
     private var animationSection: some View {
         Section {
             ComponentNavigationLink {
-                SWPlayerCardShowcase()
+                SWHolographicCardShowcase()
             } label: {
                 ListItem(
-                    title: "Player Cards",
+                    title: "Holographic Cards",
                     icon: "rectangle.portrait.on.rectangle.portrait.angled",
                     description: "Holographic trading-card showcase. Drag a card to tilt its finish across five Metal foil effects: foil, glitter, intense bling, chromatic glass, and polished aluminum."
                 )

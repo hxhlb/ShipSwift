@@ -49,7 +49,9 @@ using namespace metal;
 
     // Offset direction influenced by tilt
     float2 offsetDir = normalize(fromCenter + tilt * 0.3 + 0.001);
-    float offsetAmount = separation * edgeFactor * 3.0; // pixels
+    // Keep a baseline split even at the centre (the 0.15 floor) so the RGB
+    // fringing reads clearly across the whole photo, then ramp up at edges.
+    float offsetAmount = separation * (edgeFactor * 0.85 + 0.15) * 14.0; // pixels
 
     // Sample each channel at slightly different positions
     float2 redOffset = offsetDir * offsetAmount;

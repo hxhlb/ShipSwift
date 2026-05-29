@@ -103,7 +103,7 @@ private struct SWChromaticGlassRenderer<Content: View>: View {
                     .float(initial.intensity),
                     .float(initial.separation)
                 ),
-                maxSampleOffset: CGSize(width: 12, height: 12)
+                maxSampleOffset: CGSize(width: 28, height: 28)
             )
         }
     }

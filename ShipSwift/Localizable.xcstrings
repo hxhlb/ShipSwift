@@ -944,6 +944,9 @@
     "Black" : {
 
     },
+    "Bling" : {
+
+    },
     "Bold" : {
 
     },
@@ -1098,6 +1101,9 @@
           }
         }
       }
+    },
+    "Choose Effect" : {
+
     },
     "Chromatic Glass" : {
 
@@ -1295,13 +1301,10 @@
         }
       }
     },
-    "Drag a card to tilt its holographic finish" : {
+    "Drag the card to tilt its holographic finish" : {
 
     },
     "Edge Highlight" : {
-
-    },
-    "Effect" : {
 
     },
     "Email" : {
@@ -1712,6 +1715,9 @@
       }
     },
     "Holes" : {
+
+    },
+    "Holographic Cards" : {
 
     },
     "Home" : {
@@ -2653,9 +2659,6 @@
       }
     },
     "Plates" : {
-
-    },
-    "Player Cards" : {
 
     },
     "Polished Aluminum" : {
