@@ -2126,6 +2126,9 @@
     "Name" : {
 
     },
+    "Nebula" : {
+
+    },
     "Neuro Noise" : {
 
     },
@@ -2674,6 +2677,9 @@
 
     },
     "Processing" : {
+
+    },
+    "Quality / Performance" : {
 
     },
     "Quantity" : {
@@ -3333,6 +3339,12 @@
           }
         }
       }
+    },
+    "Star Nest" : {
+
+    },
+    "Star Nest Controls" : {
+
     },
     "Starfield Controls" : {
       "localizations" : {

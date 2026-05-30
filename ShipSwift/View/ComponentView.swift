@@ -511,6 +511,16 @@ struct ComponentView: View {
             }
 
             ComponentNavigationLink {
+                SWStarNest(showsControls: true)
+            } label: {
+                ListItem(
+                    title: "Star Nest",
+                    icon: "sparkles.rectangle.stack.fill",
+                    description: "Volumetric procedural space nebula — a fixed camera flies through a 3D space-folded fractal field, accumulating drifting stars and dark-matter voids per pixel with no texture sampling. Adapted from Pablo Roman Andrioli's classic Star Nest shader (MIT). Heaviest background in the library; use one full-screen instance. Tap the gear to live-tune zoom, speed, nebula color, and quality."
+                )
+            }
+
+            ComponentNavigationLink {
                 SWFractalClouds(showsControls: true)
             } label: {
                 ListItem(
