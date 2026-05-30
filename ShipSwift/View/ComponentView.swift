@@ -600,7 +600,7 @@ struct ComponentView: View {
                 ListItem(
                     title: "Halftone",
                     icon: "circle.grid.3x3",
-                    description: "Paper Shaders' halftone image filter port — wraps any source view in 4 dot styles (classic / gooey / holes / soft) × 2 grids (square / hex), plus a 4-channel CMYK plate mode. Toggle inverted, original colors, and procedural grain. Tap the gear to live-tune."
+                    description: "Halftone image filter — wraps any source view in 4 dot styles (classic / gooey / holes / soft) × 2 grids (square / hex), plus a 4-channel CMYK plate mode. Toggle inverted, original colors, and procedural grain. Tap the gear to live-tune."
                 )
             }
 
@@ -614,7 +614,7 @@ struct ComponentView: View {
                 ListItem(
                     title: "Water",
                     icon: "drop.fill",
-                    description: "Paper Shaders' water ripple image filter port — simplex-noise wave drift + 6-octave rotated caustic distortion warps the source UVs and adds a sunlight-on-pool highlight tint. Tap the gear to live-tune size, caustic, waves, layering, edges, highlights, and colors."
+                    description: "Water ripple image filter — simplex-noise wave drift + 6-octave rotated caustic distortion warps the source UVs and adds a sunlight-on-pool highlight tint. Tap the gear to live-tune size, caustic, waves, layering, edges, highlights, and colors."
                 )
             }
 
@@ -627,7 +627,7 @@ struct ComponentView: View {
                 ListItem(
                     title: "Liquid Metal",
                     icon: "drop.triangle.fill",
-                    description: "Paper Shaders' liquid-metal image filter port (by Stephen Haney) — simplex-noise driven stripe pattern with per-channel chromatic refraction, edge-aware bulge, and flowing chrome over any opaque source view (SF Symbols, logos). Tap the gear to tune refraction, edge, liquid, pattern blur / scale, time scale."
+                    description: "Liquid-metal image filter — simplex-noise driven stripe pattern with per-channel chromatic refraction, edge-aware bulge, and flowing chrome over any opaque source view (SF Symbols, logos). Tap the gear to tune refraction, edge, liquid, pattern blur / scale, time scale."
                 )
             }
 
@@ -637,7 +637,7 @@ struct ComponentView: View {
                 ListItem(
                     title: "Neuro Noise",
                     icon: "waveform.path",
-                    description: "Paper Shaders' neuro-noise procedural background port — 15-layer sine/cosine accumulation with rotated UV creates a glowing organic web of fluid lines. Front / mid / back 3-color palette. Tap the gear to tune palette, brightness, contrast, and speed."
+                    description: "Neuro-noise procedural background — 15-layer sine/cosine accumulation with rotated UV creates a glowing organic web of fluid lines. Front / mid / back 3-color palette. Tap the gear to tune palette, brightness, contrast, and speed."
                 )
             }
 
@@ -647,7 +647,7 @@ struct ComponentView: View {
                 ListItem(
                     title: "Dot Orbit",
                     icon: "circle.hexagongrid.fill",
-                    description: "Paper Shaders' dot-orbit procedural background port — Voronoi-cell dots orbiting around their cell centers + rotating individually, mapped onto a 1–10 step-discretized color ramp. Tap the gear to tune palette, dot size / range, orbit spreading, palette steps, and motion."
+                    description: "Dot-orbit procedural background — Voronoi-cell dots orbiting around their cell centers + rotating individually, mapped onto a 1–10 step-discretized color ramp. Tap the gear to tune palette, dot size / range, orbit spreading, palette steps, and motion."
                 )
             }
 
@@ -657,7 +657,7 @@ struct ComponentView: View {
                 ListItem(
                     title: "Voronoi",
                     icon: "hexagon.fill",
-                    description: "Paper Shaders' voronoi procedural background port — animated double-pass Voronoi with anti-aliased edges, 1–5 color cell ramp, optional gap border between cells, and radial inner glow shadow. Tap the gear to tune palette, density, distortion, gap, glow, and motion."
+                    description: "Voronoi procedural background — animated double-pass Voronoi with anti-aliased edges, 1–5 color cell ramp, optional gap border between cells, and radial inner glow shadow. Tap the gear to tune palette, density, distortion, gap, glow, and motion."
                 )
             }
 
@@ -667,7 +667,7 @@ struct ComponentView: View {
                 ListItem(
                     title: "Simplex Noise",
                     icon: "swirl.circle.righthalf.filled",
-                    description: "Paper Shaders' simplex-noise procedural background port — two layered 2D simplex noises drive a 1–10 color gradient with stepped smooth transitions and wrap-around seam blending. Tap the gear to tune palette (add/remove colors), scale, steps per color, softness, and motion."
+                    description: "Simplex-noise procedural background — two layered 2D simplex noises drive a 1–10 color gradient with stepped smooth transitions and wrap-around seam blending. Tap the gear to tune palette (add/remove colors), scale, steps per color, softness, and motion."
                 )
             }
 
@@ -677,7 +677,7 @@ struct ComponentView: View {
                 ListItem(
                     title: "Color Panels",
                     icon: "fan.fill",
-                    description: "Paper Shaders' color-panels procedural background port — pseudo-3D semi-transparent panels rotating around a central vertical axis. 1–7 color palette + edge highlight, skew, side blur, fade-in/out, per-panel gradient mixing. Tap the gear to live-tune all parameters."
+                    description: "Color-panels procedural background — pseudo-3D semi-transparent panels rotating around a central vertical axis. 1–7 color palette + edge highlight, skew, side blur, fade-in/out, per-panel gradient mixing. Tap the gear to live-tune all parameters."
                 )
             }
 
@@ -687,7 +687,7 @@ struct ComponentView: View {
                 ListItem(
                     title: "Smoke Ring",
                     icon: "circle.dashed",
-                    description: "Paper Shaders' smoke-ring procedural background port — polar-coordinate ring distorted by two phase-shifted FBM noise layers that cross-fade so the smoke never visibly loops. 1–10 color gradient + tunable radius / thickness / inner fill / noise iterations. Tap the gear to live-tune."
+                    description: "Smoke-ring procedural background — polar-coordinate ring distorted by two phase-shifted FBM noise layers that cross-fade so the smoke never visibly loops. 1–10 color gradient + tunable radius / thickness / inner fill / noise iterations. Tap the gear to live-tune."
                 )
             }
 
@@ -697,7 +697,7 @@ struct ComponentView: View {
                 ListItem(
                     title: "Swirl",
                     icon: "hurricane",
-                    description: "Paper Shaders' swirl procedural background port — polar-coordinate angle bands twisted into spirals via `pow(length, -twist)`, folded to a triangular wave, mapped onto a 1–10 color anti-aliased gradient with optional simplex-noise distortion. Tap the gear to tune bands / twist / center / proportion / softness / noise / motion."
+                    description: "Swirl procedural background — polar-coordinate angle bands twisted into spirals via `pow(length, -twist)`, folded to a triangular wave, mapped onto a 1–10 color anti-aliased gradient with optional simplex-noise distortion. Tap the gear to tune bands / twist / center / proportion / softness / noise / motion."
                 )
             }
 

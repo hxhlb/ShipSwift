@@ -742,7 +742,7 @@ struct ComponentRegistry {
         reg["halftone"] = ComponentEntry(
             title: "Halftone",
             icon: "circle.grid.3x3",
-            description: "Metal-shader halftone image filter (Paper Shaders port) — 4 dot styles × 2 grids + CMYK plates, applied to any source view",
+            description: "Metal-shader halftone image filter — 4 dot styles × 2 grids + CMYK plates, applied to any source view",
             preview: {
                 AnyView(
                     SWHalftone {
@@ -770,7 +770,7 @@ struct ComponentRegistry {
         reg["water"] = ComponentEntry(
             title: "Water",
             icon: "drop.fill",
-            description: "Metal-shader water ripple image filter (Paper Shaders port) — simplex-noise waves + 6-octave rotated caustic distortion + highlight tint",
+            description: "Metal-shader water ripple image filter — simplex-noise waves + 6-octave rotated caustic distortion + highlight tint",
             preview: {
                 AnyView(
                     SWWater {
@@ -798,7 +798,7 @@ struct ComponentRegistry {
         reg["liquid-metal"] = ComponentEntry(
             title: "Liquid Metal",
             icon: "drop.triangle.fill",
-            description: "Metal-shader liquid-metal image filter (Paper Shaders port by Stephen Haney) — simplex-noise driven stripe pattern with refraction, edge-aware bulge, and per-channel chromatic shift over any source view",
+            description: "Metal-shader liquid-metal image filter — simplex-noise driven stripe pattern with refraction, edge-aware bulge, and per-channel chromatic shift over any source view",
             preview: {
                 AnyView(
                     SWLiquidMetal {
@@ -824,7 +824,7 @@ struct ComponentRegistry {
         reg["neuro-noise"] = ComponentEntry(
             title: "Neuro Noise",
             icon: "waveform.path",
-            description: "Metal-shader procedural neuro-noise background (Paper Shaders port) — 15-layer sine/cosine accumulation creates a glowing web of fluid lines and soft intersections",
+            description: "Metal-shader procedural neuro-noise background — 15-layer sine/cosine accumulation creates a glowing web of fluid lines and soft intersections",
             preview: {
                 AnyView(
                     SWNeuroNoise()
@@ -844,7 +844,7 @@ struct ComponentRegistry {
         reg["dot-orbit"] = ComponentEntry(
             title: "Dot Orbit",
             icon: "circle.hexagongrid.fill",
-            description: "Metal-shader procedural dot-orbit background (Paper Shaders port) — Voronoi-cell dots orbiting around their cell centers with a 1–10 step-discretized color ramp",
+            description: "Metal-shader procedural dot-orbit background — Voronoi-cell dots orbiting around their cell centers with a 1–10 step-discretized color ramp",
             preview: {
                 AnyView(
                     SWDotOrbit()
@@ -864,7 +864,7 @@ struct ComponentRegistry {
         reg["voronoi"] = ComponentEntry(
             title: "Voronoi",
             icon: "hexagon.fill",
-            description: "Metal-shader procedural Voronoi background (Paper Shaders port) — animated double-pass Voronoi with smooth AA edges, 1–5 color cell ramp, optional gap border and radial inner glow",
+            description: "Metal-shader procedural Voronoi background — animated double-pass Voronoi with smooth AA edges, 1–5 color cell ramp, optional gap border and radial inner glow",
             preview: {
                 AnyView(
                     SWVoronoi()
@@ -884,7 +884,7 @@ struct ComponentRegistry {
         reg["simplex-noise"] = ComponentEntry(
             title: "Simplex Noise",
             icon: "swirl.circle.righthalf.filled",
-            description: "Metal-shader procedural simplex-noise background (Paper Shaders port) — two layered 2D simplex noises mapped onto a 1–10 color gradient with stepped smooth transitions and wrap-around seam blending",
+            description: "Metal-shader procedural simplex-noise background — two layered 2D simplex noises mapped onto a 1–10 color gradient with stepped smooth transitions and wrap-around seam blending",
             preview: {
                 AnyView(
                     SWSimplexNoise()
@@ -904,7 +904,7 @@ struct ComponentRegistry {
         reg["color-panels"] = ComponentEntry(
             title: "Color Panels",
             icon: "fan.fill",
-            description: "Metal-shader procedural color-panels background (Paper Shaders port) — pseudo-3D semi-transparent panels rotating around a central vertical axis with 1–7 color palette, edge highlight, skew, blur, fade-in/out and per-panel gradient mixing",
+            description: "Metal-shader procedural color-panels background — pseudo-3D semi-transparent panels rotating around a central vertical axis with 1–7 color palette, edge highlight, skew, blur, fade-in/out and per-panel gradient mixing",
             preview: {
                 AnyView(
                     SWColorPanels()
@@ -924,7 +924,7 @@ struct ComponentRegistry {
         reg["smoke-ring"] = ComponentEntry(
             title: "Smoke Ring",
             icon: "circle.dashed",
-            description: "Metal-shader procedural smoke-ring background (Paper Shaders port) — polar-coordinate ring distorted by two phase-shifted FBM noise layers that cross-fade so the smoke never visibly loops. 1–10 color gradient, tunable radius / thickness / inner fill / noise iterations",
+            description: "Metal-shader procedural smoke-ring background — polar-coordinate ring distorted by two phase-shifted FBM noise layers that cross-fade so the smoke never visibly loops. 1–10 color gradient, tunable radius / thickness / inner fill / noise iterations",
             preview: {
                 AnyView(
                     SWSmokeRing()
@@ -944,7 +944,7 @@ struct ComponentRegistry {
         reg["swirl"] = ComponentEntry(
             title: "Swirl",
             icon: "hurricane",
-            description: "Metal-shader procedural swirl background (Paper Shaders port) — polar-coordinate angle bands twisted by `pow(length, -twist)` into spirals, folded to a triangular wave, mapped onto a 1–10 color anti-aliased gradient with optional simplex-noise distortion",
+            description: "Metal-shader procedural swirl background — polar-coordinate angle bands twisted by `pow(length, -twist)` into spirals, folded to a triangular wave, mapped onto a 1–10 color anti-aliased gradient with optional simplex-noise distortion",
             preview: {
                 AnyView(
                     SWSwirl()
@@ -1035,6 +1035,173 @@ struct ComponentRegistry {
                                 .offset(y: -5)
                         }
                     }
+                )
+            },
+            presentation: .push
+        )
+
+        reg["foil"] = ComponentEntry(
+            title: "Foil",
+            icon: "sparkles",
+            description: "Metal layer-effect that wraps any view in a tilt-reactive rainbow holographic foil sheen — the trading-card / sticker foil look",
+            preview: {
+                AnyView(
+                    SWFoil {
+                        RoundedRectangle(cornerRadius: 16)
+                            .fill(.indigo)
+                            .frame(width: 140, height: 190)
+                    }
+                )
+            },
+            fullView: {
+                AnyView(
+                    VStack {
+                        SWFoil(showsControls: true) {
+                            RoundedRectangle(cornerRadius: 16)
+                                .fill(.indigo)
+                                .frame(width: 250, height: 350)
+                        }
+                    }
+                )
+            },
+            presentation: .push
+        )
+
+        reg["glitter"] = ComponentEntry(
+            title: "Glitter",
+            icon: "sparkle",
+            description: "Metal layer-effect that scatters tilt-reactive glitter sparkles over any view — adjustable particle density for a frosted, shimmering finish",
+            preview: {
+                AnyView(
+                    SWGlitter {
+                        RoundedRectangle(cornerRadius: 16)
+                            .fill(.purple)
+                            .frame(width: 140, height: 190)
+                    }
+                )
+            },
+            fullView: {
+                AnyView(
+                    VStack {
+                        SWGlitter(showsControls: true) {
+                            RoundedRectangle(cornerRadius: 16)
+                                .fill(.purple)
+                                .frame(width: 250, height: 350)
+                        }
+                    }
+                )
+            },
+            presentation: .push
+        )
+
+        reg["intense-bling"] = ComponentEntry(
+            title: "Intense Bling",
+            icon: "diamond.fill",
+            description: "Metal layer-effect that overlays a tilt-reactive diamond-cut holographic sparkle on any view — the high-intensity iridescent gem / bling look",
+            preview: {
+                AnyView(
+                    SWIntenseBling {
+                        RoundedRectangle(cornerRadius: 16)
+                            .fill(.black)
+                            .frame(width: 140, height: 190)
+                    }
+                )
+            },
+            fullView: {
+                AnyView(
+                    VStack {
+                        SWIntenseBling(showsControls: true) {
+                            RoundedRectangle(cornerRadius: 16)
+                                .fill(.black)
+                                .frame(width: 250, height: 350)
+                        }
+                    }
+                )
+            },
+            presentation: .push
+        )
+
+        reg["chromatic-glass"] = ComponentEntry(
+            title: "Chromatic Glass",
+            icon: "drop.halffull",
+            description: "Metal layer-effect that refracts any view through tilt-reactive RGB-dispersing glass — per-channel chromatic separation for a prismatic glass-edge look",
+            preview: {
+                AnyView(
+                    SWChromaticGlass {
+                        RoundedRectangle(cornerRadius: 16)
+                            .fill(
+                                LinearGradient(
+                                    colors: [.cyan, .blue, .purple],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                            )
+                            .frame(width: 140, height: 190)
+                    }
+                )
+            },
+            fullView: {
+                AnyView(
+                    VStack {
+                        SWChromaticGlass(showsControls: true) {
+                            RoundedRectangle(cornerRadius: 16)
+                                .fill(
+                                    LinearGradient(
+                                        colors: [.cyan, .blue, .purple],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    )
+                                )
+                                .frame(width: 250, height: 350)
+                        }
+                    }
+                )
+            },
+            presentation: .push
+        )
+
+        reg["polished-aluminum"] = ComponentEntry(
+            title: "Polished Aluminum",
+            icon: "rectangle.portrait.fill",
+            description: "Metal layer-effect that wraps any view in a tilt-reactive brushed / polished aluminum sheen with a sweeping anisotropic metal highlight",
+            preview: {
+                AnyView(
+                    SWPolishedAluminum {
+                        RoundedRectangle(cornerRadius: 16)
+                            .fill(.gray)
+                            .frame(width: 140, height: 190)
+                    }
+                )
+            },
+            fullView: {
+                AnyView(
+                    VStack {
+                        SWPolishedAluminum(showsControls: true) {
+                            RoundedRectangle(cornerRadius: 16)
+                                .fill(.gray)
+                                .frame(width: 250, height: 350)
+                        }
+                    }
+                )
+            },
+            presentation: .push
+        )
+
+        reg["star-nest"] = ComponentEntry(
+            title: "Star Nest",
+            icon: "moon.stars.fill",
+            description: "Metal color-effect that ray-marches a full-screen volumetric star-nest nebula — layered fractal star fields drifting through deep space",
+            preview: {
+                AnyView(
+                    SWStarNest()
+                        .frame(height: 150)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                )
+            },
+            fullView: {
+                AnyView(
+                    SWStarNest(showsControls: true)
+                        .ignoresSafeArea()
                 )
             },
             presentation: .push
