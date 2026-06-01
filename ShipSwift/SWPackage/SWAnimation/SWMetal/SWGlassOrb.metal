@@ -8,8 +8,9 @@
 //  Original copyright and license notice retained as required by MIT.
 //  See ShipSwift ACKNOWLEDGEMENTS for the full license text.
 //
-//  Stitchable SwiftUI `layerEffect` — turns any view into the world seen
-//  through a glass orb. Inferno's Warping Loupe contributes the core
+//  Stitchable SwiftUI `layerEffect` that renders a glass orb by magnifying and
+//  refracting the layer it is applied to — in SWGlassOrb that layer is the
+//  orb's own color gradient. Inferno's Warping Loupe contributes the core
 //  refraction maths: inside a circular region the underlying layer is
 //  magnified, and the magnification eases off with distance from the centre
 //  to give a spherical (barrel) warp rather than a flat zoom. On top of that

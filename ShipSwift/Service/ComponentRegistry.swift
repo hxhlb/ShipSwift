@@ -1210,7 +1210,7 @@ struct ComponentRegistry {
         reg["glass-orb"] = ComponentEntry(
             title: "Glass Orb",
             icon: "circle.circle",
-            description: "Metal layer-effect that refracts any view through a draggable glass orb — a circular region magnifies and barrel-warps the content, ringed by a Fresnel rim, an upper-left specular hot-spot, and edge RGB dispersion for a solid glass-ball look",
+            description: "Draggable glass orb filled with its own flowing color gradient — a Metal layer-effect magnifies and barrel-warps the gradient, ringed by a Fresnel rim, an upper-left specular hot-spot, and edge RGB dispersion for a solid glass-ball look",
             preview: {
                 AnyView(
                     SWGlassOrb(radius: 70)
