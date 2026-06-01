@@ -1220,12 +1220,8 @@ struct ComponentRegistry {
             },
             fullView: {
                 AnyView(
-                    VStack {
-                        SWGlassOrb(showsControls: true)
-                            .frame(height: 360)
-                            .clipShape(RoundedRectangle(cornerRadius: 16))
-                            .padding()
-                    }
+                    SWGlassOrb(showsControls: true)
+                        .ignoresSafeArea()
                 )
             },
             presentation: .push
