@@ -353,7 +353,7 @@ private struct SWHalftoneControlled<Content: View>: View {
                 colorY: $colorY,
                 colorK: $colorK
             )
-            .presentationDetents([.medium, .large])
+            .presentationDetents([.medium])
             .presentationDragIndicator(.visible)
         }
     }

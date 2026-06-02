@@ -155,7 +155,7 @@ private struct SWChromaticGlassControlled<Content: View>: View {
                 intensity: $intensity,
                 separation: $separation
             )
-            .presentationDetents([.medium, .large])
+            .presentationDetents([.medium])
             .presentationDragIndicator(.visible)
         }
     }

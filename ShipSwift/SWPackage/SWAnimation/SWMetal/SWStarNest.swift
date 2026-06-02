@@ -242,7 +242,7 @@ private struct SWStarNestControlled: View {
                 volsteps: $volsteps,
                 iterations: $iterations
             )
-            .presentationDetents([.medium, .large])
+            .presentationDetents([.medium])
             .presentationDragIndicator(.visible)
         }
     }

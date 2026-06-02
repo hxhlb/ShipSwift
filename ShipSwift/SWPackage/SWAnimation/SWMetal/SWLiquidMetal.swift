@@ -36,18 +36,34 @@
 //            .font(.system(size: 300))
 //    }
 //
+//  The defaults are tuned to land close to the WWDC-style "liquid metal Apple
+//  logo": a high-contrast cool-white-to-near-black polished-metal silhouette
+//  with broad curved reflection bands, a cool ambient bounce in the mid-tones,
+//  a bright fresnel rim along the contour, and slow liquid creep. Every value
+//  is still adjustable, and `showsControls: true` exposes them in a live sheet.
+//
 //  Parameters:
 //    - speed: Multiplier on the internal animation time (default `1.0`).
 //    - refraction: Strength of the per-channel chromatic split in
-//                  `0...0.06` (default `0.008`).
+//                  `0...0.06`. Keep near zero for a neutral cool silver with
+//                  no rainbow fringing (default `0.001`).
 //    - edge: Edge mask sharpness in `0...1` — higher = tighter edge
 //            opacity falloff (default `0.8`).
-//    - liquid: Noise distortion strength in `0...1` (default `0.7`).
-//    - patternBlur: Stripe band softness in `0...0.05` (default `0.005`).
-//    - patternScale: Stripe density in `1...10` — small = wider stripes,
-//                    large = denser (default `5.0`).
-//    - timeScale: Base animation speed multiplier in `0...2`
-//                 (default `0.2`).
+//    - liquid: Noise distortion strength in `0...1` (default `0.45`).
+//    - patternBlur: Stripe band softness in `0...0.05` (default `0.012`).
+//    - patternScale: Reflection-band density in `0.3...10` — sub-1.0 makes the
+//                    look governed by large NON-periodic reflection blocks
+//                    (2-3 big smooth zones, no repeating stripes); higher
+//                    values bring back denser periodic bands (default `0.5`).
+//    - timeScale: Base animation speed multiplier in `0...2` — slow liquid
+//                 creep (default `0.08`).
+//    - coolTint: Cool blue/cyan ambient bounce strength in `0...1`, injected
+//                into the highlight→shadow transition (default `0.5`).
+//    - fresnel: Cool-white rim-highlight strength along the silhouette
+//               contour in `0...1` (default `0.6`).
+//    - bandSoftness: Broad-band reflection blur multiplier in `1...8` —
+//                    higher melts adjacent bands into large smooth polished-
+//                    mercury blobs instead of thin lines (default `7.0`).
 //    - showsControls: Attach a gear `ToolbarItem` that opens a
 //                     live-tuning sheet (default `false`).
 //
@@ -62,23 +78,32 @@ struct SWLiquidMetal<Content: View>: View {
     /// Multiplier on the internal animation time.
     var speed: Float = 1.0
 
-    /// Strength of the per-channel chromatic split (0...0.06 reasonable).
-    var refraction: Float = 0.008
+    /// Strength of the per-channel chromatic split (near zero = neutral silver).
+    var refraction: Float = 0.001
 
     /// Edge mask sharpness in 0...1.
     var edge: Float = 0.8
 
     /// Noise distortion strength in 0...1.
-    var liquid: Float = 0.1
+    var liquid: Float = 0.45
 
     /// Stripe band softness in 0...0.05.
-    var patternBlur: Float = 0.005
+    var patternBlur: Float = 0.012
 
-    /// Stripe density in 1...10.
-    var patternScale: Float = 1
+    /// Reflection-band density in 0.3...10 (sub-1 = mostly non-periodic blocks).
+    var patternScale: Float = 0.5
 
-    /// Base animation speed multiplier in 0...2.
-    var timeScale: Float = 0.2
+    /// Base animation speed multiplier in 0...2 (slow liquid creep).
+    var timeScale: Float = 0.08
+
+    /// Cool blue/cyan ambient bounce strength in 0...1.
+    var coolTint: Float = 0.5
+
+    /// Cool-white fresnel rim-highlight strength along the contour in 0...1.
+    var fresnel: Float = 0.6
+
+    /// Broad-band reflection blur multiplier in 1...8 (higher = large smooth blobs).
+    var bandSoftness: Float = 7.0
 
     /// When `true`, attaches a gear `ToolbarItem` that opens a live-tuning sheet.
     var showsControls: Bool = false
@@ -87,12 +112,15 @@ struct SWLiquidMetal<Content: View>: View {
 
     init(
         speed: Float = 1.0,
-        refraction: Float = 0.008,
+        refraction: Float = 0.001,
         edge: Float = 0.8,
-        liquid: Float = 0.3,
-        patternBlur: Float = 0.005,
-        patternScale: Float = 2.5,
-        timeScale: Float = 0.2,
+        liquid: Float = 0.45,
+        patternBlur: Float = 0.012,
+        patternScale: Float = 0.5,
+        timeScale: Float = 0.08,
+        coolTint: Float = 0.5,
+        fresnel: Float = 0.6,
+        bandSoftness: Float = 7.0,
         showsControls: Bool = false,
         @ViewBuilder content: () -> Content
     ) {
@@ -103,6 +131,9 @@ struct SWLiquidMetal<Content: View>: View {
         self.patternBlur = patternBlur
         self.patternScale = patternScale
         self.timeScale = timeScale
+        self.coolTint = coolTint
+        self.fresnel = fresnel
+        self.bandSoftness = bandSoftness
         self.showsControls = showsControls
         self.content = content()
     }
@@ -116,6 +147,25 @@ struct SWLiquidMetal<Content: View>: View {
     }
 }
 
+// MARK: - Glow Tuning
+// All dynamic-bloom magic numbers in one place — edit, recompile, observe.
+// The halo breathes and shifts color on the metal's own slow clock; each value
+// notes which way to nudge it.
+private enum SWLMGlow {
+    // The glow is built from BLURRED COPIES OF THE METAL ITSELF, layered under
+    // the crisp logo with an additive blend. Because each copy is the SAME
+    // shader output (just blurred), the halo's color, direction and motion
+    // follow the bright regions inside the metal automatically — when an
+    // internal reflection flows to one side, the outer glow flows with it; when
+    // the body breathes dark/bright the glow breathes too. No separate halo
+    // clock — it is literally the metal's own light spilling outward. Two
+    // layers: a tight near bloom + a wide soft outer halo.
+    static let nearRadius:  CGFloat = 26   // tight bloom blur radius (pt) — bigger = softer/wider near glow
+    static let nearOpacity: Double  = 1.0  // tight bloom strength
+    static let wideRadius:  CGFloat = 82   // wide halo blur radius (pt) — the far outer spill
+    static let wideOpacity: Double  = 0.9  // wide halo strength
+}
+
 // MARK: - Renderer
 
 private struct SWLiquidMetalRenderer<Content: View>: View {
@@ -127,10 +177,11 @@ private struct SWLiquidMetalRenderer<Content: View>: View {
     var body: some View {
         TimelineView(.animation) { ctx in
             let elapsed = Float(ctx.date.timeIntervalSince(start))
-            // The shader only samples the layer at the current pixel
-            // (and reads layer.r for the edge mask) — no need for any
-            // sample offset budget.
-            content.layerEffect(
+
+            // The metal logo itself — one shader pass. The shader only samples
+            // the layer at the current pixel (and reads layer.r for the edge
+            // mask), so no sample-offset budget is needed.
+            let metal = content.layerEffect(
                 ShaderLibrary.swLiquidMetal(
                     .boundingRect,
                     .float(elapsed),
@@ -140,12 +191,32 @@ private struct SWLiquidMetalRenderer<Content: View>: View {
                     .float(initial.liquid),
                     .float(initial.patternBlur),
                     .float(initial.patternScale),
-                    .float(initial.timeScale)
+                    .float(initial.timeScale),
+                    .float(initial.coolTint),
+                    .float(initial.fresnel),
+                    .float(initial.bandSoftness)
                 ),
                 maxSampleOffset: .zero
-                
             )
-            .shadow(radius: 10)
+
+            // Glow = blurred copies of the metal underneath, additively (screen)
+            // blended. They are the SAME shader output, just blurred, so the
+            // halo's color / direction / motion follow the bright regions inside
+            // the metal — when an internal reflection flows to one side the
+            // outer glow flows with it, and when the body breathes dark/bright
+            // the glow breathes too. A wide soft outer halo + a tight near bloom
+            // under the crisp logo.
+            ZStack {
+                metal
+                    .blur(radius: SWLMGlow.wideRadius)
+                    .blendMode(.screen)
+                    .opacity(SWLMGlow.wideOpacity)
+                metal
+                    .blur(radius: SWLMGlow.nearRadius)
+                    .blendMode(.screen)
+                    .opacity(SWLMGlow.nearOpacity)
+                metal
+            }
         }
     }
 }
@@ -160,6 +231,9 @@ private struct SWLiquidMetalControlled<Content: View>: View {
     @State private var patternBlur: Float
     @State private var patternScale: Float
     @State private var timeScale: Float
+    @State private var coolTint: Float
+    @State private var fresnel: Float
+    @State private var bandSoftness: Float
 
     @State private var showSheet = false
 
@@ -173,22 +247,35 @@ private struct SWLiquidMetalControlled<Content: View>: View {
         _patternBlur  = State(initialValue: initial.patternBlur)
         _patternScale = State(initialValue: initial.patternScale)
         _timeScale    = State(initialValue: initial.timeScale)
+        _coolTint     = State(initialValue: initial.coolTint)
+        _fresnel      = State(initialValue: initial.fresnel)
+        _bandSoftness = State(initialValue: initial.bandSoftness)
         self.content = content
     }
 
     var body: some View {
-        SWLiquidMetalRenderer(
-            initial: SWLiquidMetal(
-                speed: speed,
-                refraction: refraction,
-                edge: edge,
-                liquid: liquid,
-                patternBlur: patternBlur,
-                patternScale: patternScale,
-                timeScale: timeScale
-            ) { content },
-            content: content
-        )
+        // Fixed dark demo canvas: the metal sheen, the cool tint and especially
+        // the white bloom only read against black, so the controlled/demo mode
+        // pins a full-bleed black background behind the rendered logo.
+        ZStack {
+            Color.black.ignoresSafeArea()
+
+            SWLiquidMetalRenderer(
+                initial: SWLiquidMetal(
+                    speed: speed,
+                    refraction: refraction,
+                    edge: edge,
+                    liquid: liquid,
+                    patternBlur: patternBlur,
+                    patternScale: patternScale,
+                    timeScale: timeScale,
+                    coolTint: coolTint,
+                    fresnel: fresnel,
+                    bandSoftness: bandSoftness
+                ) { content },
+                content: content
+            )
+        }
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Button {
@@ -207,9 +294,12 @@ private struct SWLiquidMetalControlled<Content: View>: View {
                 liquid: $liquid,
                 patternBlur: $patternBlur,
                 patternScale: $patternScale,
-                timeScale: $timeScale
+                timeScale: $timeScale,
+                coolTint: $coolTint,
+                fresnel: $fresnel,
+                bandSoftness: $bandSoftness
             )
-            .presentationDetents([.medium, .large])
+            .presentationDetents([.medium])
             .presentationDragIndicator(.visible)
         }
     }
@@ -225,6 +315,9 @@ private struct SWLiquidMetalControlsSheet: View {
     @Binding var patternBlur: Float
     @Binding var patternScale: Float
     @Binding var timeScale: Float
+    @Binding var coolTint: Float
+    @Binding var fresnel: Float
+    @Binding var bandSoftness: Float
 
     @Environment(\.dismiss) private var dismiss
 
@@ -236,7 +329,13 @@ private struct SWLiquidMetalControlsSheet: View {
                     SliderRow(label: "Edge",          value: $edge,         range: 0...1,      step: 0.01)
                     SliderRow(label: "Liquid",        value: $liquid,       range: 0...1,      step: 0.01)
                     SliderRow(label: "Pattern Blur",  value: $patternBlur,  range: 0...0.05,   step: 0.001)
-                    SliderRow(label: "Pattern Scale", value: $patternScale, range: 1...10,     step: 0.1)
+                    SliderRow(label: "Pattern Scale", value: $patternScale, range: 0.3...10,   step: 0.05)
+                }
+
+                Section("Metal") {
+                    SliderRow(label: "Cool Tint",     value: $coolTint,     range: 0...1,      step: 0.01)
+                    SliderRow(label: "Fresnel Rim",   value: $fresnel,      range: 0...1,      step: 0.01)
+                    SliderRow(label: "Band Softness", value: $bandSoftness, range: 1...8,      step: 0.1)
                 }
 
                 Section("Motion") {

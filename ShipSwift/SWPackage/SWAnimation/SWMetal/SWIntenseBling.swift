@@ -157,7 +157,7 @@ private struct SWIntenseBlingControlled<Content: View>: View {
                 intensity: $intensity,
                 speed: $speed
             )
-            .presentationDetents([.medium, .large])
+            .presentationDetents([.medium])
             .presentationDragIndicator(.visible)
         }
     }

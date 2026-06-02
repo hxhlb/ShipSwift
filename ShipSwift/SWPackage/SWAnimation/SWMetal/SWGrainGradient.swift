@@ -201,7 +201,7 @@ private struct SWGrainGradientControlled: View {
                 grain: $grain,
                 contrast: $contrast
             )
-            .presentationDetents([.medium, .large])
+            .presentationDetents([.medium])
             .presentationDragIndicator(.visible)
         }
     }

@@ -231,7 +231,7 @@ private struct SWWaterControlled<Content: View>: View {
                 colorBack: $colorBack,
                 colorHighlight: $colorHighlight
             )
-            .presentationDetents([.medium, .large])
+            .presentationDetents([.medium])
             .presentationDragIndicator(.visible)
         }
     }

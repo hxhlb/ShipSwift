@@ -184,7 +184,7 @@ private struct SWNeuroNoiseControlled: View {
                 contrast: $contrast,
                 scale: $scale
             )
-            .presentationDetents([.medium, .large])
+            .presentationDetents([.medium])
             .presentationDragIndicator(.visible)
         }
     }

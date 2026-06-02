@@ -149,7 +149,7 @@ private struct SWGlitterControlled<Content: View>: View {
                 density: $density,
                 speed: $speed
             )
-            .presentationDetents([.medium, .large])
+            .presentationDetents([.medium])
             .presentationDragIndicator(.visible)
         }
     }

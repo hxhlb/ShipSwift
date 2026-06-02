@@ -207,7 +207,7 @@ private struct SWMetaballsControlled: View {
                 count: $count,
                 size: $size
             )
-            .presentationDetents([.medium, .large])
+            .presentationDetents([.medium])
             .presentationDragIndicator(.visible)
         }
     }

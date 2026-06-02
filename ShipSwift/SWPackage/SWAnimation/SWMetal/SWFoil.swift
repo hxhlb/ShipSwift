@@ -153,7 +153,7 @@ private struct SWFoilControlled<Content: View>: View {
                 intensity: $intensity,
                 speed: $speed
             )
-            .presentationDetents([.medium, .large])
+            .presentationDetents([.medium])
             .presentationDragIndicator(.visible)
         }
     }

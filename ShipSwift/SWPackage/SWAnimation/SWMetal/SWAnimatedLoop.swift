@@ -447,7 +447,7 @@ private struct SWAnimatedLoopControlled: View {
                 angularSpeed: $angularSpeed,
                 applyDefaults: applyDefaults
             )
-            .presentationDetents([.medium, .large])
+            .presentationDetents([.medium])
             .presentationDragIndicator(.visible)
         }
     }

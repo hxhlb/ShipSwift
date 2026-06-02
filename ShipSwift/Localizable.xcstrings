@@ -1229,6 +1229,9 @@
     "Custom (blue, large)" : {
 
     },
+    "Cutout" : {
+
+    },
     "Cyan" : {
 
     },
@@ -1572,6 +1575,15 @@
         }
       }
     },
+    "Fresnel" : {
+
+    },
+    "Fresnel Color" : {
+
+    },
+    "Fresnel Rim" : {
+
+    },
     "Front" : {
 
     },
@@ -1600,6 +1612,15 @@
 
     },
     "Glass" : {
+
+    },
+    "Glass Controls" : {
+
+    },
+    "Glass Logo" : {
+
+    },
+    "Glass Logo Controls" : {
 
     },
     "Glass Orb" : {
@@ -1722,6 +1743,9 @@
           }
         }
       }
+    },
+    "Highlight Color" : {
+
     },
     "Holes" : {
 
@@ -2682,6 +2706,9 @@
     "Polished Aluminum Controls" : {
 
     },
+    "Preserve Luminosity" : {
+
+    },
     "Privacy" : {
 
     },
@@ -3529,6 +3556,9 @@
           }
         }
       }
+    },
+    "Tint Color" : {
+
     },
     "Tip: register a same-named ColorSet alongside the image set to get a brand-appropriate tint before the image decodes — or as a permanent fallback for empty states." : {
 

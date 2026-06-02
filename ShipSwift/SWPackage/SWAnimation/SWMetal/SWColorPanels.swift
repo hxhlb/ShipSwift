@@ -279,7 +279,7 @@ private struct SWColorPanelsControlled: View {
                 scale: $scale,
                 speed: $speed
             )
-            .presentationDetents([.medium, .large])
+            .presentationDetents([.medium])
             .presentationDragIndicator(.visible)
         }
     }

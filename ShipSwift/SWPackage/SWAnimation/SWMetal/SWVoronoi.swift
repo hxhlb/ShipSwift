@@ -208,7 +208,7 @@ private struct SWVoronoiControlled: View {
                 glow: $glow,
                 stepsPerColor: $stepsPerColor
             )
-            .presentationDetents([.medium, .large])
+            .presentationDetents([.medium])
             .presentationDragIndicator(.visible)
         }
     }

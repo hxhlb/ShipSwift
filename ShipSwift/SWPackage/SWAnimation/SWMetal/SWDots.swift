@@ -315,7 +315,7 @@ private struct SWDotsControlled: View {
                 vignette: $vignette,
                 horizon: $horizon
             )
-            .presentationDetents([.medium, .large])
+            .presentationDetents([.medium])
             .presentationDragIndicator(.visible)
         }
     }

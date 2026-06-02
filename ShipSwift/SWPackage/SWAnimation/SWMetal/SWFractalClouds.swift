@@ -237,7 +237,7 @@ private struct SWFractalCloudsControlled: View {
                 warp: $warp,
                 coverage: $coverage
             )
-            .presentationDetents([.medium, .large])
+            .presentationDetents([.medium])
             .presentationDragIndicator(.visible)
         }
     }

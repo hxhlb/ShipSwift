@@ -44,6 +44,7 @@ struct ProPaywallView: View {
                 .padding()
                 .padding(.bottom, 20)
             }
+            .frame(maxWidth: .infinity)
             #if canImport(UIKit)
             .background(Color(UIColor.systemGroupedBackground))
             #else

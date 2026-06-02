@@ -300,7 +300,7 @@ private struct SWDotSphereControlled: View {
                 waitSeconds: $waitSeconds,
                 dotSize: $dotSize
             )
-            .presentationDetents([.medium, .large])
+            .presentationDetents([.medium])
             .presentationDragIndicator(.visible)
         }
     }

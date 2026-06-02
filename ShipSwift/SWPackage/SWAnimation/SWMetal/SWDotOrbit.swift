@@ -206,7 +206,7 @@ private struct SWDotOrbitControlled: View {
                 spreading: $spreading,
                 stepsPerColor: $stepsPerColor
             )
-            .presentationDetents([.medium, .large])
+            .presentationDetents([.medium])
             .presentationDragIndicator(.visible)
         }
     }

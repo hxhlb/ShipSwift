@@ -244,7 +244,7 @@ private struct SWLiquidChromeControlled: View {
                 specStrength: $specStrength,
                 tintStrength: $tintStrength
             )
-            .presentationDetents([.medium, .large])
+            .presentationDetents([.medium])
             .presentationDragIndicator(.visible)
         }
     }

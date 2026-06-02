@@ -1227,6 +1227,46 @@ struct ComponentRegistry {
             presentation: .push
         )
 
+        reg["glass"] = ComponentEntry(
+            title: "Glass",
+            icon: "drop.halffull",
+            description: "SDF-shaped glass lens — magnifies and refracts the view inside a circle / rounded-rect with frosted blur, a cool Fresnel rim, chromatic aberration, a directional highlight and tint",
+            preview: {
+                AnyView(
+                    SWGlass()
+                        .frame(width: 140, height: 190)
+                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                )
+            },
+            fullView: {
+                AnyView(
+                    SWGlass(showsControls: true)
+                        .ignoresSafeArea()
+                )
+            },
+            presentation: .push
+        )
+
+        reg["glass-logo"] = ComponentEntry(
+            title: "Glass Logo",
+            icon: "apple.logo",
+            description: "Multi-layer glass apple-logo showcase — a dark canvas with a flowing color gradient refracted through an apple.logo-shaped frosted glass, with a Fresnel edge and soft bloom",
+            preview: {
+                AnyView(
+                    SWGlassLogo()
+                        .frame(width: 140, height: 190)
+                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                )
+            },
+            fullView: {
+                AnyView(
+                    SWGlassLogo(showsControls: true)
+                        .ignoresSafeArea()
+                )
+            },
+            presentation: .push
+        )
+
         #if os(iOS)
         // SWFullScreenButton uses iOS 18 `.navigationTransition(.zoom)`, which is
         // unavailable on macOS. The entry is therefore only registered for iOS.

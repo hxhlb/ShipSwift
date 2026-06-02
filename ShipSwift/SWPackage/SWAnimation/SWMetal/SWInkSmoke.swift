@@ -229,7 +229,7 @@ private struct SWInkSmokeControlled: View {
                 warp: $warp,
                 highlight: $highlight
             )
-            .presentationDetents([.medium, .large])
+            .presentationDetents([.medium])
             .presentationDragIndicator(.visible)
         }
     }

@@ -339,7 +339,7 @@ private struct SWPlasmaControlled: View {
                 intensity: $intensity,
                 distortion: $distortion
             )
-            .presentationDetents([.medium, .large])
+            .presentationDetents([.medium])
             .presentationDragIndicator(.visible)
         }
     }

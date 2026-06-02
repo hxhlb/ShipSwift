@@ -227,7 +227,7 @@ private struct SWStarfieldControlled: View {
                 twinkleSpeed: $twinkleSpeed,
                 twinkleAmount: $twinkleAmount
             )
-            .presentationDetents([.medium, .large])
+            .presentationDetents([.medium])
             .presentationDragIndicator(.visible)
         }
     }

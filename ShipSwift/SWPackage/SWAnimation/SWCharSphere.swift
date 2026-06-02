@@ -388,7 +388,7 @@ private struct SWCharSphereControlled: View {
                 fontWeight: $fontWeight,
                 hidesBackFaces: $hidesBackFaces
             )
-            .presentationDetents([.medium, .large])
+            .presentationDetents([.medium])
             .presentationDragIndicator(.visible)
         }
     }

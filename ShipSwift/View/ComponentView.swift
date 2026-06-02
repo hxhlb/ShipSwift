@@ -531,6 +531,26 @@ struct ComponentView: View {
             }
 
             ComponentNavigationLink {
+                SWGlassLogo(showsControls: true)
+            } label: {
+                ListItem(
+                    title: "Glass Logo",
+                    icon: "apple.logo",
+                    description: "A frosted-glass SF Symbol (apple.logo by default) glowing on a near-black canvas with flowing cool/warm light trapped inside it. Four composited passes: black canvas, a slowly rotating tri-color MeshGradient with drifting diagonal stripes, the light masked to the symbol and run through a Metal layerEffect (alpha-gradient surface normal → subtle refraction + frosted blur + cool Fresnel rim, clipped to the shape), and a breathing two-layer bloom. Tap the gear to live-tune refraction, frost, thickness, edge softness, Fresnel rim, and flow speed."
+                )
+            }
+
+            ComponentNavigationLink {
+                SWGlass(showsControls: true)
+            } label: {
+                ListItem(
+                    title: "Glass",
+                    icon: "drop.halffull",
+                    description: "Lay a sheet of refractive glass over any content inside an analytic SDF region (circle or rounded rectangle). The rim bends the background hardest while the centre stays calm, a golden-angle disk frosts the content, the same taps split chromatically for dispersion, and tint, directional edge light, a 3D specular glint and a Fresnel rim finish it off. Tap the gear to live-tune Shape / Glass / Highlight / Fresnel / Tint."
+                )
+            }
+
+            ComponentNavigationLink {
                 SWFractalClouds(showsControls: true)
             } label: {
                 ListItem(

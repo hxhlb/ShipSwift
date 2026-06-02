@@ -193,7 +193,7 @@ private struct SWSimplexNoiseControlled: View {
                 softness: $softness,
                 speed: $speed
             )
-            .presentationDetents([.medium, .large])
+            .presentationDetents([.medium])
             .presentationDragIndicator(.visible)
         }
     }
