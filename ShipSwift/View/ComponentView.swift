@@ -606,7 +606,7 @@ struct ComponentView: View {
                 ListItem(
                     title: "Metaballs",
                     icon: "circle.hexagonpath.fill",
-                    description: "Gooey lava-lamp blobs — up to eight signed-distance circles orbit on per-ball randomized radii/speeds/phases and merge into one fluid surface via polynomial smooth-min. Vertical two-color gradient over a flat background. Tap the gear to tune ball count, size, smoothness, and colors."
+                    description: "Metal-shader metaballs in two styles — Cluster (gooey blobs drifting on randomized radii/speeds/phases, colors blended where they overlap) and Fountain (a big central ball with up to 99 small balls streaming up: about half rise from the bottom and dissolve into it, half leave upward, their colors blending into the big ball like two liquids mixing). Tap the gear to switch style and tune count, ball/big-ball size, speed, and colors."
                 )
             }
 

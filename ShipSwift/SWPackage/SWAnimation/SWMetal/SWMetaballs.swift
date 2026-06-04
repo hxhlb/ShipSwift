@@ -61,9 +61,40 @@
 
 import SwiftUI
 
+// MARK: - Style
+
+enum SWMetaballsStyle: String, CaseIterable, Identifiable {
+    /// Balls meander on independent noise drifts (the original look).
+    case cluster
+    /// A big central ball with small balls streaming in from the bottom and
+    /// out the top.
+    case fountain
+
+    var id: String { rawValue }
+
+    var displayName: String {
+        switch self {
+        case .cluster:  "Cluster"
+        case .fountain: "Fountain"
+        }
+    }
+
+    /// Metal `stitchable` function name in the default `ShaderLibrary`.
+    var shaderName: String {
+        switch self {
+        case .cluster:  "swMetaballs"
+        case .fountain: "swMetaballsFountain"
+        }
+    }
+}
+
 // MARK: - Main View
 
 struct SWMetaballs: View {
+    /// Rendering style — `.cluster` (independent noise drift) or `.fountain`
+    /// (big central ball with small balls streaming in / out).
+    var style: SWMetaballsStyle = .cluster
+
     /// Per-ball palette (1–8 entries). Ball `i` picks `colors[i % colors.count]`.
     var colors: [Color] = [Color.red,
                            Color.green,
@@ -85,6 +116,10 @@ struct SWMetaballs: View {
     /// Per-ball size factor in 0...1. Larger = fatter blobs.
     var size: Float = 0.8
 
+    /// Big central ball size for the `.fountain` style (0...1, independent of
+    /// `size`). Ignored by `.cluster`.
+    var bigSize: Float = 0.85
+
     /// When `true`, attaches a gear `ToolbarItem` that opens a live-tuning sheet.
     var showsControls: Bool = false
 
@@ -93,11 +128,13 @@ struct SWMetaballs: View {
             SWMetaballsControlled(initial: self)
         } else {
             SWMetaballsRenderer(
+                style: style,
                 colors: colors,
                 background: background,
                 speed: speed,
                 count: count,
-                size: size
+                size: size,
+                bigSize: bigSize
             )
         }
     }
@@ -106,11 +143,13 @@ struct SWMetaballs: View {
 // MARK: - Renderer (pure shader binding)
 
 private struct SWMetaballsRenderer: View {
+    let style: SWMetaballsStyle
     let colors: [Color]
     let background: Color
     let speed: Float
     let count: Int
     let size: Float
+    let bigSize: Float
 
     @State private var start: Date = .now
 
@@ -124,24 +163,37 @@ private struct SWMetaballsRenderer: View {
             let slots = paddedSlots(colors)
             let colorsCount = Float(max(min(colors.count, 8), 1))
 
+            // Fountain takes one extra arg (big ball size); build the list in a
+            // closure so the ViewBuilder body stays a single view expression.
+            let arguments: [Shader.Argument] = {
+                var a: [Shader.Argument] = [
+                    .boundingRect,
+                    .float(elapsed),
+                    .float(speed),
+                    .float(Float(count)),
+                    .float(size),
+                    .float(colorsCount),
+                    .color(slots[0]),
+                    .color(slots[1]),
+                    .color(slots[2]),
+                    .color(slots[3]),
+                    .color(slots[4]),
+                    .color(slots[5]),
+                    .color(slots[6]),
+                    .color(slots[7]),
+                    .color(background)
+                ]
+                if style == .fountain {
+                    a.append(.float(bigSize))
+                }
+                return a
+            }()
+
             background
                 .colorEffect(
-                    ShaderLibrary.swMetaballs(
-                        .boundingRect,
-                        .float(elapsed),
-                        .float(speed),
-                        .float(Float(count)),
-                        .float(size),
-                        .float(colorsCount),
-                        .color(slots[0]),
-                        .color(slots[1]),
-                        .color(slots[2]),
-                        .color(slots[3]),
-                        .color(slots[4]),
-                        .color(slots[5]),
-                        .color(slots[6]),
-                        .color(slots[7]),
-                        .color(background)
+                    Shader(
+                        function: ShaderFunction(library: .default, name: style.shaderName),
+                        arguments: arguments
                     )
                 )
         }
@@ -159,12 +211,14 @@ private struct SWMetaballsRenderer: View {
 // MARK: - Controlled Wrapper (gear toolbar item + live sheet)
 
 private struct SWMetaballsControlled: View {
+    @State private var style: SWMetaballsStyle
     @State private var colors: [Color]
     @State private var background: Color
     @State private var speed: Float
     /// Float-backed so it can drive a Slider; rendered as `Int(.rounded())`.
     @State private var count: Float
     @State private var size: Float
+    @State private var bigSize: Float
 
     @State private var showSheet = false
 
@@ -173,20 +227,24 @@ private struct SWMetaballsControlled: View {
         // sliders don't shuffle when the palette length changes.
         var palette = initial.colors
         while palette.count < 5 { palette.append(.white) }
+        _style      = State(initialValue: initial.style)
         _colors     = State(initialValue: palette)
         _background = State(initialValue: initial.background)
         _speed      = State(initialValue: initial.speed)
         _count      = State(initialValue: Float(initial.count))
         _size       = State(initialValue: initial.size)
+        _bigSize    = State(initialValue: initial.bigSize)
     }
 
     var body: some View {
         SWMetaballsRenderer(
+            style: style,
             colors: colors,
             background: background,
             speed: speed,
             count: Int(count.rounded()),
-            size: size
+            size: size,
+            bigSize: bigSize
         )
         .ignoresSafeArea()
         .toolbar {
@@ -201,11 +259,13 @@ private struct SWMetaballsControlled: View {
         }
         .sheet(isPresented: $showSheet) {
             SWMetaballsControlsSheet(
+                style: $style,
                 colors: $colors,
                 background: $background,
                 speed: $speed,
                 count: $count,
-                size: $size
+                size: $size,
+                bigSize: $bigSize
             )
             .presentationDetents([.medium])
             .presentationDragIndicator(.visible)
@@ -216,17 +276,27 @@ private struct SWMetaballsControlled: View {
 // MARK: - Controls Sheet
 
 private struct SWMetaballsControlsSheet: View {
+    @Binding var style: SWMetaballsStyle
     @Binding var colors: [Color]
     @Binding var background: Color
     @Binding var speed: Float
     @Binding var count: Float
     @Binding var size: Float
+    @Binding var bigSize: Float
 
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         NavigationStack {
             Form {
+                Section("Style") {
+                    Picker("Style", selection: $style) {
+                        ForEach(SWMetaballsStyle.allCases) { s in
+                            Text(s.displayName).tag(s)
+                        }
+                    }
+                }
+
                 Section("Palette") {
                     ForEach(colors.indices, id: \.self) { i in
                         ColorPicker(
@@ -242,8 +312,11 @@ private struct SWMetaballsControlsSheet: View {
                 }
 
                 Section("Field") {
-                    SliderRow(label: "Count", value: $count, range: 1...8, step: 1)
+                    SliderRow(label: "Count", value: $count, range: style == .fountain ? 1...99 : 1...8, step: 1)
                     SliderRow(label: "Size",  value: $size,  range: 0...1, step: 0.01)
+                    if style == .fountain {
+                        SliderRow(label: "Big Ball Size", value: $bigSize, range: 0...1, step: 0.01)
+                    }
                 }
 
                 Section("Motion") {

@@ -702,7 +702,7 @@ struct ComponentRegistry {
         reg["metaballs"] = ComponentEntry(
             title: "Metaballs",
             icon: "circle.hexagonpath.fill",
-            description: "Metal-shader gooey lava-lamp blobs — up to 8 SDF circles merged via smooth-min into one fluid surface",
+            description: "Metal-shader metaballs in 2 styles — Cluster (drifting gooey blobs, colors blended where they overlap) and Fountain (a big central ball with small balls streaming up: about half rise and dissolve in, half leave upward, their colors mixing into the big ball like two liquids)",
             preview: {
                 AnyView(
                     SWMetaballs()

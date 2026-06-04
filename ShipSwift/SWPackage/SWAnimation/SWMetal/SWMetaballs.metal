@@ -141,3 +141,115 @@ static float swMetaballsBallShape(float2 uv, float2 c, float p, float2 aspectSca
 
     return half4(half3(color), 1.0);
 }
+
+// MARK: - Fountain
+
+// A large central ball with small balls streaming vertically: roughly half
+// rise from the bottom and converge into the big ball, the other half leave
+// the big ball and spread upward out of frame. Because all shapes are summed
+// before the threshold, a small ball melts into a teardrop bridge as it nears
+// the big ball (the metaball "merge"), then separates again as it travels.
+// Reuses the same parameter signature as `swMetaballs`:
+//   count = number of small balls (1...7, big ball is always present)
+//   size  = ball fatness, speed = stream speed, colors = palette
+//           (colors[0] paints the big ball, the rest cycle over small balls).
+[[ stitchable ]] half4 swMetaballsFountain(float2 position,
+                                           half4  inColor,
+                                           float4 boundingRect,
+                                           float  time,
+                                           float  speed,
+                                           float  count,
+                                           float  size,
+                                           float  colorsCount,
+                                           half4  color1,
+                                           half4  color2,
+                                           half4  color3,
+                                           half4  color4,
+                                           half4  color5,
+                                           half4  color6,
+                                           half4  color7,
+                                           half4  color8,
+                                           half4  background,
+                                           float  bigSize) {
+    float2 sz = boundingRect.zw;
+    float2 shape_uv = position / max(sz, float2(1.0));
+    float minDim = max(min(sz.x, sz.y), 1.0);
+    float2 aspectScale = sz / minDim;
+
+    float t = time * speed;
+
+    half4 colors[8] = { color1, color2, color3, color4,
+                        color5, color6, color7, color8 };
+    int colorsCountInt = max(int(colorsCount + 0.5), 1);
+
+    float3 totalColor = float3(0.0);
+    float  totalShape = 0.0;
+
+    // --- Big central ball (always present, painted with colors[0]) ---
+    // Small power = large, soft ball. `bigSize` is independent of `size`.
+    // Wide range so `bigSize` can grow the big ball much larger.
+    float bigP = 18.0 - 15.0 * bigSize;
+    float bigShape = swMetaballsBallShape(shape_uv, float2(0.5, 0.5), bigP, aspectScale);
+    bigShape = smoothstep(0.0, 1.0, bigShape);
+    half4  bigColor = colors[0];
+    float3 bigRGB   = float3(bigColor.rgb) * float(bigColor.a);
+    totalColor += bigRGB * bigShape;
+    totalShape += bigShape;
+
+    // --- Small balls streaming in / out ---
+    // Large power = small, crisp balls. Wide range so `size` can go very tiny.
+    float smallP = 100.0 - 70.0 * size;
+    int n = max(min(int(count + 0.5), 99), 1);
+    for (int i = 0; i < 99; i++) {
+        if (i >= n) break;
+        float fi = float(i);
+
+        float h1 = swMetaballsHash1(fi + 1.0);    // per-ball phase offset
+        float h2 = swMetaballsHash1(fi + 7.3);    // horizontal spread
+        bool  rising = (int(h1 * 17.0) % 2 == 0); // ~half rise, half leave
+        float xj = (h2 - 0.5) * 0.55;             // lateral offset at the far end
+
+        float phase = fract(t * 0.22 + h1);       // 0..1 travel loop
+
+        float2 pos;
+        float fade;
+        if (rising) {
+            // bottom (y = 1.12) -> centre (y = 0.5), x converges to centre.
+            float y = mix(1.12, 0.5, phase);
+            float x = 0.5 + xj * (1.0 - phase);
+            pos = float2(x, y);
+            fade = smoothstep(0.0, 0.18, phase);  // fade in from bottom, stay as it merges
+        } else {
+            // centre (y = 0.5) -> top (y = -0.12), x spreads outward.
+            float y = mix(0.5, -0.12, phase);
+            float x = 0.5 + xj * phase;
+            pos = float2(x, y);
+            fade = smoothstep(0.0, 0.12, phase) * (1.0 - smoothstep(0.72, 1.0, phase));
+        }
+
+        float shape = swMetaballsBallShape(shape_uv, pos, smallP, aspectScale);
+        shape = smoothstep(0.0, 1.0, shape) * fade;
+
+        int safeIdx = (i + 1) % colorsCountInt;
+        half4 bc = colors[safeIdx];
+        float3 rgb = float3(bc.rgb) * float(bc.a);
+        // Dissolve into the big ball: the nearer a small ball is to the centre,
+        // the more its color is blended toward the big ball's, so it mixes in
+        // like two liquids instead of staying a distinct dot.
+        float distToBig = length((pos - float2(0.5)) * aspectScale);
+        float blend = 1.0 - smoothstep(0.0, 0.6, distToBig);
+        rgb = mix(rgb, bigRGB, blend);
+        totalColor += rgb * shape;
+        totalShape += shape;
+    }
+
+    totalColor /= max(totalShape, 1e-4);
+
+    float edge_width = fwidth(totalShape);
+    float finalShape = smoothstep(0.4, 0.4 + edge_width, totalShape);
+
+    float3 color = totalColor * finalShape +
+                   float3(background.rgb) * (1.0 - finalShape);
+
+    return half4(half3(color), 1.0);
+}
