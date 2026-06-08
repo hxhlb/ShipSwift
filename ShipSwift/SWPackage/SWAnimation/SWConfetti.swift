@@ -184,6 +184,7 @@ private struct SWConfettiCanvas: View {
                     let angle = Angle.degrees(p.angle + p.angularVelocity * t)
                     let wobble = cos(p.wobbleSpeed * t + p.wobblePhase)
                     let currentScaleX = p.scaleX * wobble
+                    guard abs(currentScaleX) > 0.001 else { continue }
 
                     guard px > -50 && px < size.width + 50 else { continue }
                     guard py > -50 && py < size.height + 200 else { continue }
