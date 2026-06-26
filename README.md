@@ -264,7 +264,13 @@ This project is licensed under the MIT License — see the [LICENSE](LICENSE) fi
 ---
 
 ## Stargazers over time
-[![Stargazers over time](https://starchart.cc/signerlabs/ShipSwift.svg?variant=adaptive)](https://starchart.cc/signerlabs/ShipSwift)
+<a href="https://www.star-history.com/#signerlabs/ShipSwift&Date">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=signerlabs/ShipSwift&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=signerlabs/ShipSwift&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=signerlabs/ShipSwift&type=Date" width="100%" />
+ </picture>
+</a>
 
 ---
 
