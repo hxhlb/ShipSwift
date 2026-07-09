@@ -18,8 +18,6 @@
 
 </div>
 
----
-
 ## What is ShipSwift?
 
 One command gives your AI everything it needs — production-ready SwiftUI components, full-stack recipes, and the context to build real apps without guessing.
@@ -27,8 +25,6 @@ One command gives your AI everything it needs — production-ready SwiftUI compo
 > **Browse every recipe live at [shipswift.app](https://www.shipswift.app/)** — searchable catalog, copy-paste source, live previews.
 
 Download the [Showcase App](https://apps.apple.com/us/app/shipswift-mcp-codebase/id6759209764) to preview every component on your device.
-
----
 
 ## Need a custom app built? We do that too.
 
@@ -43,8 +39,6 @@ ShipSwift gets your AI 80% of the way. If you need the last 20% — your unique 
 Built on the same component library you see in this repo, so you keep ownership and can extend forever.
 
 **Get a quote:** [wei@signerlabs.com](mailto:wei@signerlabs.com) · [shipswift.app](https://www.shipswift.app/)
-
----
 
 ## Quick Start
 
@@ -104,8 +98,6 @@ open ShipSwift.xcodeproj
 
 Select a simulator or device, then press **Cmd+R** to build and run.
 
----
-
 ## Components
 
 ### SWAnimation — Animation Components
@@ -144,8 +136,6 @@ LineChart · BarChart · AreaChart · DonutChart · RingChart · RadarChart · S
 
 DebugLog · String/Date/View extensions · LocationManager
 
----
-
 ## Directory Structure
 
 ```
@@ -171,8 +161,6 @@ ShipSwift/
 └── Component/                # Shared app components
 ```
 
----
-
 ## Naming Convention
 
 All types use the `SW` prefix (e.g., `SWAlertManager`, `SWStoreManager`).
@@ -187,8 +175,6 @@ SWChart       ← may depend on SWUtil only
 SWComponent   ← may depend on SWUtil only
 SWModule      ← may depend on SWUtil and SWComponent
 ```
-
----
 
 ## Recipes
 
@@ -207,8 +193,6 @@ Three tools are available: `listRecipes`, `getRecipe`, `searchRecipes`.
 
 Learn more at [shipswift.app](https://shipswift.app) · Skills repo: [signerlabs/shipswift-skills](https://github.com/signerlabs/shipswift-skills)
 
----
-
 ## Free vs Pro
 
 All iOS client code is open-source under the MIT license. Pro recipes add everything you need to go from prototype to production.
@@ -223,8 +207,6 @@ All iOS client code is open-source under the MIT license. Pro recipes add everyt
 
 See [pricing](https://shipswift.app/#pricing) for details.
 
----
-
 ## Tech Stack
 
 - SwiftUI + Swift
@@ -233,8 +215,6 @@ See [pricing](https://shipswift.app/#pricing) for details.
 - AVFoundation + Vision
 - SpriteKit
 - VolcEngine ASR
-
----
 
 ## Contributing
 
@@ -250,8 +230,6 @@ Contributions are welcome! Please follow these steps:
 
 - All comments and documentation in English
 - Follow the naming conventions, dependency rules, and self-containment described above
-
----
 
 ## License
 
