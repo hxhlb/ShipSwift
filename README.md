@@ -221,8 +221,6 @@ All iOS client code is open-source under the MIT license. Pro recipes add everyt
 | Compliance templates | — | Privacy manifest, App Store labels |
 | Known pitfalls | — | 10+ battle-tested tips per recipe |
 
-More Pro recipes coming soon: **Push Notifications**, **Analytics Dashboard**.
-
 See [pricing](https://shipswift.app/#pricing) for details.
 
 ---
@@ -251,9 +249,7 @@ Contributions are welcome! Please follow these steps:
 ### Code Style
 
 - All comments and documentation in English
-- All types use the `SW` prefix
-- Each file in `SWAnimation/`, `SWChart/`, and `SWComponent/` must be self-contained
-- Follow existing code patterns and naming conventions
+- Follow the naming conventions, dependency rules, and self-containment described above
 
 ---
 
@@ -263,14 +259,9 @@ This project is licensed under the MIT License — see the [LICENSE](LICENSE) fi
 
 ---
 
-## Stargazers over time
-<a href="https://www.star-history.com/#signerlabs/ShipSwift&Date">
- <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=signerlabs/ShipSwift&type=Date&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=signerlabs/ShipSwift&type=Date" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=signerlabs/ShipSwift&type=Date" width="100%" />
- </picture>
-</a>
+## Activity
+
+![Repobeats analytics image](https://repobeats.axiom.co/api/embed/63e16d415eaeceabec8cc446fdcd164346dd22c4.svg)
 
 ---
 
