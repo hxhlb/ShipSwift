@@ -259,12 +259,6 @@ This project is licensed under the MIT License — see the [LICENSE](LICENSE) fi
 
 ---
 
-## Activity
-
-![Repobeats analytics image](https://repobeats.axiom.co/api/embed/63e16d415eaeceabec8cc446fdcd164346dd22c4.svg)
-
----
-
 <div align="center">
 
 Made with ❤️ by [SignerLabs](https://github.com/signerlabs)
