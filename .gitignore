@@ -25,6 +25,7 @@ Pods/
 
 # Claude
 .claude/
+CLAUDE.md
 
 # AWS Amplify
 **/amplify_outputs.json
